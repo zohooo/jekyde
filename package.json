@@ -1,0 +1,26 @@
+{
+  "name": "jekyde",
+  "version": "0.0.1",
+  "description": "A static blog generator, server and writer.",
+  "license": "MIT",
+  "author": {
+    "name": "zohooo",
+    "email": "zohooo@yeah.net"
+  },
+  "main": "index.js",
+  "bin": "./bin/jekyde",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zohooo/jekyde.git"
+  },
+  "homepage": "https://github.com/zohooo/jekyde",
+  "preferGlobal": true,
+  "dependencies": {
+    "fs-extra": "*",
+    "js-yaml": "*",
+    "marked": "*",
+    "swig": "*",
+    "express": ">=3.0"
+  },
+  "keywords": ["static", "blog", "generator", "server", "writer", "latex"]
+}

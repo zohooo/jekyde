@@ -1,0 +1,139 @@
+
+html {
+  background: gray;
+}
+
+body {
+    width: 800px;
+    margin: 20px auto;
+    background: white;
+    border: 1px #C1C1C1 solid;
+    border-radius: 2px;
+    padding: 30px;
+}
+
+#header h1 {
+    font-size: 2em;
+    color: #555;
+    line-height: 2em;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    /*text-transform: uppercase;*/
+}
+
+#navbar {
+    margin: 10px 0;
+    padding: 0;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    font-family: arial, sans-serif;
+}
+
+#navbar ul {
+    display: inline-block;
+    font-size: 1em;
+    line-height: 2em;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+
+#navbar ul li {
+    list-style: none;
+    float: left;
+    margin: 0 30px 0 0;
+}
+
+.ptitle {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0.7em 0 0 0;
+}
+
+.pdate {
+    margin-top: 0.5em;
+    font-size: small;
+    color: #777;
+}
+
+.pmain h1 {
+    font-size: 1.6em;
+}
+
+.pmain h2 {
+    font-size: 1.5em;
+}
+
+.pmain h3 {
+    font-size: 1.4em;
+}
+
+.pmain h4 {
+    font-size: 1.3em;
+}
+
+.pmain h5{
+    font-size: 1.2em;
+}
+
+.pmain h6 {
+    font-size: 1.1em;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #E60900;
+}
+
+.postindex {
+    padding: 0;
+    font-size: 1.4em;
+    line-height: 1.6em;
+}
+
+.postindex li {
+    list-style: none;
+}
+
+.indexdate {
+    margin-right: 20px;
+    color: #999;
+}
+
+.indextitle  a {
+    color: black;
+}
+
+.postnav {
+    border-top: 1px dashed #a1a1a1;
+    padding: 1em 0;
+}
+
+.postnav .next {
+    float: left;
+}
+
+.postnav .prev {
+    float: right;
+}
+
+pre {
+    background-color: #f8f8f8;
+    overflow: auto;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+code {
+    background-color: #f8f8f8;
+    padding: 0px 5px;
+    margin: 0 2px;
+    /*
+    border: 1px solid #eaeaea;
+    border-radius: 2px;
+    */
+}

@@ -1,0 +1,60 @@
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+#header {
+    width: 100%;
+    height: 5%;
+    background: #2c2c2c;
+    color: white;
+    font-size: 16px;
+    font-family: arial, sans-serif;
+}
+
+#header a, #header a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+#header ul {
+    display: inline-block;
+    margin: 0;
+    padding: 5px;
+}
+
+#header ul li {
+    list-style: none;
+    float: left;
+    margin: 0 20px;
+}
+
+.current {
+    text-decoration: underline;
+}
+
+#content {
+    width: 100%;
+    height: 95%;
+    margin: 0;
+    border: 0;
+}
+
+#content table {
+    margin: 10px;
+    border: 1px dashed #888;
+}
+
+#content td {
+    padding: 5px 10px;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+}

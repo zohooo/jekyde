@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>{{ site.title }}</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div id="header">
+      <h1> <a href="/">{{ site.title }}</a></h1>
+    </div>
+    <div id="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+          {% for page in site.pages %}
+            <li><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></li>
+          {% endfor %}
+        </ul>
+    </div>
+    <div id="content">
+    <ul class="postindex">
+      {% for post in site.posts %}
+        <li>
+            <span class="indexdate">{{ post.date | date('Y-m-d') }}</span>
+            <span class="indextitle"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a><span>
+        </li>
+      {% endfor %}
+    </ul>
+    </div>
+  </body>
+</html>
