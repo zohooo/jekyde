@@ -1,6 +1,6 @@
 
 $(function() {
-    var url = '/r/' + writer.type;
+    var url = '../r/' + writer.type;
     $.get(url, function(items){
         writer.data = items;
         var content = '<table>';
