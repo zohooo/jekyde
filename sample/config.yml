@@ -1,3 +1,14 @@
-title: Simple Blog
-permalink: /post/:title.html
-markdown: marked
+## Website
+title:              The Jekyde Blog
+subtitle:           A static blog generator
+
+## Output
+baseurl:            /
+static_dir:         static
+archive_dir:        archive
+post_link:          post/:year/:month/:day/:name.html
+page_link:          page/:name
+paginate:           3
+
+## Server
+port:               4040

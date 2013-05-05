@@ -1,6 +1,5 @@
 ---
-layout: default
-title: About Me
+title: About
 ---
 
-This is a page for `About Me`.
+[Jekyde](https://github.com/zohooo/jekyde) is a static blog generator, server and writer in Node.JS.
