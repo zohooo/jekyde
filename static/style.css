@@ -12,20 +12,30 @@ body {
     padding: 30px;
 }
 
+#header {
+    border: 1px solid #9b3034;
+    padding: 0 24px;
+    background: #b12930;
+}
+
 #header h1 {
     font-size: 2em;
-    color: #555;
     line-height: 2em;
     font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    /*text-transform: uppercase;*/
+}
+
+#header a, #header a:visited {
+    color: white;
 }
 
 #navbar {
     margin: 10px 0;
-    padding: 0;
+    padding: 0 24px;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
     font-family: arial, sans-serif;
+    background: black;
+    color: #eee;
 }
 
 #navbar ul {
@@ -41,42 +51,75 @@ body {
     list-style: none;
     float: left;
     margin: 0 30px 0 0;
+        color: #eee;
+}
+
+#navbar a, #navbar a:visited {
+    color: #eee;
+}
+
+#navbar a:hover {
+    border-bottom: 1px solid #e60900;
+}
+
+.article {
+    margin: 20px 0;
+    border: 2px solid gainsboro;
+    border-radius: 2px;
 }
 
 .ptitle {
-    font-size: 1.8em;
+    font-size: 22px;
     font-weight: bold;
-    margin: 0.7em 0 0 0;
+    margin: 0;
+    background-color: whitesmoke;
+    border-bottom: 1px solid gainsboro;
+    padding: 5px 24px;
+}
+
+.ptitle, .ptitle a, .ptitle a:visited {
+    color: #b12930;
+}
+
+.ptitle a:hover {
+    color: #e60900;
 }
 
 .pdate {
     margin-top: 0.5em;
     font-size: small;
     color: #777;
+    background-color: whitesmoke;
+    border-top: 1px solid gainsboro;
+    padding: 3px 24px;
+}
+
+.pmain {
+    padding: 5px 24px;
 }
 
 .pmain h1 {
-    font-size: 1.6em;
+    font-size: 20px;
 }
 
 .pmain h2 {
-    font-size: 1.5em;
+    font-size: 19px;
 }
 
 .pmain h3 {
-    font-size: 1.4em;
+    font-size: 18px;
 }
 
 .pmain h4 {
-    font-size: 1.3em;
+    font-size: 17px;
 }
 
 .pmain h5{
-    font-size: 1.2em;
+    font-size: 16px;
 }
 
 .pmain h6 {
-    font-size: 1.1em;
+    font-size: 15px;
 }
 
 a {
@@ -85,12 +128,12 @@ a {
 }
 
 a:hover {
-    color: #E60900;
+    color: #e60900;
 }
 
 .postindex {
-    padding: 0;
-    font-size: 1.4em;
+    padding: 0 24px;
+    font-size: 1.2em;
     line-height: 1.6em;
 }
 
@@ -107,17 +150,29 @@ a:hover {
     color: black;
 }
 
-.postnav {
-    border-top: 1px dashed #a1a1a1;
-    padding: 1em 0;
+.indextitle a:hover {
+    color: #e60900;
 }
 
-.postnav .next {
+.pagination {
+    margin: 10px 2px 40px 2px;
+}
+
+.pagination .newer {
     float: left;
 }
 
-.postnav .prev {
+.pagination .older {
     float: right;
+}
+
+#footer {
+    text-align: center;
+    font-size: small;
+    color: #777;
+    margin-top: 60px;
+    padding-top: 14px;
+    border-top: 1px solid #e8e8e8;
 }
 
 pre {
@@ -130,10 +185,21 @@ pre {
 
 code {
     background-color: #f8f8f8;
-    padding: 0px 5px;
+    padding: 0;
     margin: 0 2px;
     /*
     border: 1px solid #eaeaea;
     border-radius: 2px;
     */
+}
+
+table {
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+    text-align: left;
 }

@@ -23,60 +23,8 @@
         </ul>
     </div>
     <div id="main">
-      
         <div class="article">
-            <div class="ptitle"><a href="/jekyde/post/2013/05/06/basic-structure.html">Basic Structure</a></div>
-            <div class="pmain">
-              <p>A basic Jekyde site usually looks something like this:</p>
-<pre>
-|--- source
-   |-- layout
-      |-- archive.html
-      |-- index.html
-      |-- page.html
-      |-- post.html
-   |-- page
-      |-- about.md
-      |-- guide.md
-      |-- latex.md
-   |-- post
-      |-- 2013-04-04-16-24.md
-      |-- 2013-04-05-17-59.md
-   |-- static
-      |-- image.png
-      |-- script.js
-      |-- style.css
-   |-- config.yaml
-|-- website
-   |-- archive
-   |-- page
-   |-- post
-   |-- static
-   |-- index.html
-</pre>
-
-<p>An overview of what each of these does:</p>
-<h2>source</h2>
-<p>This folder contains all your source files.</p>
-<h4>config.yml</h4>
-<p>This file stores configuration data.</p>
-<h4>layout</h4>
-<p>These are the templates for generating post, page, index and archive files.</p>
-<h4>post</h4>
-<p>Your post files written in markdown language. The format of these files should be <code>year-month-day-hour-minute.md</code>.</p>
-<h4>page</h4>
-<p>Your page files written in markdown language. There is no restriction for filename format of these files.</p>
-<h4>static</h4>
-<p>This folder contains your css, javascript and image files. This folder will be copied to <code>website</code> folder without any modification.</p>
-<h2>website</h2>
-<p>This is where the generated site will be placed once Jekyde is done generating it.</p>
-
-            </div>
-            <div class="pdate">2013-05-06 21:00</div>
-        </div>
-      
-        <div class="article">
-            <div class="ptitle"><a href="/jekyde/post/2013/05/05/template-data.html">Template Data</a></div>
+            <div class="ptitle">Template Data</div>
             <div class="pmain">
               <p>Jekyde uses <a href="http://paularmstrong.github.io/swig/">Swig</a> as template engine. The following is a reference of the available data when generating website from layout files. </p>
 <h3>Global</h3>
@@ -264,89 +212,12 @@
             </div>
             <div class="pdate">2013-05-05 08:34</div>
         </div>
-      
-        <div class="article">
-            <div class="ptitle"><a href="/jekyde/post/2013/05/04/permalinks.html">Permalinks</a></div>
-            <div class="pmain">
-              <p>You can specify the permalinks for your posts and pages in <code>config.yml</code> file in source directory.</p>
-<h3>Template Variables for Posts</h3>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>year</code></td>
-<td>year from the post&#39;s filename</td>
-</tr>
-<tr>
-<td><code>month</code></td>
-<td>month from the post&#39;s filename</td>
-</tr>
-<tr>
-<td><code>day</code></td>
-<td>day from the post&#39;s filename</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>title from the post&#39;s front matter</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>name from the post&#39;s front matter</td>
-</tr>
-</tbody>
-</table>
-<h3>Template Variables for Pages</h3>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>title</code></td>
-<td>title from the page&#39;s front matter</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>name from the page&#39;s filename</td>
-</tr>
-</tbody>
-</table>
-<h3>Default Permalink Values</h3>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Permalink</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>post_link</td>
-<td><code>post/:year/:month/:day/:name.html</code></td>
-</tr>
-<tr>
-<td>page_link</td>
-<td><code>page/:name</code></td>
-</tr>
-</tbody>
-</table>
-
-            </div>
-            <div class="pdate">2013-05-04 13:11</div>
-        </div>
-      
         <div class="pagination">
           
+            <span class="newer"><a href="/jekyde/post/2013/04/30/configuration.html">&lt;&lt; Configuration</a></span>
+          
  
-            <span class="older"><a href="/jekyde/index2.html" class="next">Older Posts &gt;&gt;</a></span>
+            <span class="older"><a href="/jekyde/post/2013/05/04/permalinks.html">Permalinks &gt;&gt;</a></span>
           
         </div>
     </div>
