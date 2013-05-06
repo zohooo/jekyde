@@ -3,30 +3,39 @@ html, body {
     width: 100%;
     height: 100%;
     margin: 0;
+    position: relative;
     overflow: hidden;
 }
 
 #header {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 5%;
+    height: 30px;
     background: #2c2c2c;
     color: white;
     font-size: 16px;
     font-family: arial, sans-serif;
+    overflow: hidden;
 }
 
-#header a, #header a:visited {
+#navigator {
+    float: left;
+}
+
+#navigator a, #navigator a:visited {
     color: white;
     text-decoration: none;
 }
 
-#header ul {
+#navigator ul {
     display: inline-block;
     margin: 0;
     padding: 5px;
 }
 
-#header ul li {
+#navigator ul li {
     list-style: none;
     float: left;
     margin: 0 20px;
@@ -36,20 +45,99 @@ html, body {
     text-decoration: underline;
 }
 
+#operation {
+    margin-right: 10px;
+    margin-top: 5px;
+    float: right;
+}
+
+#operation span{
+    margin: 4px;
+    padding: 2px 3px;
+    border: 1px solid gray;
+    border-radius: 2px;
+    background: buttonface;
+    color: black;
+    font-size: 14px;
+    font-family: arial, sans-serif;
+}
+
 #content {
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    height: 95%;
     margin: 0;
     border: 0;
+    overflow: hidden;
 }
 
 #content table {
+    width: 94%;
     margin: 10px;
-    border: 1px dashed #888;
+    border-collapse: collapse;
 }
 
 #content td {
     padding: 5px 10px;
+    border: 1px dashed #888;
+}
+
+#file-list {
+    height: 100%;
+    width: 100%;
+}
+
+#file-edit {
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#codewrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    padding: 0;
+    border: none;
+    margin: 0;
+    overflow: hidden;
+}
+
+#showwrap {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    padding: 0;
+    border: none;
+    margin: 0;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+#codearea {
+    width: 98%;
+    height: 100%;
+    border: none;
+    border: none;
+    padding: 0 0 0 2%;
+    margin: 0;
+    font-family: monospace;
+    resize: none;
+}
+
+#showarea {
+    width: 98%;
+    height: 100%;
+    border: none;
+    padding: 0 0 0 2%;
+    margin: 0;
+    overflow: auto;
 }
 
 iframe {
@@ -57,4 +145,13 @@ iframe {
     height: 100%;
     margin: 0;
     border: 0;
+}
+
+.item-edit, .item-delete {
+    color: #002C99;
+}
+
+.item-edit:hover, .item-delete:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
