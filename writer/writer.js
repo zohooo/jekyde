@@ -1,12 +1,17 @@
 
 (function() {
 
-var type = (location.search == '?page') ? 'page' : 'post';
-$('#nav-' + type).addClass('current');
-var writer = {type: type};
+var code = document.getElementById('codearea');
+var show = document.getElementById('showarea');
+var writer = {
+    type: (location.search == '?page') ? 'page' : 'post',
+    data: null,
+    index: null
+};
 
 $(function() {
-    var url = '../r/' + type + 's';
+    var url = '../r/' + writer.type + 's';
+    $('#nav-' + writer.type).addClass('current');
     $.get(url, function(items){
         writer.data = items;
         var content = '<table>';
@@ -52,11 +57,19 @@ function bindHandler() {
 }
 
 function initEditor() {
-    var value = writer.data[writer.index].source;
     $('#file-list').hide();
-    $('#codearea')[0].value = value;
-    $('#showarea').html(marked(value));
+    code.value = writer.data[writer.index].source;
+    preview();
     $('#file-edit').fadeIn();
+    $('#codearea').on('keyup', preview).on('cut paste', timerview);
+}
+
+function timerview() {
+    setTimeout(preview, 100);
+}
+
+function preview() {
+    show.innerHTML = marked(code.value);
 }
 
 })();
