@@ -125,8 +125,7 @@ html, body {
 #codearea {
     width: 98%;
     height: 100%;
-    border: none;
-    border: none;
+    border: 0 none;
     padding: 0 0 0 2%;
     margin: 0;
     font-family: monospace;

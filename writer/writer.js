@@ -18,8 +18,24 @@ $(function() {
         $('#infomation').html(content);
         bindHandler();
     });
-
+    doResize();
 });
+
+$(window).resize(function() {
+    doResize();
+});
+
+function doResize() {
+    var ht = $(window).height() - $('#header').height();
+    var wd = $(window).width() / 2;
+    $('#file-edit').height(ht);
+    $('#codewrap').height(ht);
+    $('#codearea').height(ht);
+    $('#showwrap').height(ht);
+    $('#showarea').height(ht);
+    $('#codewrap').width(wd);
+    $('#showwrap').width(wd);
+}
 
 function bindHandler() {
     $('#file-list').click(function(e){
@@ -36,7 +52,7 @@ function bindHandler() {
 }
 
 function initEditor() {
-    var value = writer.data[writer.index].source
+    var value = writer.data[writer.index].source;
     $('#file-list').hide();
     $('#codearea')[0].value = value;
     $('#showarea').html(marked(value));
