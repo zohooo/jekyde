@@ -21,7 +21,9 @@ html, body {
 }
 
 #navigator {
-    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #navigator a, #navigator a:visited {
@@ -46,14 +48,14 @@ html, body {
 }
 
 #operation {
-    margin-right: 10px;
-    margin-top: 5px;
-    float: right;
+    position: absolute;
+    top: 5px;
+    right: 10px;
 }
 
 #operation span{
     margin: 4px;
-    padding: 2px 3px;
+    padding: 1px 3px;
     border: 1px solid gray;
     border-radius: 2px;
     background: buttonface;
