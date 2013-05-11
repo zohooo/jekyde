@@ -44,11 +44,14 @@ function initBrowser() {
         $.each(items, function(i, v){
             if (writer.type == 'post') {
                 var a = v.filename.split('-');
-                name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+                var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+                var rename = 'Retime';
             } else {
-                name = v.filename + '.md';
+                var name = v.filename + '.md';
+                var rename = 'Rename';
             }
             content += '<tr data-i="' + i + '"><td>' + name + '</td><td>' + v.title + '</td>'
+                      + '<td class="item-rename">' + rename + '</td>'
                       + '<td class="item-edit">Edit</td><td class="item-delete">Delete</td></tr>';
         });
         content += '</table>';
@@ -68,8 +71,10 @@ function bindHandler() {
             writer.text = '---\n' + article.head + '\n---\n' + article.body;
             if ($target.hasClass('item-edit')) {
                 initEditor();
+            } else if ($target.hasClass('item-rename')) {
+                fileRename();
             } else if ($target.hasClass('item-delete')) {
-                confirm('Do you really want to delete this article?');
+                fileDelete();
             }
         }
     });
@@ -86,7 +91,7 @@ function bindHandler() {
             var d = new Date();
             writer.name = dateString(d);
         } else {
-            var name = window.prompt('Please enter new file name:', 'noname.md');
+            var name = window.prompt('Please enter new page name:', 'noname.md');
             if (name) {
                 writer.name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
             } else return;
@@ -112,6 +117,43 @@ function bindHandler() {
             }
         });
     });
+}
+
+function fileRename() {
+    var r = (writer.type == 'post') ? 'time' : 'name';
+    var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, writer.name);
+    if (name) {
+        name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
+        if (name == writer.name) return;
+    } else return;
+    var url = '../r/' + writer.type + '/' + writer.name;
+    var data = {
+        type: writer.type,
+        newname: name
+    };
+    $.post(url, data, function(data) {
+            console.log(data);
+            initBrowser();
+    });
+}
+
+function fileDelete() {
+    if (confirm('Do you really want to delete this article?')) {
+        var url = '../r/' + writer.type + '/' + writer.name;
+        var data = {
+            type: writer.type
+        };
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            data: data,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                initBrowser();
+            }
+        });
+    }
 }
 
 function initEditor() {
