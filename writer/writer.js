@@ -6,25 +6,14 @@ var show = document.getElementById('showarea');
 var writer = {
     type: (location.search == '?page') ? 'page' : 'post',
     data: null,
-    index: null
+    index: null,
+    name: null
 };
 
 $(function() {
-    var url = '../r/' + writer.type + 's';
-    $('#nav-' + writer.type).addClass('current');
-    $.get(url, function(items){
-        writer.data = items;
-        var content = '<table>';
-        $.each(items, function(i, v){
-           content += '<tr data-i="' + i + '"><td>' + v.id + '</td><td>' + v.title + '</td>'
-                      + '<td class="item-edit">Edit</td><td class="item-delete">Delete</td></tr>';
-        });
-        content += '</table>';
-        $('#infomation').html(content);
-        $('#button-new').show();
-        bindHandler();
-    });
     doResize();
+    initBrowser();
+    bindHandler();
 });
 
 $(window).resize(function() {
@@ -43,17 +32,61 @@ function doResize() {
     $('#showwrap').width(wd);
 }
 
+function initBrowser() {
+    $('#file-edit').hide();
+    $('#button-save').hide();
+    var url = '../r/' + writer.type + 's';
+    $('#nav-' + writer.type).addClass('current');
+    $.get(url, function(items){
+        writer.data = items;
+        var content = '<table>';
+        $.each(items, function(i, v){
+            if (writer.type == 'post') {
+                var a = v.filename.split('-');
+                name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+            } else {
+                name = v.filename + '.md';
+            }
+            content += '<tr data-i="' + i + '"><td>' + name + '</td><td>' + v.title + '</td>'
+                      + '<td class="item-edit">Edit</td><td class="item-delete">Delete</td></tr>';
+        });
+        content += '</table>';
+        $('#infomation').html(content);
+        $('#file-list').fadeIn();
+        $('#button-new').show();
+    });
+}
+
 function bindHandler() {
     $('#file-list').click(function(e){
         var $target = $(e.target);
         if ($target.is('td')) {
             writer.index = $target.parent().attr('data-i');
+            writer.name = writer.data[writer.index].filename;
             if ($target.hasClass('item-edit')) {
                 initEditor();
             } else if ($target.hasClass('item-delete')) {
                 confirm('Do you really want to delete this article?');
             }
         }
+    });
+    $('#button-save').click(function(e){
+        var url = '../r/' + writer.type + '/' + writer.name;
+        var data = {
+            type: writer.type,
+            filename: writer.name,
+            source: code.value
+        };
+        $.ajax({
+            type: 'PUT',
+            url: url,
+            data: data,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                initBrowser();
+            }
+        });
     });
 }
 
