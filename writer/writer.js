@@ -58,7 +58,7 @@ function bindHandler() {
 
 function initEditor() {
     $('#file-list').hide();
-    code.value = writer.data[writer.index].source;
+    code.value = writer.data[writer.index].body;
     preview();
     $('#file-edit').fadeIn();
     $('#codearea').on('keyup', preview).on('cut paste', timerview);
