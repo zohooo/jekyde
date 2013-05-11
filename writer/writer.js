@@ -7,7 +7,8 @@ var writer = {
     type: (location.search == '?page') ? 'page' : 'post',
     data: null,
     index: null,
-    name: null
+    name: null,
+    text: ''
 };
 
 $(function() {
@@ -62,13 +63,36 @@ function bindHandler() {
         var $target = $(e.target);
         if ($target.is('td')) {
             writer.index = $target.parent().attr('data-i');
-            writer.name = writer.data[writer.index].filename;
+            var article = writer.data[writer.index];
+            writer.name = article.filename;
+            writer.text = '---\n' + article.head + '\n---\n' + article.body;
             if ($target.hasClass('item-edit')) {
                 initEditor();
             } else if ($target.hasClass('item-delete')) {
                 confirm('Do you really want to delete this article?');
             }
         }
+    });
+    $('#button-new').click(function(e){
+        function dateString(d){
+            function pad(n){return n < 10 ? '0' + n : n}
+            return [d.getFullYear(),
+                pad(d.getMonth() + 1),
+                pad(d.getDate()),
+                pad(d.getHours()),
+                pad(d.getMinutes())].join('-');
+        }
+        if (writer.type == 'post') {
+            var d = new Date();
+            writer.name = dateString(d);
+        } else {
+            var name = window.prompt('Please enter new file name:', 'noname.md');
+            if (name) {
+                writer.name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
+            } else return;
+        }
+        writer.text = '---\ntitle: Some Title\n---\n\nWrite here';
+        initEditor();
     });
     $('#button-save').click(function(e){
         var url = '../r/' + writer.type + '/' + writer.name;
@@ -93,8 +117,7 @@ function bindHandler() {
 function initEditor() {
     $('#file-list').hide();
     $('#button-new').hide();
-    var article = writer.data[writer.index];
-    code.value = '---\n' + article.head + '\n---\n' + article.body;
+    code.value = writer.text;
     preview();
     $('#file-edit').fadeIn();
     $('#codearea').on('keyup', preview).on('cut paste', timerview);
