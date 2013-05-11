@@ -58,7 +58,8 @@ function bindHandler() {
 
 function initEditor() {
     $('#file-list').hide();
-    code.value = writer.data[writer.index].body;
+    var article = writer.data[writer.index];
+    code.value = '---\n' + article.head + '\n---\n' + article.body;
     preview();
     $('#file-edit').fadeIn();
     $('#codearea').on('keyup', preview).on('cut paste', timerview);
@@ -69,7 +70,12 @@ function timerview() {
 }
 
 function preview() {
-    show.innerHTML = marked(code.value);
+    show.innerHTML = marked(getBody(code.value));
+}
+
+function getBody(text) {
+    var re = /^---(\n|\r\n|\r)([\w\W]+?)\1---\1([\w\W]*)/, result = re.exec(text);
+    return (result ? result[3] : text);
 }
 
 })();
