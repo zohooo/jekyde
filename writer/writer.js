@@ -21,6 +21,7 @@ $(function() {
         });
         content += '</table>';
         $('#infomation').html(content);
+        $('#button-new').show();
         bindHandler();
     });
     doResize();
@@ -58,11 +59,13 @@ function bindHandler() {
 
 function initEditor() {
     $('#file-list').hide();
+    $('#button-new').hide();
     var article = writer.data[writer.index];
     code.value = '---\n' + article.head + '\n---\n' + article.body;
     preview();
     $('#file-edit').fadeIn();
     $('#codearea').on('keyup', preview).on('cut paste', timerview);
+    $('#button-save').show();
 }
 
 function timerview() {

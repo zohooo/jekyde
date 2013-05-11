@@ -62,6 +62,7 @@ html, body {
     color: black;
     font-size: 14px;
     font-family: arial, sans-serif;
+    display: none;
 }
 
 #content {
