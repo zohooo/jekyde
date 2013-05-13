@@ -1,6 +1,8 @@
 
 (function() {
 
+if (!window.console) window.console = {log : function() {}};
+
 var code = document.getElementById('codearea');
 var show = document.getElementById('showarea');
 var writer = {
