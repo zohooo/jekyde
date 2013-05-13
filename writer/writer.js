@@ -45,8 +45,8 @@ function initBrowser() {
         var content = '<table>';
         $.each(items, function(i, v){
             if (writer.type == 'post') {
-                var a = v.filename.split('-');
-                var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+                var a = v.metadate;
+                var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4] + ':' + a[5];
                 var rename = 'Retime';
             } else {
                 var name = v.filename + '.md';
@@ -123,7 +123,8 @@ function bindHandler() {
 
 function fileRename() {
     var r = (writer.type == 'post') ? 'time' : 'name';
-    var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, writer.name);
+    var oldname = (writer.type == 'post') ? writer.data[writer.index].metadate.join('-') : writer.name;
+    var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, oldname);
     if (name) {
         name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
         if (name == writer.name) return;
