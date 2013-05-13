@@ -33,5 +33,15 @@
         <script type="text/javascript" src="jquery/jquery.min.js"></script>
         <script type="text/javascript" src="marked/marked.js"></script>
         <script type="text/javascript" src="writer.js"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                skipStartupTypeset: true,
+                showProcessingMessages: false,
+                tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']],
+                        displayMath: [['\\[','\\]'], ['$$','$$']]},
+                'HTML-CSS': { imageFont: null }
+            });
+        </script>
+        <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </body>
 </html>

@@ -171,12 +171,27 @@ function timerview() {
 }
 
 function preview() {
-    show.innerHTML = marked(getBody(code.value));
+    show.innerHTML = marked(escapeTex(getBody(code.value)));
+    MathJax.Hub.Typeset(show);
 }
 
 function getBody(text) {
     var re = /^---(\n|\r\n|\r)([\w\W]+?)\1---\1([\w\W]*)/, result = re.exec(text);
     return (result ? result[3] : text);
+}
+
+function escapeTex(text) {
+    var out = text.replace(/(\${1,2})((?:\\.|[^$])*)\1/g, function(m){
+        m = m.replace(/_/g, '\\_')
+             .replace(/</g, '\\lt ')
+             .replace(/\|/g, '\\vert ')
+             .replace(/\[/g, '\\lbrack ')
+             .replace(/\\{/g, '\\lbrace ')
+             .replace(/\\}/g, '\\rbrace ')
+             .replace(/\\\\/g, '\\\\\\\\');
+        return m;
+    });
+    return out;
 }
 
 })();
