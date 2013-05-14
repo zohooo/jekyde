@@ -17,6 +17,7 @@ $(function() {
     doResize();
     initBrowser();
     bindHandler();
+    loadMathJax();
 });
 
 $(window).resize(function() {
@@ -193,6 +194,34 @@ function verifyDate(name) {
     return false;
 }
 
+function loadMathJax() {
+    $.get('../r/config/latex', function(data){
+        writer.latex = data.latex;
+        if (!data.latex) return;
+
+        var script = document.createElement('script');
+        script.type = 'text/x-mathjax-config';
+        script[(window.opera ? 'innerHTML' : 'text')] =
+            'MathJax.Hub.Config({\n' +
+            '  skipStartupTypeset: true,\n' +
+            '  showProcessingMessages: false,\n' +
+            '  tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]],\n' +
+            '            displayMath: [["$$","$$"], ["\\[","\\]"]]},\n' +
+            '  "HTML-CSS": { imageFont: null }\n' +
+            '});'
+        var head = document.getElementsByTagName("head")[0];
+        head.appendChild(script);
+
+        /* There is some path problem in loading local mathjax with jquery
+        $.getScript('mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
+        */
+        script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        head.appendChild(script);
+    });
+}
+
 function initEditor() {
     $('#file-list').hide();
     $('#button-new').hide();
@@ -208,8 +237,12 @@ function timerview() {
 }
 
 function preview() {
-    show.innerHTML = marked(escapeTex(getBody(code.value)));
-    MathJax.Hub.Typeset(show);
+    if (writer.latex) {
+        show.innerHTML = marked(escapeTex(getBody(code.value)));
+        if (window.MathJax) MathJax.Hub.Typeset(show);
+    } else {
+        show.innerHTML = marked(getBody(code.value));
+    }
 }
 
 function getBody(text) {
