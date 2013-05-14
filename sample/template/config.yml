@@ -10,5 +10,8 @@ post_link:          post/:year/:month/:day/:name.html
 page_link:          page/:name
 paginate:           3
 
+## Engine
+latex:              true
+
 ## Server
 port:               4040
