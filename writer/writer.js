@@ -75,7 +75,7 @@ function bindHandler() {
             if ($target.hasClass('item-edit')) {
                 initEditor();
             } else if ($target.hasClass('item-name')) {
-                fileRename();
+                fileRename($target.text());
             } else if ($target.hasClass('item-delete')) {
                 fileDelete();
             }
@@ -123,13 +123,20 @@ function bindHandler() {
     });
 }
 
-function fileRename() {
+function fileRename(oldname) {
     var r = (writer.type == 'post') ? 'date' : 'name';
-    var oldname = (writer.type == 'post') ? writer.data[writer.index].metadate.join('-') : writer.name;
     var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, oldname);
     if (name) {
         name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
         if (name == writer.name) return;
+        if (writer.type == 'post') {
+            if (verifyDate(name)) {
+                name = name.replace(/[ :]/g, '-');
+            } else {
+                alert('Invalid Date Format!');
+                return;
+            }
+        }
     } else return;
     var url = '../r/' + writer.type + '/' + writer.name;
     var data = {
@@ -159,6 +166,18 @@ function fileDelete() {
             }
         });
     }
+}
+
+function verifyDate(name) {
+    var r = [
+        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/,
+        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):([0-5]\d)$/,
+        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])$/
+    ];
+    for (var i = 0; i < r.length; i++) {
+        if (r[i].test(name)) return true;
+    }
+    return false;
 }
 
 function initEditor() {
