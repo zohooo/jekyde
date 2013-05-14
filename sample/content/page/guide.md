@@ -28,4 +28,4 @@ In your web browser visit the following address:
 
     http://localhost:4040/w
 
-You can edit your posts and templates in browser.
+You can edit your posts and pages in browser.
