@@ -77,7 +77,7 @@ body {
     padding: 5px 24px;
 }
 
-.ptitle, .ptitle a, .ptitle a:visited {
+.ptitle a, .ptitle a:visited {
     color: #b12930;
 }
 
