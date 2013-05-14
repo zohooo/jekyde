@@ -1,0 +1,9 @@
+<div id="navbar">
+    <ul>
+        <li><a href="{{site.baseurl}}">Home</a></li>
+        <li><a href="{{site.baseurl}}{{site.archive_dir}}">Archive</a></li>
+      {% for page in site.pages %}
+        <li><a href="{{page.url}}">{{page.title}}</a></li>
+      {% endfor %}
+    </ul>
+</div>
