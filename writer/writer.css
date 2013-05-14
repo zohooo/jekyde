@@ -162,3 +162,28 @@ iframe {
     cursor: pointer;
     text-decoration: underline;
 }
+
+#showarea pre {
+    background-color: #f8f8f8;
+    overflow: auto;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+#showarea code {
+    background-color: #f8f8f8;
+    padding: 0;
+    margin: 0 2px;
+}
+
+#showarea table {
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+#showarea table th, #showarea table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+    text-align: left;
+}
