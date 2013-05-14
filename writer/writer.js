@@ -126,18 +126,23 @@ function bindHandler() {
 function fileRename(oldname) {
     var r = (writer.type == 'post') ? 'date' : 'name';
     var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, oldname);
-    if (name) {
-        name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
-        if (name == writer.name) return;
-        if (writer.type == 'post') {
-            if (verifyDate(name)) {
-                name = name.replace(/[ :]/g, '-');
-            } else {
-                alert('Invalid Date Format!');
-                return;
-            }
+
+    if (!name) return;
+    name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
+    if (name == writer.name) return;
+    if (writer.type == 'post') {
+        if (verifyDate(name)) {
+            name = name.replace(/[ :]/g, '-');
+        } else {
+            alert('Invalid Date Format!');
+            return;
         }
-    } else return;
+    }
+    if (findFile(name)) {
+        alert('The same ' + r + ' already exists!');
+        return;
+    }
+
     var url = '../r/' + writer.type + '/' + writer.name;
     var data = {
         type: writer.type,
@@ -166,6 +171,14 @@ function fileDelete() {
             }
         });
     }
+}
+
+function findFile(name) {
+    var data = writer.data;
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].filename == name) return true;
+    }
+    return false;
 }
 
 function verifyDate(name) {
