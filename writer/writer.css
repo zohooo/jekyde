@@ -154,11 +154,11 @@ iframe {
     border: 0;
 }
 
-.item-rename, .item-edit, .item-delete {
+.item-edit, .item-delete {
     color: #002C99;
 }
 
-.item-rename:hover, .item-edit:hover, .item-delete:hover {
+.item-name:hover, .item-edit:hover, .item-delete:hover {
     cursor: pointer;
     text-decoration: underline;
 }

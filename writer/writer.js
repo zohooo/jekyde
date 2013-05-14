@@ -47,14 +47,15 @@ function initBrowser() {
             if (writer.type == 'post') {
                 var a = v.metadate;
                 var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4] + ':' + a[5];
-                var rename = 'Retime';
             } else {
                 var name = v.filename + '.md';
-                var rename = 'Rename';
             }
-            content += '<tr data-i="' + i + '"><td>' + name + '</td><td>' + v.title + '</td>'
-                      + '<td class="item-rename">' + rename + '</td>'
-                      + '<td class="item-edit">Edit</td><td class="item-delete">Delete</td></tr>';
+            content += '<tr data-i="' + i + '">'
+                      + '<td><span class="item-name" title="Click to modify">' + name + '</span></td>'
+                      + '<td><span class="item-title">' + v.title + '</span></td>'
+                      + '<td><span class="item-edit">Edit</span></td>'
+                      + '<td><span class="item-delete">Delete</span></td>'
+                      + '</tr>';
         });
         content += '</table>';
         $('#infomation').html(content);
@@ -66,14 +67,14 @@ function initBrowser() {
 function bindHandler() {
     $('#file-list').click(function(e){
         var $target = $(e.target);
-        if ($target.is('td')) {
-            writer.index = $target.parent().attr('data-i');
+        if ($target.is('span')) {
+            writer.index = $target.parent().parent().attr('data-i');
             var article = writer.data[writer.index];
             writer.name = article.filename;
             writer.text = '---\n' + article.head + '\n---\n' + article.body;
             if ($target.hasClass('item-edit')) {
                 initEditor();
-            } else if ($target.hasClass('item-rename')) {
+            } else if ($target.hasClass('item-name')) {
                 fileRename();
             } else if ($target.hasClass('item-delete')) {
                 fileDelete();
@@ -87,7 +88,8 @@ function bindHandler() {
                 pad(d.getMonth() + 1),
                 pad(d.getDate()),
                 pad(d.getHours()),
-                pad(d.getMinutes())].join('-');
+                pad(d.getMinutes()),
+                pad(d.getSeconds())].join('-');
         }
         if (writer.type == 'post') {
             var d = new Date();
@@ -122,7 +124,7 @@ function bindHandler() {
 }
 
 function fileRename() {
-    var r = (writer.type == 'post') ? 'time' : 'name';
+    var r = (writer.type == 'post') ? 'date' : 'name';
     var oldname = (writer.type == 'post') ? writer.data[writer.index].metadate.join('-') : writer.name;
     var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, oldname);
     if (name) {
