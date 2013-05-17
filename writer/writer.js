@@ -206,7 +206,8 @@ function loadMathJax() {
             '  skipStartupTypeset: true,\n' +
             '  showProcessingMessages: false,\n' +
             '  tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]],\n' +
-            '            displayMath: [["$$","$$"], ["\\[","\\]"]]},\n' +
+            '            displayMath: [["$$","$$"], ["\\[","\\]"]],\n' +
+            '            processEnvironments: false},\n' +
             '  "HTML-CSS": { imageFont: null }\n' +
             '});'
         var head = document.getElementsByTagName("head")[0];
