@@ -1,8 +1,7 @@
 
 var fs = require('fs');
-var builder = require('../../builder');
 
-builder.extend.website(function(site){
+jekyde.extend.website(function(site){
     var posts = site.posts.slice(0, 5);
 
     var content = posts.reduce(function(previous, current){

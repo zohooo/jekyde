@@ -1,7 +1,5 @@
 
-var builder = require('../../builder');
-
-builder.extend.content(function(site, text){
+jekyde.extend.content(function(site, text){
     if (!site.latex) return text;
 
     var out = text.replace(/(\${1,2})((?:\\.|[^$])*)\1/g, function(m){

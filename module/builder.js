@@ -107,9 +107,17 @@ function loadConfig() {
 }
 
 function loadPlugins() {
-    require('./plugin/content/latex');
-    require('./plugin/template/ctime');
-    require('./plugin/website/atom');
+    function loadAll(dir, local) {
+        if (!fs.existsSync(dir)) return;
+        var files = fs.readdirSync(dir);
+        files.forEach(function(item){
+            require(dir + '/' + item);
+        });
+    }
+    loadAll(__dirname + '/plugin/content');
+    loadAll(__dirname + '/plugin/template');
+    loadAll(__dirname + '/plugin/website');
+    loadAll('template/plugin');
 
     swig.init({
         allowErrors: true,
@@ -424,7 +432,7 @@ function copyFiles(back) {
     }
     async.parallel([
         async.apply(copy, cdir, ['page', 'post']),
-        async.apply(copy, tdir, ['include', 'layout', 'config.yml'])
+        async.apply(copy, tdir, ['include', 'layout', 'plugin', 'config.yml'])
     ], back);
 }
 
@@ -494,3 +502,5 @@ exports.update = function(change) {
     writeFiles();
     console.log('Website has been updated for file "' + name + '.md"');
 }
+
+global.jekyde = module.exports;
