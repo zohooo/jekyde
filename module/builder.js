@@ -10,6 +10,7 @@ var async = require('async');
 var fsextra = require('fs-extra');
 var jsyaml = require('js-yaml');
 var marked = require('marked');
+var hljs = require('highlight.js');
 var swig = require('swig');
 
 var server = require('./server.js');
@@ -37,6 +38,35 @@ var plugins = {
     website: []
 }
 var templates = {}
+
+var alias = [
+    ['latex', 'tex'],
+    ['html', 'xml'],
+    ['js', 'javascript'],
+    ['coffee', 'coffeescript'],
+    ['rb', 'ruby'],
+    ['py', 'python'],
+    ['pl', 'perl']
+];
+marked.setOptions({
+    langPrefix: 'lang-',
+    highlight: function(code, lang) {
+        if (!lang || lang == 'plain') return code;
+        alias.some(function(v){
+            if (lang == v[0]) {
+                lang = v[1];
+                return true;
+            }
+        });
+        try {
+            var result = hljs.highlight(lang, code).value;
+        } catch(e) {
+            console.log('Warning: Unknown highlight language ' + lang + '!');
+            var result = hljs.highlightAuto(code).value;
+        }
+        return result;
+    }
+});
 
 function initialize(back) {
     async.each([cdir, tdir], function(dir, callback){

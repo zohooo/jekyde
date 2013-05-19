@@ -19,6 +19,7 @@
     "async": "*",
     "fs-extra": "*",
     "js-yaml": "*",
+    "highlight.js": "*",
     "marked": "*",
     "swig": "*",
     "express": ">=3.0"
