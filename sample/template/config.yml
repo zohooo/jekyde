@@ -1,10 +1,10 @@
 ## Website
 title:              The Jekyde Blog
 subtitle:           A static blog generator
+host:               http://localhost
 
 ## Output
 baseurl:            /
-static_dir:         static
 archive_dir:        archive
 post_link:          post/:year/:month/:day/:name.html
 page_link:          page/:name
