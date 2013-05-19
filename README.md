@@ -2,8 +2,8 @@
 
 A static blog generator, server and writer in Node.JS.
 
-Easy Installation
------------------
+Easy Installing
+---------------
 
 First install [Node.js](http://nodejs.org/), then install jekyde in console:
 
