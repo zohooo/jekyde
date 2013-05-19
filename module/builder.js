@@ -107,7 +107,7 @@ function loadConfig() {
 }
 
 function loadPlugins() {
-    function loadAll(dir, local) {
+    function loadAll(dir) {
         if (!fs.existsSync(dir)) return;
         var files = fs.readdirSync(dir);
         files.forEach(function(item){
