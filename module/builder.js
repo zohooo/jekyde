@@ -337,7 +337,6 @@ function parseYaml(text) {
 function writeFiles() {
     templates['post'] = swig.compileFile('../layout/post.html');
     templates['page'] = swig.compileFile('../layout/page.html');
-    templates['archive'] = swig.compileFile('../layout/archive.html');
 
     var posts = sitedata.posts;
     for (i=0; i < posts.length; i++) {
@@ -369,9 +368,6 @@ function parseMark(type, item) {
 }
 
 function parseHtml() {
-    var link = '/' + sitedata.archive_dir + '/index.html';
-    var html = templates['archive'].render({site: sitedata});
-    fsextra.outputFileSync(wdir + link, html);
     plugins.website.forEach(function(task){
         task(sitedata, dirs);
     });
