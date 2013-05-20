@@ -53,11 +53,8 @@ function start(sitedata, webdir) {
 
     var port = sitedata.port;
     app.listen(port, 'localhost');
-    console.log(['',
-                 'Website was successfully generated and web server is running.',
-                 'Press Esc to stop server, or press Enter to regenerate website.',
-                 'Please open your browser and visit http://localhost:' + port + base + 'w',
-                 ''].join('\n'));
+    console.log('Please open your browser and visit http://localhost:' + port + base + 'w\n'
+              + 'Press Esc to stop server, or press Enter to regenerate website\n');
     readStdin();
 }
 

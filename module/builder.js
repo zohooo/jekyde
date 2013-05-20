@@ -352,11 +352,14 @@ exports.extend = {
 };
 
 exports.start = function() {
+    var t1 = new Date();
     async.series([
         async.apply(initialize),
         async.apply(buildSite)
     ], function(err, results){
         if (err) throw err;
+        var t2 = new Date();
+        console.log('\nYour website has been successfully generated in ' + (t2 - t1) / 1000 + ' seconds');
         runServer();
     });
 }
