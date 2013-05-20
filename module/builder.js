@@ -16,6 +16,7 @@ var swig = require('swig');
 var server = require('./server.js');
 
 var cdir = 'content', tdir = 'template', wdir = 'website';
+var dirs = {cdir: cdir, tdir: tdir, wdir: wdir};
 
 var sitedata = {
     title:          'Simple Blog',
@@ -336,7 +337,6 @@ function parseYaml(text) {
 function writeFiles() {
     templates['post'] = swig.compileFile('../layout/post.html');
     templates['page'] = swig.compileFile('../layout/page.html');
-    templates['index'] = swig.compileFile('../layout/index.html');
     templates['archive'] = swig.compileFile('../layout/archive.html');
 
     var posts = sitedata.posts;
@@ -369,54 +369,11 @@ function parseMark(type, item) {
 }
 
 function parseHtml() {
-    var posts = sitedata.posts;
-    var length = posts.length;
-    var p = sitedata.paginate;
-    var t = Math.ceil(length / p);
-    var paginator = {
-            per_page: p,
-            total_posts: length,
-            total_pages: t
-    };
-    var data = {
-        paginator: paginator,
-        site: sitedata
-    };
-    var baseurl = sitedata.baseurl;
-    var dir = baseurl + dir + '/';
-    var html, link;
-
-    for (var i = 1; i <= paginator.total_pages; i++) {
-        paginator.page = i;
-        paginator.posts = posts.slice(p * (i-1), p * i);
-        if (i > 1) {
-            paginator.previous_page = i - 1;
-            if (i == 2) {
-                paginator.previous_url = baseurl + 'index.html';
-            } else {
-                paginator.previous_url = baseurl + 'index' + (i-1) + '.html';
-            }
-        } else {
-            paginator.previous_page = null;
-            paginator.previous_url = null;
-        }
-        if (i < t) {
-            paginator.next_page = i + 1;
-            paginator.next_url = baseurl + 'index' + (i+1) + '.html';
-        } else {
-            paginator.next_page = null;
-            paginator.next_url = null;
-        }
-        link = (i == 1) ? '/index.html' : '/index' + i + '.html';
-        html = templates['index'].render(data);
-        fs.writeFileSync(wdir + link, html);
-    }
-
-    link = '/' + sitedata.archive_dir + '/index.html';
-    html = templates['archive'].render({site: sitedata});
+    var link = '/' + sitedata.archive_dir + '/index.html';
+    var html = templates['archive'].render({site: sitedata});
     fsextra.outputFileSync(wdir + link, html);
     plugins.website.forEach(function(task){
-        task(sitedata);
+        task(sitedata, dirs);
     });
 }
 
