@@ -117,6 +117,42 @@ function readFiles(back) {
     ], back);
 }
 
+function renderFiles(back) {
+    function render(type, back){
+        async.each(sitedata[type], function(item, back){
+            item.content = markdown(sitedata, item.body);
+            back();
+        }, back);
+    }
+    async.parallel([
+        async.apply(render, 'posts'),
+        async.apply(render, 'pages')
+    ], back);
+}
+
+function writeFiles(back) {
+    async.each(exports.plugins.website, function(task, back){
+        task(sitedata, exports.envs);
+        back();
+    }, back);
+}
+
+function copyFiles(back) {
+    function copy(dir, excludes, back) {
+        var files = fs.readdirSync(dir);
+        files = files.filter(function(value){
+            return (value[0] != '.') && (excludes.indexOf(value) == -1);
+        });
+        async.each(files, function(item, back){
+            fsextra.copy(dir + '/' + item, wdir + '/' + item, back);
+        }, back);
+    }
+    async.parallel([
+        async.apply(copy, cdir, ['page', 'post']),
+        async.apply(copy, tdir, ['include', 'layout', 'plugin', 'config.yml'])
+    ], back);
+}
+
 function findData(list, basename) {
     var i = list.length;
     list.some(function(value, index){
@@ -276,42 +312,6 @@ function parseYaml(text) {
         page.body = text;
     }
     return page;
-}
-
-function renderFiles(back) {
-    function render(type, back){
-        async.each(sitedata[type], function(item, back){
-            item.content = markdown(sitedata, item.body);
-            back();
-        }, back);
-    }
-    async.parallel([
-        async.apply(render, 'posts'),
-        async.apply(render, 'pages')
-    ], back);
-}
-
-function writeFiles(back) {
-    async.each(exports.plugins.website, function(task, back){
-        task(sitedata, exports.envs);
-        back();
-    }, back);
-}
-
-function copyFiles(back) {
-    function copy(dir, excludes, back) {
-        var files = fs.readdirSync(dir);
-        files = files.filter(function(value){
-            return (value[0] != '.') && (excludes.indexOf(value) == -1);
-        });
-        async.each(files, function(item, back){
-            fsextra.copy(dir + '/' + item, wdir + '/' + item, back);
-        }, back);
-    }
-    async.parallel([
-        async.apply(copy, cdir, ['page', 'post']),
-        async.apply(copy, tdir, ['include', 'layout', 'plugin', 'config.yml'])
-    ], back);
 }
 
 function runServer() {
