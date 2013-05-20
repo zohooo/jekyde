@@ -1,6 +1,6 @@
 
-var jsyaml = require('js-yaml');
 var datetitle = require('./datetitle');
+var yaml = require('../converter/yaml');
 
 var sitedata = exports.sitedata = {
     title:          'Simple Blog',
@@ -30,7 +30,7 @@ function findData(list, basename) {
 
 exports.pushData = function(type, basename, text, check) {
     var list = sitedata[type + 's'];
-    var obj = parseYaml(text);
+    var obj = yaml(text);
     parseName(obj, type, basename);
     if (type == 'post' && (!obj.date || !(obj.date instanceof Date))) {
         console.log('[Error] No date in file "' + basename + '.md" ');
@@ -97,18 +97,4 @@ function setPermalink(obj, type) {
     } else {
         obj.link = link + ((link[link.length - 1] == '/') ? 'index.html' : '/index.html');
     }
-}
-
-function parseYaml(text) {
-    var re = /^---(\n|\r\n|\r)([\w\W]+?)\1---\1([\w\W]*)/, result = re.exec(text);
-    var page = {};
-    if (result) {
-        page = jsyaml.load(result[2]);
-        page.head = result[2];
-        page.body = result[3];
-    } else {
-        page.head = '';
-        page.body = text;
-    }
-    return page;
 }

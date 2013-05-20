@@ -8,7 +8,7 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 var fsextra = require('fs-extra');
-var jsyaml = require('js-yaml');
+var yaml = require('./converter/yaml');
 var markdown = require('./converter/markdown');
 var updater = require('./utility/updater.js');
 var server = require('./server.js');
@@ -38,7 +38,7 @@ function buildSite(back) {
 function loadConfig() {
     if (fs.existsSync(tdir + '/config.yml')) {
         var text = fs.readFileSync(tdir + '/config.yml', 'utf8');
-        var data = jsyaml.load(text);
+        var data = yaml(text);
         for (var x in data) {
             sitedata[x] = data[x];
         }
