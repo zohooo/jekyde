@@ -1,6 +1,6 @@
 
 var fs = require('fs');
-var swig = require('swig');
+var swig = require('../../converter/swig');
 
 jekyde.extend.website(function(site, dirs){
     var posts = site.posts;
@@ -40,8 +40,7 @@ jekyde.extend.website(function(site, dirs){
             paginator.next_url = null;
         }
         var link = (i == 1) ? '/index.html' : '/index' + i + '.html';
-        var template = swig.compileFile('../layout/index.html');
-        var html = template.render(data);
+        var html = swig('index', data);
         fs.writeFileSync(dirs.wdir + link, html);
     }
 });

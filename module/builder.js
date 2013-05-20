@@ -9,10 +9,7 @@ var path = require('path');
 var async = require('async');
 var fsextra = require('fs-extra');
 var jsyaml = require('js-yaml');
-var marked = require('marked');
-var hljs = require('highlight.js');
-var swig = require('swig');
-
+var markdown = require('./converter/markdown');
 var server = require('./server.js');
 
 var cdir = 'content', tdir = 'template', wdir = 'website';
@@ -32,42 +29,6 @@ var sitedata = {
     posts:          [],
     pages:          []
 };
-
-var plugins = {
-    content: [],
-    template: {},
-    website: []
-}
-var templates = {}
-
-var alias = [
-    ['latex', 'tex'],
-    ['html', 'xml'],
-    ['js', 'javascript'],
-    ['coffee', 'coffeescript'],
-    ['rb', 'ruby'],
-    ['py', 'python'],
-    ['pl', 'perl']
-];
-marked.setOptions({
-    langPrefix: 'lang-',
-    highlight: function(code, lang) {
-        if (!lang || lang == 'plain') return code;
-        alias.some(function(v){
-            if (lang == v[0]) {
-                lang = v[1];
-                return true;
-            }
-        });
-        try {
-            var result = hljs.highlight(lang, code).value;
-        } catch(e) {
-            console.log('Warning: Unknown highlight language ' + lang + '!');
-            var result = hljs.highlightAuto(code).value;
-        }
-        return result;
-    }
-});
 
 function initialize(back) {
     async.each([cdir, tdir], function(dir, callback){
@@ -119,18 +80,6 @@ function loadPlugins() {
     loadAll(__dirname + '/plugin/template');
     loadAll(__dirname + '/plugin/website');
     loadAll(tdir + '/plugin');
-
-    swig.init({
-        allowErrors: true,
-        autoescape: false,
-        cache: true,
-        encoding: 'utf8',
-        filters: {},
-        root: './' + tdir + '/include',
-        tags: plugins.template,
-        extensions: {},
-        tzOffset: 0
-    });
 }
 
 function readFiles() {
@@ -335,9 +284,6 @@ function parseYaml(text) {
 }
 
 function writeFiles() {
-    templates['post'] = swig.compileFile('../layout/post.html');
-    templates['page'] = swig.compileFile('../layout/page.html');
-
     var posts = sitedata.posts;
     for (i=0; i < posts.length; i++) {
         parseMark('post', posts[i]);
@@ -353,22 +299,11 @@ function writeFiles() {
 
 function parseMark(type, item) {
     // type = 'post' or 'page'
-    var text = item.body;
-    plugins.content.forEach(function(task){
-        text = task(sitedata, text);
-    });
-    item.content = marked(text);
-    var data = {
-        site: sitedata,
-        content: item.content
-    };
-    data[type] = item;
-    var html = templates[type].render(data);
-    fsextra.outputFileSync(wdir + '/' + item.link, html);
+    item.content = markdown(sitedata, item.body);
 }
 
 function parseHtml() {
-    plugins.website.forEach(function(task){
+    exports.plugins.website.forEach(function(task){
         task(sitedata, dirs);
     });
 }
@@ -393,12 +328,18 @@ function runServer() {
     server.start(sitedata, wdir);
 }
 
+exports.plugins = {
+    content: [],
+    template: {},
+    website: []
+};
+
 exports.extend = {
     content: function(task){
-        plugins.content.push(task);
+        exports.plugins.content.push(task);
     },
     template: function(tag, task, ends){
-        plugins.template[tag] = function(indent, parser){
+        exports.plugins.template[tag] = function(indent, parser){
             var content = this.tokens ? this.tokens.join('') : '';
             var result = task(this.args, content)
                         .replace(/\\/g, '\\\\')
@@ -407,10 +348,10 @@ exports.extend = {
                         .replace(/\r/g, '\\r');
             return '_output += "' + result + '";\n';
         };
-        if (ends) plugins.template[tag].ends = true;
+        if (ends) exports.plugins.template[tag].ends = true;
     },
     website: function(task){
-        plugins.website.push(task);
+        exports.plugins.website.push(task);
     }
 };
 

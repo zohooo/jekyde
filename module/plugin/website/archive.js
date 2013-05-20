@@ -1,10 +1,9 @@
 
 var fsextra = require('fs-extra');
-var swig = require('swig');
+var swig = require('../../converter/swig');
 
 jekyde.extend.website(function(site, dirs){
     var link = '/' + site.archive_dir + '/index.html';
-    var template = swig.compileFile('../layout/archive.html');
-    var html = template.render({site: site});
+    var html = swig('archive', {site: site});
     fsextra.outputFileSync(dirs.wdir + link, html);
 });
