@@ -40,9 +40,12 @@ function initialize(back) {
 function buildSite(back) {
     loadConfig();
     loadPlugins();
-    readFiles();
-    writeFiles();
-    copyFiles(back);
+    async.series([
+        async.apply(readFiles),
+        async.apply(renderFiles),
+        async.apply(writeFiles),
+        async.apply(copyFiles)
+    ], back);
 }
 
 function loadConfig() {
@@ -81,44 +84,37 @@ function loadPlugins() {
     loadAll(tdir + '/plugin');
 }
 
-function readFiles() {
-    readArticles('post');
-    readArticles('page');
-}
-
-function readArticles(type) {
-    // type = 'post' or 'page'
-    var folder = cdir + '/' + type;
-    var list = sitedata[type + 's'];
-
-    if (!fs.existsSync(folder)) {
-        fs.mkdirSync(folder);
-        console.log('Please put ' + type + ' files into ' + folder + ' folder!');
-        return;
-    }
-    var files = fs.readdirSync(folder);
-
-    if (!fs.existsSync(wdir)) {
-        fs.mkdirSync(wdir);
-    }
-    if (!fs.existsSync(wdir + '/' + type)) {
-        fs.mkdirSync(wdir + '/' + type);
-    }
-
-    var i, idx, item, basename, ext;
-    for (i = 0; i < files.length; i++) {
-        item = files[i];
-        idx = item.lastIndexOf('.');
-        if (idx > -1) {
-            basename = item.slice(0, idx);
-            ext = item.slice(idx);
-        } else {
-            continue;
+function readFiles(back) {
+    function read(type, back) {
+        var folder = cdir + '/' + type;
+        if (!fs.existsSync(folder)) {
+            fs.mkdirSync(folder);
+            console.log('Please put ' + type + ' files into ' + folder + ' folder!');
+            back();
         }
-        var text = fs.readFileSync(cdir + '/' + type + '/' + item, 'utf8');
-        pushData(type, basename, text);
+        var files = fs.readdirSync(folder);
+        async.each(files, function(item, back){
+            var idx, basename, ext;
+            idx = item.lastIndexOf('.');
+            if (idx > -1) {
+                basename = item.slice(0, idx);
+                ext = item.slice(idx);
+            } else back();
+            fs.readFile(cdir + '/' + type + '/' + item, 'utf8', function(err, text){
+                if (err) throw err;
+                pushData(type, basename, text);
+                back();
+            });
+        }, function(err){
+            if (err) throw err;
+            if (type == 'post') sortPosts();
+            back();
+        });
     }
-    if (type == 'post') sortPosts();
+    async.parallel([
+        async.apply(read, 'post'),
+        async.apply(read, 'page')
+    ], back);
 }
 
 function findData(list, basename) {
@@ -282,22 +278,24 @@ function parseYaml(text) {
     return page;
 }
 
-function writeFiles() {
-    var posts = sitedata.posts;
-    for (i=0; i < posts.length; i++) {
-        var item = posts[i];
-        item.content = markdown(sitedata, item.body);
+function renderFiles(back) {
+    function render(type, back){
+        async.each(sitedata[type], function(item, back){
+            item.content = markdown(sitedata, item.body);
+            back();
+        }, back);
     }
+    async.parallel([
+        async.apply(render, 'posts'),
+        async.apply(render, 'pages')
+    ], back);
+}
 
-    var pages = sitedata.pages;
-    for (i=0; i < pages.length; i++) {
-        var item = pages[i];
-        item.content = markdown(sitedata, item.body);
-    }
-
-    exports.plugins.website.forEach(function(task){
+function writeFiles(back) {
+    async.each(exports.plugins.website, function(task, back){
         task(sitedata, exports.envs);
-    });
+        back();
+    }, back);
 }
 
 function copyFiles(back) {
@@ -391,8 +389,10 @@ exports.update = function(change) {
             break;
     }
     if (type == 'post') sortPosts();
-    writeFiles();
-    console.log('Website has been updated for file "' + name + '.md"');
+    writeFiles(function(err){
+        if (err) throw err;
+        console.log('Website has been updated for file "' + name + '.md"');
+    });
 }
 
 global.jekyde = module.exports;
