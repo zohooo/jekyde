@@ -9,26 +9,12 @@ var path = require('path');
 var async = require('async');
 var fsextra = require('fs-extra');
 var jsyaml = require('js-yaml');
-var datetitle = require('./utility/datetitle');
 var markdown = require('./converter/markdown');
+var updater = require('./utility/updater.js');
 var server = require('./server.js');
 
 var cdir = 'content', tdir = 'template', wdir = 'website';
-
-var sitedata = {
-    title:          'Simple Blog',
-    subtitle:       'A static blog',
-    host:           'http://localhost',
-    baseurl:        '/',
-    archive_dir:    'archive',
-    post_link:      'post/:year/:month/:day/:name.html',
-    page_link:      'page/:name',
-    paginate:       4,
-    latex:          false,
-    port:           4040,
-    posts:          [],
-    pages:          []
-};
+var sitedata = updater.sitedata;
 
 function initialize(back) {
     async.each([cdir, tdir], function(dir, callback){
@@ -103,12 +89,12 @@ function readFiles(back) {
             } else back();
             fs.readFile(cdir + '/' + type + '/' + item, 'utf8', function(err, text){
                 if (err) throw err;
-                pushData(type, basename, text);
+                updater.pushData(type, basename, text);
                 back();
             });
         }, function(err){
             if (err) throw err;
-            if (type == 'post') sortPosts();
+            if (type == 'post') updater.sortPosts();
             back();
         });
     }
@@ -152,102 +138,6 @@ function copyFiles(back) {
         async.apply(copy, cdir, ['page', 'post']),
         async.apply(copy, tdir, ['include', 'layout', 'plugin', 'config.yml'])
     ], back);
-}
-
-function findData(list, basename) {
-    var i = list.length;
-    list.some(function(value, index){
-        if (value.filename === basename) {
-            i = index;
-            return true;
-        } else return false;
-    });
-    return i;
-}
-
-function pushData(type, basename, text, check) {
-    var list = sitedata[type + 's'];
-    var obj = parseYaml(text);
-    parseName(obj, type, basename);
-    if (type == 'post' && (!obj.date || !(obj.date instanceof Date))) {
-        console.log('[Error] No date in file "' + basename + '.md" ');
-        return;
-    }
-    if (!obj.title) obj.title = 'Empty Title';
-    setPermalink(obj, type);
-    if (check) {
-        list[findData(list, basename)] = obj;
-    } else {
-        list.push(obj);
-    }
-}
-
-function moveData(type, basename, newname) {
-    var list = sitedata[type + 's'];
-    var obj = list[findData(list, basename)];
-    parseName(obj, type, newname);
-    setPermalink(obj, type);
-}
-
-function dropData(type, basename) {
-    var list = sitedata[type + 's'];
-    var i = findData(list, basename);
-    if (i < list.length) list.splice(i, 1);
-}
-
-function sortPosts() {
-    var posts = sitedata['posts'];
-    posts.sort(function(post1, post2) {
-        return post2.date.getTime() - post1.date.getTime();
-    });
-    posts.forEach(function(post, index, list){
-        post.next = (index > 0) ? list[index - 1] : null;
-        post.previous = (index < list.length) ? list[index + 1] : null;
-    });
-}
-
-function parseName(obj, type, basename) {
-    if (type == "post") {
-        datetitle(obj, basename);
-    } else {
-        var link = type + '/' + basename + '.html';
-        obj.link = type + '/' + basename + '.html';
-        obj.name = basename;
-    }
-    obj.filename = basename;
-}
-
-function setPermalink(obj, type) {
-    var link = (type == 'post') ? sitedata.post_link : sitedata.page_link;
-    var title = obj.title.toLowerCase().replace(/\s/g, '-');
-    var name = obj.name ? obj.name.toLowerCase().replace(/\s/g, '-') : title;
-    if (type == 'post') {
-        var date = obj.metadate;
-        link = link.replace(':year', date[0])
-                   .replace(':month', date[1])
-                   .replace(':day', date[2]);
-    }
-    link = link.replace(':title', title).replace(':name', name);
-    obj.url =  sitedata.baseurl + link;
-    if (/\.html?$/.test(link)) {
-        obj.link = link;
-    } else {
-        obj.link = link + ((link[link.length - 1] == '/') ? 'index.html' : '/index.html');
-    }
-}
-
-function parseYaml(text) {
-    var re = /^---(\n|\r\n|\r)([\w\W]+?)\1---\1([\w\W]*)/, result = re.exec(text);
-    var page = {};
-    if (result) {
-        page = jsyaml.load(result[2]);
-        page.head = result[2];
-        page.body = result[3];
-    } else {
-        page.head = '';
-        page.body = text;
-    }
-    return page;
 }
 
 function runServer() {
@@ -318,16 +208,16 @@ exports.update = function(change) {
     switch(mode) {
         case 'create':
         case 'modify':
-            pushData(type, name, change.text, true);
+            updater.pushData(type, name, change.text, true);
             break;
         case 'rename':
-            moveData(type, name, change.newname);
+            updater.moveData(type, name, change.newname);
             break;
         case 'remove':
-            dropData(type, name);
+            updater.dropData(type, name);
             break;
     }
-    if (type == 'post') sortPosts();
+    if (type == 'post') updater.sortPosts();
     writeFiles(function(err){
         if (err) throw err;
         console.log('Website has been updated for file "' + name + '.md"');
