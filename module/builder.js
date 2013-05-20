@@ -90,7 +90,7 @@ function readFiles(back) {
         if (!fs.existsSync(folder)) {
             fs.mkdirSync(folder);
             console.log('Please put ' + type + ' files into ' + folder + ' folder!');
-            back();
+            return back();
         }
         var files = fs.readdirSync(folder);
         async.each(files, function(item, back){
