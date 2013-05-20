@@ -117,7 +117,7 @@ function loadPlugins() {
     loadAll(__dirname + '/plugin/content');
     loadAll(__dirname + '/plugin/template');
     loadAll(__dirname + '/plugin/website');
-    loadAll('template/plugin');
+    loadAll(tdir + '/plugin');
 
     swig.init({
         allowErrors: true,
