@@ -285,23 +285,16 @@ function parseYaml(text) {
 function writeFiles() {
     var posts = sitedata.posts;
     for (i=0; i < posts.length; i++) {
-        parseMark('post', posts[i]);
+        var item = posts[i];
+        item.content = markdown(sitedata, item.body);
     }
 
     var pages = sitedata.pages;
     for (i=0; i < pages.length; i++) {
-        parseMark('page', pages[i]);
+        var item = pages[i];
+        item.content = markdown(sitedata, item.body);
     }
 
-    parseHtml();
-}
-
-function parseMark(type, item) {
-    // type = 'post' or 'page'
-    item.content = markdown(sitedata, item.body);
-}
-
-function parseHtml() {
     exports.plugins.website.forEach(function(task){
         task(sitedata, exports.envs);
     });
