@@ -1,7 +1,7 @@
 
 var fs = require('fs');
 
-jekyde.extend.website(function(site, dirs){
+jekyde.extend.website(function(site, envs){
     var posts = site.posts.slice(0, 5);
 
     var content = posts.reduce(function(previous, current){
@@ -29,5 +29,5 @@ jekyde.extend.website(function(site, dirs){
     '</feed>'
     ].join('\n');
 
-    fs.writeFileSync(dirs.wdir + '/atom.xml', atom);
+    fs.writeFileSync(envs.wdir + '/atom.xml', atom);
 });

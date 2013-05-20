@@ -13,7 +13,6 @@ var markdown = require('./converter/markdown');
 var server = require('./server.js');
 
 var cdir = 'content', tdir = 'template', wdir = 'website';
-var dirs = {cdir: cdir, tdir: tdir, wdir: wdir};
 
 var sitedata = {
     title:          'Simple Blog',
@@ -304,7 +303,7 @@ function parseMark(type, item) {
 
 function parseHtml() {
     exports.plugins.website.forEach(function(task){
-        task(sitedata, dirs);
+        task(sitedata, exports.envs);
     });
 }
 
@@ -326,6 +325,12 @@ function copyFiles(back) {
 
 function runServer() {
     server.start(sitedata, wdir);
+}
+
+exports.envs = {
+    cdir: cdir,
+    tdir: tdir,
+    wdir: wdir
 }
 
 exports.plugins = {

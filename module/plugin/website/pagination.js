@@ -2,7 +2,7 @@
 var fs = require('fs');
 var swig = require('../../converter/swig');
 
-jekyde.extend.website(function(site, dirs){
+jekyde.extend.website(function(site, envs){
     var posts = site.posts;
     var length = posts.length;
     var p = site.paginate;
@@ -41,6 +41,6 @@ jekyde.extend.website(function(site, dirs){
         }
         var link = (i == 1) ? '/index.html' : '/index' + i + '.html';
         var html = swig('index', data);
-        fs.writeFileSync(dirs.wdir + link, html);
+        fs.writeFileSync(envs.wdir + link, html);
     }
 });

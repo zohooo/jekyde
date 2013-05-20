@@ -2,15 +2,13 @@
 var swig = require('swig');
 var builder = require('../builder');
 
-var tdir = 'template';
-
 swig.init({
     allowErrors: true,
     autoescape: false,
     cache: true,
     encoding: 'utf8',
     filters: {},
-    root: './' + tdir + '/include',
+    root: './' + builder.envs.tdir + '/include',
     tags: builder.plugins.template,
     extensions: {},
     tzOffset: 0

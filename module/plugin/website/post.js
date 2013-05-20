@@ -2,7 +2,7 @@
 var fsextra = require('fs-extra');
 var swig = require('../../converter/swig');
 
-jekyde.extend.website(function(site, dirs){
+jekyde.extend.website(function(site, envs){
     var posts = site.posts;
     for (var i = 0; i < posts.length; i++) {
         var item = posts[i];
@@ -12,6 +12,6 @@ jekyde.extend.website(function(site, dirs){
             content: item.content
         };
         var html = swig('post', data);
-        fsextra.outputFileSync(dirs.wdir + '/' + item.link, html);
+        fsextra.outputFileSync(envs.wdir + '/' + item.link, html);
     }
 });
