@@ -11,13 +11,13 @@
 {% include "header.html" %}
 {% include "navbar.html" %}
 <div id="main">
-  {% for post in paginator.posts %}
+  {% for article in articles %}
     <div class="article">
-        <div class="ptitle"><a href="{{post.url}}">{{post.title}}</a></div>
+        <div class="ptitle"><a href="{{article.url}}">{{article.title}}</a></div>
         <div class="pmain">
-          {{post.content}}
+          {{article.content}}
         </div>
-        <div class="pdate">{% if post.date %}{{post.date | date('Y-m-d H:i')}}{% endif %}</div>
+        <div class="pdate">{% if article.date %}{{article.date | date('Y-m-d H:i')}}{% endif %}</div>
     </div>
   {% endfor %}
     <div class="pagination">
