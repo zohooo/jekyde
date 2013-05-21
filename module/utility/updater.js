@@ -14,7 +14,9 @@ var sitedata = exports.sitedata = {
     latex:          false,
     port:           4040,
     posts:          [],
-    pages:          []
+    pages:          [],
+    categories:     {},
+    tags:           {}
 };
 
 function findData(list, basename) {
@@ -58,15 +60,9 @@ exports.dropData = function(type, basename) {
     if (i < list.length) list.splice(i, 1);
 }
 
-exports.sortPosts = function() {
-    var posts = sitedata['posts'];
-    posts.sort(function(post1, post2) {
-        return post2.date.getTime() - post1.date.getTime();
-    });
-    posts.forEach(function(post, index, list){
-        post.next = (index > 0) ? list[index - 1] : null;
-        post.previous = (index < list.length) ? list[index + 1] : null;
-    });
+exports.sortData = function() {
+    sortPosts();
+    setCategoryTag();
 }
 
 function parseName(obj, type, basename) {
@@ -97,4 +93,40 @@ function setPermalink(obj, type) {
     } else {
         obj.link = link + ((link[link.length - 1] == '/') ? 'index.html' : '/index.html');
     }
+}
+
+function sortPosts() {
+    var posts = sitedata['posts'];
+    posts.sort(function(post1, post2) {
+        return post2.date.getTime() - post1.date.getTime();
+    });
+    posts.forEach(function(post, index, list){
+        post.next = (index > 0) ? list[index - 1] : null;
+        post.previous = (index < list.length) ? list[index + 1] : null;
+    });
+}
+
+function setCategoryTag() {
+    function set(post, name) {
+        var c = post[name];
+        if (typeof c == 'string') c = [c];
+        if (c instanceof Array) {
+            c.forEach(function(item){
+                if (sitedata[name][item]) {
+                    sitedata[name][item].push(post);
+                } else {
+                    sitedata[name][item] = [post];
+                }
+            });
+        }
+    }
+    sitedata.categories = {}; sitedata.tags = {};
+    sitedata.posts.forEach(function(post){
+        if (post.category) {
+            post.categories = post.category;
+            delete post.category;
+        }
+        set(post, 'categories');
+        set(post, 'tags');
+    });
 }

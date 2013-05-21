@@ -94,7 +94,7 @@ function readFiles(back) {
             });
         }, function(err){
             if (err) throw err;
-            if (type == 'post') updater.sortPosts();
+            if (type == 'post') updater.sortData();
             back();
         });
     }
@@ -217,7 +217,7 @@ exports.update = function(change) {
             updater.dropData(type, name);
             break;
     }
-    if (type == 'post') updater.sortPosts();
+    if (type == 'post') updater.sortData();
     writeFiles(function(err){
         if (err) throw err;
         console.log('Website has been updated for file "' + name + '.md"');
