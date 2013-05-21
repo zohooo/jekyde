@@ -8,8 +8,8 @@ jekyde.extend.website(function(site, envs){
         var item = pages[i];
         var data = {
             site: site,
-            page: item,
-            content: item.content
+            article: item,
+            page: true
         };
         var html = swig('page', data);
         fsextra.outputFileSync(envs.wdir + '/' + item.link, html);
