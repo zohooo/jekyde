@@ -38,7 +38,7 @@ function buildSite(back) {
 function loadConfig() {
     if (fs.existsSync(tdir + '/config.yml')) {
         var text = fs.readFileSync(tdir + '/config.yml', 'utf8');
-        var data = yaml(text);
+        var data = yaml.load(text);
         for (var x in data) {
             sitedata[x] = data[x];
         }

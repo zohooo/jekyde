@@ -30,7 +30,7 @@ function findData(list, basename) {
 
 exports.pushData = function(type, basename, text, check) {
     var list = sitedata[type + 's'];
-    var obj = yaml(text);
+    var obj = yaml.parse(text);
     parseName(obj, type, basename);
     if (type == 'post' && (!obj.date || !(obj.date instanceof Date))) {
         console.log('[Error] No date in file "' + basename + '.md" ');

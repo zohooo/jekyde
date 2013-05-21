@@ -1,7 +1,7 @@
 
 var jsyaml = require('js-yaml');
 
-module.exports = function(text) {
+exports.parse = function(text) {
     var re = /^---(\n|\r\n|\r)([\w\W]+?)\1---\1([\w\W]*)/, result = re.exec(text);
     var page = {};
     if (result) {
@@ -13,4 +13,8 @@ module.exports = function(text) {
         page.body = text;
     }
     return page;
+}
+
+exports.load = function(head) {
+    return jsyaml.load(head);
 }
