@@ -33,8 +33,9 @@ MathJax.Hub.Config({
     </ul>
 </div>
 <div id="main">
+  
     <div class="article">
-        <div class="ptitle">Pagination</div>
+        <div class="ptitle"><a href="/jekyde/post/2013/05/03/pagination.html">Pagination</a></div>
         <div class="pmain">
           <p>Just add the following to your layout files:</p>
 <pre><code class="lang-html">{% for article in articles %}
@@ -58,12 +59,70 @@ MathJax.Hub.Config({
         </div>
         <div class="pdate">2013-05-03 11:22</div>
     </div>
+  
+    <div class="article">
+        <div class="ptitle"><a href="/jekyde/post/2013/04/30/configuration.html">Configuration</a></div>
+        <div class="pmain">
+          <p>You may change configurations by editing <code>config.yml</code> file in your template folder. The following file shows the default settings:</p>
+<pre><code>## Website
+title:              Simple Blog
+subtitle:           A static blog generator
+host:               http://localhost
+baseurl:            /
+
+## Output
+index_dir:          index
+archive_dir:        archive
+category_dir:       category
+tag_dir:            tag
+post_link:          post/:year/:month/:day/:name.html
+page_link:          page/:name
+paginate:           4
+
+## Engine
+latex:              false
+
+## Server
+port:               4040</code></pre>
+
+        </div>
+        <div class="pdate">2013-04-30 20:11</div>
+    </div>
+  
+    <div class="article">
+        <div class="ptitle"><a href="/jekyde/post/2013/04/27/markdown-tables.html">Markdown Tables</a></div>
+        <div class="pmain">
+          <p>Jekyde use <code>marked</code> as markdown parser. You can create tables by the following ways:</p>
+<pre><code>| Heading 1 | Heading 2
+| --------- | ---------
+| Cell 1    | Cell 2
+| Cell 3    | Cell 4
+
+| Header 1 | Header 2 | Header 3 | Header 4 |
+| :------: | -------: | :------- | -------- |
+| Cell 1   | Cell 2   | Cell 3   | Cell 4   |
+| Cell 5   | Cell 6   | Cell 7   | Cell 8   |
+
+Header 1 | Header 2
+-------- | --------
+Cell 1   | Cell 2
+Cell 3   | Cell 4
+
+Header 1|Header 2|Header 3|Header 4
+:-------|:------:|-------:|--------
+Cell 1  |Cell 2  |Cell 3  |Cell 4
+Cell 5  |Cell 6  |Cell 7  |Cell 8</code></pre>
+
+        </div>
+        <div class="pdate">2013-04-27 22:55</div>
+    </div>
+  
     <div class="pagination">
       
-        <span class="newer"><a href="/jekyde/post/2013/05/05/template-data.html">&lt;&lt; Template Data</a></span>
+        <span class="newer"><a href="/jekyde/index/" class="previous">&lt;&lt; Newer Posts</a></span>
       
  
-        <span class="older"><a href="/jekyde/post/2013/04/30/configuration.html">Configuration &gt;&gt;</a></span>
+        <span class="older"><a href="/jekyde/index/3/" class="next">Older Posts &gt;&gt;</a></span>
       
     </div>
 </div>

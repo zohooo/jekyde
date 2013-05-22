@@ -33,8 +33,87 @@ MathJax.Hub.Config({
     </ul>
 </div>
 <div id="main">
+  
     <div class="article">
-        <div class="ptitle">Configuration</div>
+        <div class="ptitle"><a href="/jekyde/post/2013/05/17/permalinks.html">Permalinks</a></div>
+        <div class="pmain">
+          <p>You can specify the permalinks for your posts and pages in <code>config.yml</code> file in template folder.</p>
+<h3>Template Variables for Posts</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>year</code></td>
+<td>year from the post&#39;s filename</td>
+</tr>
+<tr>
+<td><code>month</code></td>
+<td>month from the post&#39;s filename</td>
+</tr>
+<tr>
+<td><code>day</code></td>
+<td>day from the post&#39;s filename</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>title from the post&#39;s front matter</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>name from the post&#39;s front matter</td>
+</tr>
+</tbody>
+</table>
+<h3>Template Variables for Pages</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>title from the page&#39;s front matter</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>name from the page&#39;s filename</td>
+</tr>
+</tbody>
+</table>
+<h3>Default Permalink Values</h3>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Permalink</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>post_link</td>
+<td><code>post/:year/:month/:day/:name.html</code></td>
+</tr>
+<tr>
+<td>page_link</td>
+<td><code>page/:name</code></td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+        <div class="pdate">2013-05-17 13:11</div>
+    </div>
+  
+    <div class="article">
+        <div class="ptitle"><a href="/jekyde/post/2013/04/30/configuration.html">Configuration</a></div>
         <div class="pmain">
           <p>You may change configurations by editing <code>config.yml</code> file in your template folder. The following file shows the default settings:</p>
 <pre><code>## Website
@@ -61,13 +140,10 @@ port:               4040</code></pre>
         </div>
         <div class="pdate">2013-04-30 20:11</div>
     </div>
+  
     <div class="pagination">
       
-        <span class="newer"><a href="/jekyde/post/2013/05/03/pagination.html">&lt;&lt; Pagination</a></span>
-      
  
-        <span class="older"><a href="/jekyde/post/2013/04/27/markdown-tables.html">Markdown Tables &gt;&gt;</a></span>
-      
     </div>
 </div>
 <div id="footer">

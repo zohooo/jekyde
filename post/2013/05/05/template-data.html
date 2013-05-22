@@ -4,10 +4,12 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>The Jekyde Blog</title>
 <link rel="stylesheet" href="/jekyde/static/style.css" />
+<link rel="stylesheet" href="/jekyde/static/syntax.css" />
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']],
-            displayMath: [['\\[','\\]'], ['$$','$$']]},
+            displayMath: [['\\[','\\]'], ['$$','$$']],
+            processEnvironments: false},
   'HTML-CSS': { imageFont: null }
 });
 </script>
@@ -22,9 +24,9 @@ MathJax.Hub.Config({
         <li><a href="/jekyde/">Home</a></li>
         <li><a href="/jekyde/archive">Archive</a></li>
       
-        <li><a href="/jekyde/page/latex">LaTeX</a></li>
-      
         <li><a href="/jekyde/page/guide">Guide</a></li>
+      
+        <li><a href="/jekyde/page/latex">LaTeX</a></li>
       
         <li><a href="/jekyde/page/about">About</a></li>
       
@@ -49,24 +51,21 @@ MathJax.Hub.Config({
 <td>sitewide information and configuration</td>
 </tr>
 <tr>
-<td><code>post</code></td>
-<td>post information for generating posts</td>
+<td><code>article</code></td>
+<td>current post or page information</td>
 </tr>
 <tr>
-<td><code>page</code></td>
-<td>page information for generating pages</td>
-</tr>
-<tr>
-<td><code>content</code></td>
-<td>the content of the post/page file</td>
+<td><code>articles</code></td>
+<td>the list of posts in current layout</td>
 </tr>
 <tr>
 <td><code>paginator</code></td>
-<td>paginate information for index files</td>
+<td>paginate information</td>
 </tr>
 </tbody>
 </table>
 <h3>Site</h3>
+<p>The variable is available in all layouts.</p>
 <table>
 <thead>
 <tr>
@@ -78,6 +77,10 @@ MathJax.Hub.Config({
 <tr>
 <td><code>site.title</code></td>
 <td>the title from <code>config.yml</code> file</td>
+</tr>
+<tr>
+<td><code>site.host</code></td>
+<td>the host from <code>config.yml</code> file</td>
 </tr>
 <tr>
 <td><code>site.baseurl</code></td>
@@ -97,7 +100,9 @@ MathJax.Hub.Config({
 </tr>
 </tbody>
 </table>
-<h3>Post</h3>
+<p>Any other data that you specify in <code>config.yml</code> will be available under <code>site</code>.</p>
+<h3>Article</h3>
+<p>The variable is available only in <code>post</code> and <code>page</code> layouts.</p>
 <table>
 <thead>
 <tr>
@@ -107,61 +112,36 @@ MathJax.Hub.Config({
 </thead>
 <tbody>
 <tr>
-<td><code>post.content</code></td>
-<td>the rendered content of the post</td>
+<td><code>article.content</code></td>
+<td>the rendered content of the post/page</td>
 </tr>
 <tr>
-<td><code>post.title</code></td>
-<td>the title of the post</td>
+<td><code>article.title</code></td>
+<td>the title of the post/page</td>
 </tr>
 <tr>
-<td><code>post.url</code></td>
-<td>the url of the post without the domain</td>
+<td><code>article.url</code></td>
+<td>the url of the post/page without the domain</td>
 </tr>
 <tr>
-<td><code>post.date</code></td>
-<td>the date assigned to the post</td>
+<td><code>article.date</code></td>
+<td>the date assigned to the post/page</td>
 </tr>
 <tr>
-<td><code>post.next</code></td>
+<td><code>article.next</code></td>
 <td>the chronologically newer post</td>
 </tr>
 <tr>
-<td><code>post.previous</code></td>
+<td><code>article.previous</code></td>
 <td>the chronologically older post</td>
 </tr>
 </tbody>
 </table>
-<h3>Page</h3>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>page.content</code></td>
-<td>the rendered content of the page</td>
-</tr>
-<tr>
-<td><code>page.title</code></td>
-<td>the title of the page</td>
-</tr>
-<tr>
-<td><code>page.url</code></td>
-<td>the url of the page without the domain</td>
-</tr>
-<tr>
-<td><code>page.date</code></td>
-<td>the date assigned to the page</td>
-</tr>
-</tbody>
-</table>
-<p>Note: Any custom front matter that you specify will be available under <code>post</code> or <code>page</code>.</p>
+<p>Any custom front matter that you specify will be available under <code>article</code>. The variable is the same as the element in <code>site.posts</code> or <code>site.pages</code></p>
+<h3>Articles</h3>
+<p>The variable in available in <code>index</code>, <code>archive</code>, <code>category</code> and <code>tag</code> layouts.</p>
 <h3>Paginator</h3>
-<p>The variable is available only in index files.</p>
+<p>The variable in available in <code>index</code>, <code>archive</code>, <code>category</code> and <code>tag</code> layouts.</p>
 <table>
 <thead>
 <tr>

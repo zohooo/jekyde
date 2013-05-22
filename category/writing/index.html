@@ -33,41 +33,38 @@ MathJax.Hub.Config({
     </ul>
 </div>
 <div id="main">
+  
     <div class="article">
-        <div class="ptitle">Configuration</div>
+        <div class="ptitle"><a href="/jekyde/post/2013/04/27/markdown-tables.html">Markdown Tables</a></div>
         <div class="pmain">
-          <p>You may change configurations by editing <code>config.yml</code> file in your template folder. The following file shows the default settings:</p>
-<pre><code>## Website
-title:              Simple Blog
-subtitle:           A static blog generator
-host:               http://localhost
-baseurl:            /
+          <p>Jekyde use <code>marked</code> as markdown parser. You can create tables by the following ways:</p>
+<pre><code>| Heading 1 | Heading 2
+| --------- | ---------
+| Cell 1    | Cell 2
+| Cell 3    | Cell 4
 
-## Output
-index_dir:          index
-archive_dir:        archive
-category_dir:       category
-tag_dir:            tag
-post_link:          post/:year/:month/:day/:name.html
-page_link:          page/:name
-paginate:           4
+| Header 1 | Header 2 | Header 3 | Header 4 |
+| :------: | -------: | :------- | -------- |
+| Cell 1   | Cell 2   | Cell 3   | Cell 4   |
+| Cell 5   | Cell 6   | Cell 7   | Cell 8   |
 
-## Engine
-latex:              false
+Header 1 | Header 2
+-------- | --------
+Cell 1   | Cell 2
+Cell 3   | Cell 4
 
-## Server
-port:               4040</code></pre>
+Header 1|Header 2|Header 3|Header 4
+:-------|:------:|-------:|--------
+Cell 1  |Cell 2  |Cell 3  |Cell 4
+Cell 5  |Cell 6  |Cell 7  |Cell 8</code></pre>
 
         </div>
-        <div class="pdate">2013-04-30 20:11</div>
+        <div class="pdate">2013-04-27 22:55</div>
     </div>
+  
     <div class="pagination">
       
-        <span class="newer"><a href="/jekyde/post/2013/05/03/pagination.html">&lt;&lt; Pagination</a></span>
-      
  
-        <span class="older"><a href="/jekyde/post/2013/04/27/markdown-tables.html">Markdown Tables &gt;&gt;</a></span>
-      
     </div>
 </div>
 <div id="footer">

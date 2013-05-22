@@ -1,43 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>The Jekyde Blog</title>
-<link rel="stylesheet" href="/jekyde/static/style.css" />
-<link rel="stylesheet" href="/jekyde/static/syntax.css" />
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']],
-            displayMath: [['\\[','\\]'], ['$$','$$']],
-            processEnvironments: false},
-  'HTML-CSS': { imageFont: null }
-});
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</head>
-<body>
-<div id="header">
-    <h1><a href="/jekyde/">The Jekyde Blog</a></h1>
-</div>
-<div id="navbar">
-    <ul>
-        <li><a href="/jekyde/">Home</a></li>
-        <li><a href="/jekyde/archive">Archive</a></li>
-      
-        <li><a href="/jekyde/page/guide">Guide</a></li>
-      
-        <li><a href="/jekyde/page/latex">LaTeX</a></li>
-      
-        <li><a href="/jekyde/page/about">About</a></li>
-      
-    </ul>
-</div>
-<div id="main">
-  
-    <div class="article">
-        <div class="ptitle"><a href="/jekyde/post/2013/05/17/permalinks.html">Permalinks</a></div>
-        <div class="pmain">
-          <p>You can specify the permalinks for your posts and pages in <code>config.yml</code> file in template folder.</p>
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title><![CDATA[The Jekyde Blog]]></title>
+    <link href="http://localhost/jekyde/atom.xml" ref="self"/>
+    <link href="http://localhost/jekyde/"/>
+    <id>http://localhost/jekyde/</id>
+    <updated>2013-05-22T02:55:38.000Z</updated>
+    <entry>
+         <title><![CDATA[Permalinks]]></title>
+         <link href="http://localhost/jekyde/post/2013/05/17/permalinks.html"></link>
+         <updated>2013-05-17T05:11:00.000Z</updated>
+         <id>2013-05-17-13-11</id>
+         <summary type="html"><![CDATA[<p>You can specify the permalinks for your posts and pages in <code>config.yml</code> file in template folder.</p>
 <h3>Template Variables for Posts</h3>
 <table>
 <thead>
@@ -107,15 +80,14 @@ MathJax.Hub.Config({
 </tr>
 </tbody>
 </table>
-
-        </div>
-        <div class="pdate">2013-05-17 13:11</div>
-    </div>
-  
-    <div class="article">
-        <div class="ptitle"><a href="/jekyde/post/2013/05/10/basic-structure.html">Basic Structure</a></div>
-        <div class="pmain">
-          <p>A basic Jekyde site usually looks something like this:</p>
+]]></summary>
+    </entry>
+    <entry>
+         <title><![CDATA[Basic Structure]]></title>
+         <link href="http://localhost/jekyde/post/2013/05/10/basic-structure.html"></link>
+         <updated>2013-05-10T13:00:00.000Z</updated>
+         <id>2013-05-10-21-00</id>
+         <summary type="html"><![CDATA[<p>A basic Jekyde site usually looks something like this:</p>
 <pre>
 |-- content
    |-- post
@@ -180,15 +152,14 @@ MathJax.Hub.Config({
 <p>Other folders/files used in your templates, such as your css, javascript and image files. These folders/files will be copied to <code>website</code> folder without any modification.</p>
 <h2>website</h2>
 <p>This is where the generated site will be placed once Jekyde is done generating it.</p>
-
-        </div>
-        <div class="pdate">2013-05-10 21:00</div>
-    </div>
-  
-    <div class="article">
-        <div class="ptitle"><a href="/jekyde/post/2013/05/05/template-data.html">Template Data</a></div>
-        <div class="pmain">
-          <p>Jekyde uses <a href="http://paularmstrong.github.io/swig/">Swig</a> as template engine. The following is a reference of the available data when generating website from layout files. </p>
+]]></summary>
+    </entry>
+    <entry>
+         <title><![CDATA[Template Data]]></title>
+         <link href="http://localhost/jekyde/post/2013/05/05/template-data.html"></link>
+         <updated>2013-05-05T00:34:00.000Z</updated>
+         <id>2013-05-05-08-34</id>
+         <summary type="html"><![CDATA[<p>Jekyde uses <a href="http://paularmstrong.github.io/swig/">Swig</a> as template engine. The following is a reference of the available data when generating website from layout files. </p>
 <h3>Global</h3>
 <table>
 <thead>
@@ -340,22 +311,59 @@ MathJax.Hub.Config({
 </tr>
 </tbody>
 </table>
+]]></summary>
+    </entry>
+    <entry>
+         <title><![CDATA[Pagination]]></title>
+         <link href="http://localhost/jekyde/post/2013/05/03/pagination.html"></link>
+         <updated>2013-05-03T03:22:00.000Z</updated>
+         <id>2013-05-03-11-22</id>
+         <summary type="html"><![CDATA[<p>Just add the following to your layout files:</p>
+<pre><code class="lang-html">{% for article in articles %}
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"article"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{article.url}}"</span>&gt;</span>{{article.title}}<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span>{{article.content}}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span>{% if article.date %}{{article.date | date('Y-m-d H:i')}}{% endif %}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+{% endfor %}
 
-        </div>
-        <div class="pdate">2013-05-05 08:34</div>
-    </div>
-  
-    <div class="pagination">
-      
- 
-        <span class="older"><a href="/jekyde/index/2/" class="next">Older Posts &gt;&gt;</a></span>
-      
-    </div>
-</div>
-<div id="footer">
-    <span>site generated by <a href="https://github.com/zohooo/jekyde">jekyde</a></span>
-    <span>|</span>
-    <span>theme designed by <a href="https://github.com/zohooo">zohooo</a>
-</div>
-</body>
-</html>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"pagination"</span>&gt;</span>
+  {% if paginator.previous_page %}
+    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"newer"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.previous_url}}"</span> <span class="attribute">class</span>=<span class="value">"previous"</span>&gt;</span>Newer Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+  {% endif %}
+  {% if paginator.next_page %}
+    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"older"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.next_url}}"</span> <span class="attribute">class</span>=<span class="value">"next"</span>&gt;</span>Older Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+  {% endif %}
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
+<p>And you are done.</p>
+]]></summary>
+    </entry>
+    <entry>
+         <title><![CDATA[Configuration]]></title>
+         <link href="http://localhost/jekyde/post/2013/04/30/configuration.html"></link>
+         <updated>2013-04-30T12:11:00.000Z</updated>
+         <id>2013-04-30-20-11</id>
+         <summary type="html"><![CDATA[<p>You may change configurations by editing <code>config.yml</code> file in your template folder. The following file shows the default settings:</p>
+<pre><code>## Website
+title:              Simple Blog
+subtitle:           A static blog generator
+host:               http://localhost
+baseurl:            /
+
+## Output
+index_dir:          index
+archive_dir:        archive
+category_dir:       category
+tag_dir:            tag
+post_link:          post/:year/:month/:day/:name.html
+page_link:          page/:name
+paginate:           4
+
+## Engine
+latex:              false
+
+## Server
+port:               4040</code></pre>
+]]></summary>
+    </entry>
+</feed>
