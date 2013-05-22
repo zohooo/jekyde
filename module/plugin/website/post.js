@@ -6,7 +6,7 @@ var swig = require('../../converter/swig');
 jekyde.extend.website(function(site, envs){
     var posts = site.posts;
     var item, data, link, html;
-    var base = '/' + site.index_dir;
+    var base = site.baseurl + site.index_dir;
     var results = paging(base, posts, site.paginate);
     for (var i = 0; i < results.length; i++) {
         data = results[i];
@@ -15,7 +15,7 @@ jekyde.extend.website(function(site, envs){
         html = swig('index', data);
         fsextra.outputFileSync(envs.wdir + link, html);
         if (i == 0) {
-            link = link.slice(base.length);
+            link = '/index.html';
             html = swig('index', data);
             fsextra.outputFileSync(envs.wdir + link, html);
         }

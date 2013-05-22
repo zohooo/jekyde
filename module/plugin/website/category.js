@@ -15,7 +15,7 @@ jekyde.extend.website(function(site, envs){
         var categories = site.categories;
         var base, results, data;
         for (var k in categories) {
-            base = '/' + site.category_dir + '/' + k.toLowerCase();
+            base = site.baseurl + site.category_dir + '/' + k.toLowerCase();
             results = paging(base, categories[k], site.paginate);
             for (var i = 0; i < results.length; i++){
                 data = results[i];
