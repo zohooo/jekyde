@@ -218,7 +218,10 @@ exports.update = function(change) {
             break;
     }
     if (type == 'post') updater.sortData();
-    writeFiles(function(err){
+    async.series([
+        async.apply(renderFiles),
+        async.apply(writeFiles)
+    ], function(err){
         if (err) throw err;
         console.log('Website has been updated for file "' + name + '.md"');
     });
