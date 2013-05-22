@@ -2,9 +2,9 @@
 title:              The Jekyde Blog
 subtitle:           A static blog generator
 host:               http://localhost
+baseurl:            /
 
 ## Output
-baseurl:            /
 index_dir:          index
 archive_dir:        archive
 category_dir:       category
