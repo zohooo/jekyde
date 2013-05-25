@@ -1,8 +1,5 @@
 ---
-title: Markdown Tables
-date: 2013-04-27 14:06:00
-categories: [Writing, Information]
-tags: [table, marked]
+title: Markdown Syntax
 ---
 
 Jekyde use `marked` as markdown parser. You can create tables by the following ways:

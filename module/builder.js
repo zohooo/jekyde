@@ -20,7 +20,7 @@ function initialize(back) {
     async.each([cdir, tdir], function(dir, callback){
         if (fs.existsSync(dir)) return callback();
         console.log('Initializing default ' + dir + ' folder...');
-        fsextra.copy((path.normalize(__dirname + '/../weblog/' + dir)), dir, callback);
+        fsextra.copy((path.normalize(__dirname + '/../weblog/default/' + dir)), dir, callback);
     }, back);
 }
 

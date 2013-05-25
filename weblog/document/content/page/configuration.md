@@ -1,8 +1,5 @@
 ---
 title: Configuration
-name: configuration
-categories: [Customization, Information]
-tags: config
 ---
 
 You may change configurations by editing `config.yml` file in your template folder. The following file shows the default settings:
@@ -14,7 +11,6 @@ You may change configurations by editing `config.yml` file in your template fold
     baseurl:            /
 
     ## Output
-    index_dir:          index
     archive_dir:        archive
     category_dir:       category
     tag_dir:            tag

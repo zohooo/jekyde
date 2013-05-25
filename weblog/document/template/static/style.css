@@ -1,0 +1,131 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    overflow: hidden;
+}
+
+#aside {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+    background: #f3f3f3;
+    height: 100%;
+    padding: 10px 0;
+    font-family: sans-serif;
+}
+
+#aside h4 {
+    background: #0073ff;
+    color: white;
+    line-height: 2em;
+    padding-left: 20px;
+    margin: 20px 0 10px 0;
+}
+
+#aside ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+#aside ul li {
+    list-style: none;
+    line-height: 2em;
+}
+
+#aside a {
+    text-decoration: none;
+}
+
+#main {
+    margin-left: 200px;
+    height: 100%;
+    overflow: auto;
+    padding: 0 40px;
+}
+
+.article {
+    margin: 25px 0;
+}
+
+.ptitle {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.pmain {
+    padding: 5px 0;
+}
+
+.pmain h1 {
+    font-size: 20px;
+}
+
+.pmain h2 {
+    font-size: 19px;
+}
+
+.pmain h3 {
+    font-size: 18px;
+}
+
+.pmain h4 {
+    font-size: 17px;
+}
+
+.pmain h5{
+    font-size: 16px;
+}
+
+.pmain h6 {
+    font-size: 15px;
+}
+
+a {
+    color: #333;
+}
+
+a:hover {
+    color: #0073ff;
+}
+
+pre {
+    background-color: #f8f8f8;
+    overflow: auto;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+code {
+    background-color: #f8f8f8;
+    padding: 0;
+    margin: 0 2px;
+}
+
+pre code {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+    text-align: left;
+}
+
+.gist table {
+    width: 100%;
+    margin: 0;
+}

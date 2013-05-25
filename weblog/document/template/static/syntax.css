@@ -1,0 +1,47 @@
+
+pre .string,
+pre .title,
+pre .constant,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .special,
+pre .header {
+    color: #bf4840;
+}
+
+pre .comment,
+pre .blockquote {
+    color: #bf9140;
+}
+
+pre .number,
+pre .regexp,
+pre .literal,
+pre .hexcolor,
+pre .bullet,
+pre .link_url {
+    color: #80bf40;
+}
+
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .link_label {
+    color: #409bbf;
+}
+
+pre .keyword,
+pre .id,
+pre .title,
+pre .lang-css .tag,
+pre .lang-tex,
+pre .strong {
+    font-weight: bold;
+}
+
+pre .emphasis {
+    font-style: italic;
+}

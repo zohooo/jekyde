@@ -1,7 +1,5 @@
 ---
 title: Pagination
-category: Customization
-tags: pagination
 ---
 
 Just add the following to your layout files:

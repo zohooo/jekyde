@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>{{site.title}}</title>
+<link rel="stylesheet" href="{{site.baseurl}}static/style.css" />
+<link rel="stylesheet" href="{{site.baseurl}}static/syntax.css" />
+{% if site.latex %}{% include "mathjax.html" %}{% endif %}
+</head>
+<body>
+{% include "aside.html" %}
+<div id="main">
+    <div class="article">
+        <div class="ptitle">{{article.title}}</div>
+        <div class="pmain">
+        {{article.content}}
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,7 +1,5 @@
 ---
 title: Template Data
-category: Customization
-tags: template
 ---
 
 Jekyde uses [Swig](http://paularmstrong.github.io/swig/) as template engine. The following is a reference of the available data when generating website from layout files. 
@@ -56,7 +54,6 @@ The variable in available in `index`, `archive`, `category` and `tag` layouts.
 | Variable | Description |
 | -------- | ----------- |
 | `paginator.per_page` | number of posts per page |
-| `paginator.posts` | posts available for that page |
 | `paginator.total_posts` | total number of posts |
 | `paginator.total_pages` | total number of pagination pages |
 | `paginator.page` | the number of the current page |

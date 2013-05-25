@@ -1,8 +1,5 @@
 ---
 title: Permalinks
-name: permalinks
-category: Customization
-tags: [config, permalink]
 ---
 
 You can specify the permalinks for your posts and pages in `config.yml` file in template folder.

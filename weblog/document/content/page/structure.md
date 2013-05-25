@@ -1,7 +1,5 @@
 ---
 title: Basic Structure
-categories: Installation
-tags: [install, structure]
 ---
 
 A basic Jekyde site usually looks something like this:

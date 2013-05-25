@@ -1,0 +1,19 @@
+## Website
+title:              The Jekyde Blog
+subtitle:           A static blog builder
+host:               http://localhost
+baseurl:            /jekyde/
+
+## Output
+archive_dir:        archive
+category_dir:       category
+tag_dir:            tag
+post_link:          post/:year/:month/:day/:name.html
+page_link:          :name.html
+paginate:           3
+
+## Engine
+latex:              true
+
+## Server
+port:               4040
