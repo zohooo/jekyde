@@ -39,9 +39,27 @@ MathJax.Hub.Config({
 </div>
 <div id="main">
     <div class="article">
-        <div class="ptitle">Introduction</div>
+        <div class="ptitle">Code Highlighting</div>
         <div class="pmain">
-        <p>Jekyde is a static blog builder, server and writer in Node.JS.</p>
+        <p>Jekyde supports code highlighting. For example, writing the following code</p>
+<pre>
+```javascript
+var express = require('express');
+var app = express();
+app.get('/', function(req, res){
+  res.send('hello world');
+});
+app.listen(4040);
+```
+</pre>
+
+<p>Will get the result:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> express = require(<span class="string">'express'</span>);
+<span class="keyword">var</span> app = express();
+app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res){
+  res.send(<span class="string">'hello world'</span>);
+});
+app.listen(<span class="number">4040</span>);</code></pre>
 
         </div>
     </div>
