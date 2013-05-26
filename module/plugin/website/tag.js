@@ -1,15 +1,15 @@
 
 var fs = require('fs');
-var fsextra = require('fs-extra');
 var paging = require('../../utility/paging');
 var swig = require('../../converter/swig');
 
 jekyde.extend.website(function(site, envs){
+    var outputs = [];
     var link, html;
     if (fs.existsSync(envs.tdir + '/layout/tags.html')) {
-        link = '/' + site.tag_dir + '/index.html';
+        link = site.tag_dir + '/index.html';
         html = swig('tags', {site: site});
-        fsextra.outputFileSync(envs.wdir + link, html);
+        outputs.push([link, html]);
     }
     function generate(layout) {
         var tags = site.tags;
@@ -20,9 +20,9 @@ jekyde.extend.website(function(site, envs){
             for (var i = 0; i < results.length; i++){
                 data = results[i];
                 data.site = site;
-                link = data.paginator.current_url.slice(site.baseurl.length - 1) + 'index.html';
+                link = data.paginator.current_url.slice(site.baseurl.length) + 'index.html';
                 html = swig(layout, data);
-                fsextra.outputFileSync(envs.wdir + link, html);
+                outputs.push([link, html]);
             }
         };
     }
@@ -31,4 +31,5 @@ jekyde.extend.website(function(site, envs){
     } else {
         generate('index');
     }
+    return outputs;
 });

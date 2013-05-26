@@ -1,8 +1,8 @@
 
-var fsextra = require('fs-extra');
 var swig = require('../../converter/swig');
 
-jekyde.extend.website(function(site, envs){
+jekyde.extend.website(function(site){
+    var outputs = [];
     var pages = site.pages;
     for (var i = 0; i < pages.length; i++) {
         var item = pages[i];
@@ -12,6 +12,7 @@ jekyde.extend.website(function(site, envs){
             page: true
         };
         var html = swig('page', data);
-        fsextra.outputFileSync(envs.wdir + '/' + item.link, html);
+        outputs.push([item.link, html]);
     }
+    return outputs;
 });

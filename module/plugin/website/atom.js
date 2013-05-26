@@ -1,7 +1,5 @@
 
-var fsextra = require('fs-extra');
-
-jekyde.extend.website(function(site, envs){
+jekyde.extend.website(function(site){
     var posts = site.posts.slice(0, 5);
 
     var content = posts.reduce(function(previous, current){
@@ -29,5 +27,5 @@ jekyde.extend.website(function(site, envs){
     '</feed>'
     ].join('\n');
 
-    fsextra.outputFileSync(envs.wdir + '/atom.xml', atom);
+    return [['atom.xml', atom]];
 });

@@ -118,9 +118,12 @@ function renderFiles(back) {
 }
 
 function writeFiles(back) {
-    async.each(exports.plugins.website, function(task, back){
-        task(sitedata, exports.envs);
-        back();
+    var outputs = [];
+    exports.plugins.website.forEach(function(task){
+        outputs = outputs.concat(task(sitedata, exports.envs));
+    });
+    async.each(outputs, function(item, back){
+        fsextra.outputFile(wdir + '/' + item[0], item[1], back);
     }, back);
 }
 
