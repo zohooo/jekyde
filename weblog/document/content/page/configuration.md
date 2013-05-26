@@ -6,7 +6,7 @@ You may change configurations by editing `config.yml` file in your template fold
 
     ## Website
     title:              Simple Blog
-    subtitle:           A static blog generator
+    subtitle:           A static blog
     host:               http://localhost
     baseurl:            /
 

@@ -1,11 +1,10 @@
 ## Website
-title:              The Jekyde Blog
-subtitle:           A static blog generator
+title:              Simple Blog
+subtitle:           A static blog
 host:               http://localhost
 baseurl:            /
 
 ## Output
-index_dir:          index
 archive_dir:        archive
 category_dir:       category
 tag_dir:            tag

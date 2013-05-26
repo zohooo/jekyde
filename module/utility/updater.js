@@ -7,7 +7,6 @@ var sitedata = exports.sitedata = {
     subtitle:       'A static blog',
     host:           'http://localhost',
     baseurl:        '/',
-    index_dir:      'index',
     archive_dir:    'archive',
     category_dir:   'category',
     tag_dir:        'tag',
