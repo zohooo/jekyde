@@ -1,5 +1,5 @@
 
-var site = require('./updater').sitedata;
+var site = require('./updater').site;
 
 module.exports = function(base, posts){
     var limit = (site.paginate > 0) ? site.paginate : 999;

@@ -19,9 +19,9 @@ jekyde.extend.website(function(site){
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<feed xmlns="http://www.w3.org/2005/Atom">',
     '    <title><![CDATA[' + site.title + ']]></title>',
-    '    <link href="' + site.host + site.baseurl + 'atom.xml" ref="self"/>',
-    '    <link href="' + site.host + site.baseurl + '"/>',
-    '    <id>' + site.host + site.baseurl + '</id>',
+    '    <link href="' + site.host + site.root + 'atom.xml" ref="self"/>',
+    '    <link href="' + site.host + site.root + '"/>',
+    '    <id>' + site.host + site.root + '</id>',
     '    <updated>' + new Date().toISOString() + '</updated>',
     content,
     '</feed>'

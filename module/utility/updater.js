@@ -2,11 +2,11 @@
 var datetitle = require('./datetitle');
 var yaml = require('../converter/yaml');
 
-var sitedata = exports.sitedata = {
+var site = exports.site = {
     title:          'Simple Blog',
     subtitle:       'A static blog',
     host:           'http://localhost',
-    baseurl:        '/',
+    root:           '/',
     archive_dir:    'archive',
     category_dir:   'category',
     tag_dir:        'tag',
@@ -33,7 +33,7 @@ function findData(list, basename) {
 }
 
 exports.pushData = function(type, basename, text, check) {
-    var list = sitedata[type + 's'];
+    var list = site[type + 's'];
     var obj = yaml.parse(text);
     parseName(obj, type, basename);
     if (type == 'post' && (!obj.date || !(obj.date instanceof Date))) {
@@ -50,14 +50,14 @@ exports.pushData = function(type, basename, text, check) {
 }
 
 exports.moveData = function(type, basename, newname) {
-    var list = sitedata[type + 's'];
+    var list = site[type + 's'];
     var obj = list[findData(list, basename)];
     parseName(obj, type, newname);
     setPermalink(obj, type);
 }
 
 exports.dropData = function(type, basename) {
-    var list = sitedata[type + 's'];
+    var list = site[type + 's'];
     var i = findData(list, basename);
     if (i < list.length) list.splice(i, 1);
 }
@@ -79,7 +79,7 @@ function parseName(obj, type, basename) {
 }
 
 function setPermalink(obj, type) {
-    var link = (type == 'post') ? sitedata.post_link : sitedata.page_link;
+    var link = (type == 'post') ? site.post_link : site.page_link;
     var title = obj.title.toLowerCase().replace(/\s/g, '-');
     var name = obj.name ? obj.name.toLowerCase().replace(/\s/g, '-') : title;
     if (type == 'post') {
@@ -89,7 +89,7 @@ function setPermalink(obj, type) {
                    .replace(':day', date[2]);
     }
     link = link.replace(':title', title).replace(':name', name);
-    obj.url =  sitedata.baseurl + link;
+    obj.url =  site.root + link;
     if (/\.html?$/.test(link)) {
         obj.link = link;
     } else {
@@ -98,7 +98,7 @@ function setPermalink(obj, type) {
 }
 
 function sortPosts() {
-    var posts = sitedata['posts'];
+    var posts = site['posts'];
     posts.sort(function(post1, post2) {
         return post2.date.getTime() - post1.date.getTime();
     });
@@ -114,16 +114,16 @@ function setCategoryTag() {
         if (typeof c == 'string') c = [c];
         if (c instanceof Array) {
             c.forEach(function(item){
-                if (sitedata[name][item]) {
-                    sitedata[name][item].push(post);
+                if (site[name][item]) {
+                    site[name][item].push(post);
                 } else {
-                    sitedata[name][item] = [post];
+                    site[name][item] = [post];
                 }
             });
         }
     }
-    sitedata.categories = {}; sitedata.tags = {};
-    sitedata.posts.forEach(function(post){
+    site.categories = {}; site.tags = {};
+    site.posts.forEach(function(post){
         if (post.category) {
             post.categories = post.category;
             delete post.category;

@@ -6,12 +6,12 @@ jekyde.extend.website(function(site){
     var outputs = [];
     var posts = site.posts;
     var item, data, link, html;
-    var base = site.baseurl;
+    var base = site.root;
     var results = paging(base, posts);
     for (var i = 0; i < results.length; i++) {
         data = results[i];
         data.site = site;
-        link = data.paginator.current_url.slice(site.baseurl.length) + 'index.html';
+        link = data.paginator.current_url.slice(site.root.length) + 'index.html';
         html = swig('index', data);
         outputs.push([link, html]);
     }

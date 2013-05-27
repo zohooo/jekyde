@@ -2,7 +2,7 @@
 title:              Simple Blog
 subtitle:           A static blog
 host:               http://localhost
-baseurl:            /
+root:               /
 
 ## Output
 archive_dir:        archive

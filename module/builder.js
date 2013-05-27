@@ -14,7 +14,7 @@ var updater = require('./utility/updater.js');
 var server = require('./server.js');
 
 var cdir = 'content', tdir = 'template', wdir = 'website';
-var sitedata = updater.sitedata;
+var site = updater.site;
 
 function initialize(back) {
     async.each([cdir, tdir], function(dir, callback){
@@ -40,19 +40,19 @@ function loadConfig() {
         var text = fs.readFileSync(tdir + '/config.yml', 'utf8');
         var data = yaml.load(text);
         for (var x in data) {
-            sitedata[x] = data[x];
+            site[x] = data[x];
         }
-        var base = sitedata.baseurl;
+        var base = site.root;
         if (base[base.length-1] !== '/') {
-            console.log('[Warning] baseurl should end with "/"');
-            sitedata.baseurl += '/';
+            console.log('[Warning] root should end with "/"');
+            site.root += '/';
         }
-        var link1 = sitedata.post_link, link2 = sitedata.page_link;
+        var link1 = site.post_link, link2 = site.page_link;
         if (link1[0] == '/') {
-            sitedata.post_link = link1.slice(1);
+            site.post_link = link1.slice(1);
         }
         if (link2[0] == '/') {
-            sitedata.page_link = link2.slice(1);
+            site.page_link = link2.slice(1);
         }
     }
 }
@@ -106,8 +106,8 @@ function readFiles(back) {
 
 function renderFiles(back) {
     function render(type, back){
-        async.each(sitedata[type], function(item, back){
-            item.content = markdown(sitedata, item.body);
+        async.each(site[type], function(item, back){
+            item.content = markdown(site, item.body);
             back();
         }, back);
     }
@@ -120,7 +120,7 @@ function renderFiles(back) {
 function writeFiles(back) {
     var outputs = [];
     exports.plugins.website.forEach(function(task){
-        outputs = outputs.concat(task(sitedata, exports.envs));
+        outputs = outputs.concat(task(site, exports.envs));
     });
     async.each(outputs, function(item, back){
         fsextra.outputFile(wdir + '/' + item[0], item[1], back);
@@ -144,7 +144,7 @@ function copyFiles(back) {
 }
 
 function runServer() {
-    server.start(sitedata, wdir);
+    server.start(site, wdir);
 }
 
 exports.envs = {
@@ -194,8 +194,8 @@ exports.start = function() {
 }
 
 exports.reload = function() {
-    sitedata.posts = [];
-    sitedata.pages = [];
+    site.posts = [];
+    site.pages = [];
     async.series([
         async.apply(initialize),
         async.apply(buildSite)

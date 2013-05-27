@@ -10,9 +10,9 @@ var express = require('express');
 
 var builder = require('./builder.js');
 
-function start(sitedata, webdir) {
+function start(site, webdir) {
     var app = express();
-    var base = sitedata.baseurl;
+    var base = site.root;
 
     app.use(express.bodyParser());
 
@@ -26,7 +26,7 @@ function start(sitedata, webdir) {
     app.get(base + 'r/posts', function(req, res){
         res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
-        res.send(JSON.stringify(sitedata.posts, function(key, value){
+        res.send(JSON.stringify(site.posts, function(key, value){
             if (key !== 'previous' && key !== 'next') return value;
         }));
     });
@@ -39,7 +39,7 @@ function start(sitedata, webdir) {
 
     app.get(base + 'r/pages', function(req, res){
         res.set('Expires', '-1');
-        res.send(sitedata.pages);
+        res.send(site.pages);
     });
     app.post(base + 'r/page/:filename', rename);
     app.put(base + 'r/page/:filename', modify);
@@ -47,11 +47,11 @@ function start(sitedata, webdir) {
 
     app.get(base + 'r/config/:key', function(req, res){
         var key = req.params.key;
-        var result = {}; result[key] = sitedata[key];
+        var result = {}; result[key] = site[key];
         res.json(result);
     });
 
-    var port = sitedata.port;
+    var port = site.port;
     app.listen(port, 'localhost');
     console.log('Please open your browser and visit http://localhost:' + port + base + 'w\n'
               + 'Press Esc to stop server, or press Enter to regenerate website\n');

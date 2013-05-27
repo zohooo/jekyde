@@ -1,8 +1,8 @@
 ## Website
 title:              The Jekyde Blog
 subtitle:           A static blog builder
-host:               http://localhost
-baseurl:            /jekyde/
+host:               http://zohooo.github.io
+root:               /jekyde/
 
 ## Output
 archive_dir:        archive
@@ -16,4 +16,4 @@ paginate:           3
 latex:              true
 
 ## Server
-port:               4040
+port:               4141

@@ -8,7 +8,7 @@ You may change configurations by editing `config.yml` file in your template fold
     title:              Simple Blog
     subtitle:           A static blog
     host:               http://localhost
-    baseurl:            /
+    root:               /
 
     ## Output
     archive_dir:        archive
