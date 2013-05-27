@@ -15,7 +15,7 @@ app.listen(4040);
 ```
 </pre>
 
-Will get the result:
+will get the result:
 
 ```javascript
 var express = require('express');

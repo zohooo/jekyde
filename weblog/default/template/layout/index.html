@@ -21,11 +21,11 @@
     </div>
   {% endfor %}
     <div class="pagination">
-      {% if paginator.previous_page %}
-        <span class="newer"><a href="{{paginator.previous_url}}" class="previous">&lt;&lt; Newer Posts</a></span>
+      {% if paginator.previous %}
+        <span class="newer"><a href="{{paginator.urls[paginator.previous]}}" class="previous">&lt;&lt; Newer Posts</a></span>
       {% endif %}
-      {% if paginator.next_page %}
-        <span class="older"><a href="{{paginator.next_url}}" class="next">Older Posts &gt;&gt;</a></span>
+      {% if paginator.next %}
+        <span class="older"><a href="{{paginator.urls[paginator.next]}}" class="next">Older Posts &gt;&gt;</a></span>
       {% endif %}
     </div>
 </div>

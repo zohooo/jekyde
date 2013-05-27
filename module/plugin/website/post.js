@@ -11,7 +11,7 @@ jekyde.extend.website(function(site){
     for (var i = 0; i < results.length; i++) {
         data = results[i];
         data.site = site;
-        link = data.paginator.current_url.slice(site.root.length) + 'index.html';
+        link = data.paginator.urls[data.paginator.current].slice(site.root.length) + 'index.html';
         html = swig('index', data);
         outputs.push([link, html]);
     }

@@ -2,7 +2,13 @@
 title: Pagination
 ---
 
-Just add the following to your layout files:
+To enable pagination for your posts, You need to add a line to the `config.yml` file:
+
+    paginate: 5
+
+The above line specifies 5 posts will be displayed per page. You could also change this number to 0 to disable pagination.
+
+After that, just add the following code to your layout files:
 
 ```html
 {% for article in articles %}
@@ -14,11 +20,11 @@ Just add the following to your layout files:
 {% endfor %}
 
 <div class="pagination">
-  {% if paginator.previous_page %}
-    <span class="newer"><a href="{{paginator.previous_url}}" class="previous">Newer Posts</a></span>
+  {% if paginator.previous %}
+    <span class="newer"><a href="{{paginator.urls[paginator.previous]}}" class="previous">&lt;&lt; Newer Posts</a></span>
   {% endif %}
-  {% if paginator.next_page %}
-    <span class="older"><a href="{{paginator.next_url}}" class="next">Older Posts</a></span>
+  {% if paginator.next %}
+    <span class="older"><a href="{{paginator.urls[paginator.next]}}" class="next">Older Posts &gt;&gt;</a></span>
   {% endif %}
 </div>
 ```

@@ -19,9 +19,9 @@ The variable is available in all layouts.
 
 | Variable | Description |
 | -------- | ----------- |
-| `site.title` | the title from `config.yml` file |
-| `site.host` | the host from `config.yml` file |
-| `site.baseurl` | the baseurl from `config.yml` file |
+| `site.title` | site title from `config.yml` file |
+| `site.host` | host name from `config.yml` file |
+| `site.root` | root path from `config.yml` file |
 | `site.paginate` | the paginate from `config.yml` file |
 | `site.posts` | a reverse chronological list of all posts |
 | `site.pages` | the list of all pages |
@@ -53,11 +53,8 @@ The variable in available in `index`, `archive`, `category` and `tag` layouts.
 
 | Variable | Description |
 | -------- | ----------- |
-| `paginator.per_page` | number of posts per page |
-| `paginator.total_posts` | total number of posts |
-| `paginator.total_pages` | total number of pagination pages |
-| `paginator.page` | the number of the current page |
-| `paginator.previous_page` | the number of the previous page |
-| `paginator.previous_url` | the url of the previous page |
-| `paginator.next_page` | the number of the next page |
-| `paginator.next_url` | the url of the next page |
+| `paginator.total` | total number of pagination pages |
+| `paginator.previous` | the number of the previous page |
+| `paginator.current` | the number of the current page |
+| `paginator.next` | the number of the next page |
+| `paginator.urls` | the lists of urls of all pages |

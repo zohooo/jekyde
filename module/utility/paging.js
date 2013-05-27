@@ -14,15 +14,11 @@ module.exports = function(base, posts){
     for (i = 1; i <= total; i++) {
         articles = posts.slice(limit * (i - 1), limit * i);
         paginator = {
-            per_page: limit,
-            total_articles: length,
-            total_pages: total,
-            previous_page: ((i > 1) ? i - 1 : null),
-            page: i,
-            next_page: ((i < total) ? i + 1 : null),
-            previous_url: urls[i - 1],
-            current_url: urls[i],
-            next_url: urls[i + 1]
+            total: total,
+            previous: ((i > 1) ? i - 1 : null),
+            current: i,
+            next: ((i < total) ? i + 1 : null),
+            urls: urls
         };
         results.push({articles: articles, paginator: paginator});
     }
