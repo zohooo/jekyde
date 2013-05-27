@@ -112,7 +112,7 @@ function sortPosts() {
 function setCategoryTag() {
     function set(post, name) {
         var c = post[name];
-        if (typeof c == 'string') c = [c];
+        if (typeof c == 'string') post[name] = c = [c];
         if (c instanceof Array) {
             c.forEach(function(item){
                 if (site[name][item]) {

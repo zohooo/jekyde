@@ -13,10 +13,24 @@
 <div id="main">
     <div class="article">
         <div class="ptitle">{{article.title}}</div>
-        <div class="pmain">
-          {{article.content}}
+        <div class="pmain">{{article.content}}</div>
+        <div class="pfoot">
+            <span class="pdate">Date: {% if article.date %}{{article.date | date('Y-m-d H:i')}}{% endif %}</span>
+            {% if article.categories -%}
+            <span class="pcategories">Categories: 
+                {% for category in article.categories -%}
+                <a href="{{site.root}}{{site.category_dir}}/{{category | lower}}/">{{category}}</a>
+                {%- endfor %}
+            </span>
+            {%- endif %}
+            {% if article.tags -%}
+            <span class="ptags">Tags: 
+                {% for tag in article.tags -%}
+                <a href="{{site.root}}{{site.tag_dir}}/{{tag | lower}}/">{{tag}}</a>
+                {%- endfor %}
+            </span>
+            {%- endif %}
         </div>
-        <div class="pdate">{% if article.date %}{{article.date | date('Y-m-d H:i')}}{% endif %}</div>
     </div>
     <div class="pagination">
       {% if article.next %}
