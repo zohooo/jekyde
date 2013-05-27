@@ -112,10 +112,13 @@ function renderFiles(back) {
             if (type == 'posts') {
                 var excerpt;
                 var idx = content.search(/\n<!-- *more *-->\n/);
+                if (idx == -1) {
+                    idx = content.indexOf('\n\n');
+                }
                 if (idx != -1) {
                     excerpt = content.slice(0, idx);
                 } else {
-                    excerpt = content.slice(0, content.indexOf('\n\n'));
+                    excerpt = content;
                 }
                 item.excerpt = markdown(site, excerpt);
             }
