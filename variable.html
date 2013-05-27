@@ -81,15 +81,15 @@ MathJax.Hub.Config({
 <tbody>
 <tr>
 <td><code>site.title</code></td>
-<td>the title from <code>config.yml</code> file</td>
+<td>site title from <code>config.yml</code> file</td>
 </tr>
 <tr>
 <td><code>site.host</code></td>
-<td>the host from <code>config.yml</code> file</td>
+<td>host name from <code>config.yml</code> file</td>
 </tr>
 <tr>
-<td><code>site.baseurl</code></td>
-<td>the baseurl from <code>config.yml</code> file</td>
+<td><code>site.root</code></td>
+<td>root path from <code>config.yml</code> file</td>
 </tr>
 <tr>
 <td><code>site.paginate</code></td>
@@ -119,6 +119,10 @@ MathJax.Hub.Config({
 <tr>
 <td><code>article.content</code></td>
 <td>the rendered content of the post/page</td>
+</tr>
+<tr>
+<td><code>article.excerpt</code></td>
+<td>the rendered excerpt of the post</td>
 </tr>
 <tr>
 <td><code>article.title</code></td>
@@ -156,36 +160,24 @@ MathJax.Hub.Config({
 </thead>
 <tbody>
 <tr>
-<td><code>paginator.per_page</code></td>
-<td>number of posts per page</td>
-</tr>
-<tr>
-<td><code>paginator.total_posts</code></td>
-<td>total number of posts</td>
-</tr>
-<tr>
-<td><code>paginator.total_pages</code></td>
+<td><code>paginator.total</code></td>
 <td>total number of pagination pages</td>
 </tr>
 <tr>
-<td><code>paginator.page</code></td>
-<td>the number of the current page</td>
-</tr>
-<tr>
-<td><code>paginator.previous_page</code></td>
+<td><code>paginator.previous</code></td>
 <td>the number of the previous page</td>
 </tr>
 <tr>
-<td><code>paginator.previous_url</code></td>
-<td>the url of the previous page</td>
+<td><code>paginator.current</code></td>
+<td>the number of the current page</td>
 </tr>
 <tr>
-<td><code>paginator.next_page</code></td>
+<td><code>paginator.next</code></td>
 <td>the number of the next page</td>
 </tr>
 <tr>
-<td><code>paginator.next_url</code></td>
-<td>the url of the next page</td>
+<td><code>paginator.urls</code></td>
+<td>the lists of urls of all pages</td>
 </tr>
 </tbody>
 </table>

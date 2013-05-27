@@ -41,7 +41,10 @@ MathJax.Hub.Config({
     <div class="article">
         <div class="ptitle">Pagination</div>
         <div class="pmain">
-        <p>Just add the following to your layout files:</p>
+        <p>To enable pagination for your posts, You need to add a line to the <code>config.yml</code> file:</p>
+<pre><code>paginate: 5</code></pre>
+<p>The above line specifies 5 posts will be displayed per page. You could also change this number to 0 to disable pagination.</p>
+<p>After that, just add the following code to your layout files:</p>
 <pre><code class="lang-html">{% for article in articles %}
 <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"article"</span>&gt;</span>
     <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{article.url}}"</span>&gt;</span>{{article.title}}<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
@@ -51,11 +54,11 @@ MathJax.Hub.Config({
 {% endfor %}
 
 <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"pagination"</span>&gt;</span>
-  {% if paginator.previous_page %}
-    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"newer"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.previous_url}}"</span> <span class="attribute">class</span>=<span class="value">"previous"</span>&gt;</span>Newer Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+  {% if paginator.previous %}
+    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"newer"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.urls[paginator.previous]}}"</span> <span class="attribute">class</span>=<span class="value">"previous"</span>&gt;</span>&amp;lt;&amp;lt; Newer Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
   {% endif %}
-  {% if paginator.next_page %}
-    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"older"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.next_url}}"</span> <span class="attribute">class</span>=<span class="value">"next"</span>&gt;</span>Older Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+  {% if paginator.next %}
+    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"older"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.urls[paginator.next]}}"</span> <span class="attribute">class</span>=<span class="value">"next"</span>&gt;</span>Older Posts &amp;gt;&amp;gt;<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
   {% endif %}
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
 <p>And you are done.</p>

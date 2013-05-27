@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <title><![CDATA[The Jekyde Blog]]></title>
-    <link href="http://localhost/jekyde/atom.xml" ref="self"/>
-    <link href="http://localhost/jekyde/"/>
-    <id>http://localhost/jekyde/</id>
-    <updated>2013-05-25T15:06:14.241Z</updated>
-
-</feed>
