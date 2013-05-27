@@ -1,5 +1,7 @@
 
 jekyde.extend.website(function(site){
+    if(!site.subscribe) return [];
+
     var posts = site.posts.slice(0, 5);
 
     var content = posts.reduce(function(previous, current){

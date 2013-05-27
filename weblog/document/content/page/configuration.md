@@ -20,6 +20,7 @@ You may change configurations by editing `config.yml` file in your template fold
 
     ## Engine
     latex:              false
+    subscribe:          true
 
     ## Server
     port:               4040

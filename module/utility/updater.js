@@ -14,6 +14,7 @@ var site = exports.site = {
     page_link:      'page/:name',
     paginate:       4,
     latex:          false,
+    subscribe:      true,
     port:           4040,
     posts:          [],
     pages:          [],
