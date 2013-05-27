@@ -17,7 +17,7 @@ MathJax.Hub.Config({
 </head>
 <body>
 <div id="aside">
-<h4>Website</h4>
+<h4>Installing</h4>
 <ul>
     <li><a href="/jekyde/">Introduction</a></li>
     <li><a href="/jekyde/guide.html">Quick Guide</a></li>
@@ -25,16 +25,17 @@ MathJax.Hub.Config({
     <li><a href="/jekyde/configuration.html">Configuration</a></li>
     <li><a href="/jekyde/permalink.html">Permalink</a></li>
 </ul>
-<h4>Content</h4>
+<h4>Writing</h4>
 <ul>
     <li><a href="/jekyde/markdown.html">Markdown Syntax</a></li>
     <li><a href="/jekyde/highlight.html">Code Highlighting</a></li>
     <li><a href="/jekyde/latex.html">LaTeX Formulas</a></li>
 </ul>
-<h4>Template</h4>
+<h4>Customizing</h4>
 <ul>
     <li><a href="/jekyde/variable.html">Template Variables</a></li>
     <li><a href="/jekyde/pagination.html">Pagination</a></li>
+    <li><a href="/jekyde/plugin.html">Make Plugins</a></li>
 </ul>
 </div>
 <div id="main">
@@ -47,18 +48,18 @@ MathJax.Hub.Config({
 <p>After that, just add the following code to your layout files:</p>
 <pre><code class="lang-html">{% for article in articles %}
 <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"article"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{article.url}}"</span>&gt;</span>{{article.title}}<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span>&gt;</span>{{article.content}}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span>&gt;</span>{% if article.date %}{{article.date | date('Y-m-d H:i')}}{% endif %}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{ article.url }}"</span>&gt;</span>{{ article.title }}<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span>{{ article.content }}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span>{% if article.date %}{{ article.date | date('Y-m-d H:i') }}{% endif %}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 {% endfor %}
 
 <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"pagination"</span>&gt;</span>
   {% if paginator.previous %}
-    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"newer"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.urls[paginator.previous]}}"</span> <span class="attribute">class</span>=<span class="value">"previous"</span>&gt;</span>&amp;lt;&amp;lt; Newer Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">span</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{ paginator.urls[paginator.previous] }}"</span>&gt;</span>Newer Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
   {% endif %}
   {% if paginator.next %}
-    <span class="tag">&lt;<span class="title">span</span> <span class="attribute">class</span>=<span class="value">"older"</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{paginator.urls[paginator.next]}}"</span> <span class="attribute">class</span>=<span class="value">"next"</span>&gt;</span>Older Posts &amp;gt;&amp;gt;<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">span</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{{ paginator.urls[paginator.next] }}"</span>&gt;</span>Older Posts<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>
   {% endif %}
 <span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
 <p>And you are done.</p>

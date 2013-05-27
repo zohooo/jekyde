@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>The Jekyde Blog</title>
+<link rel="stylesheet" href="/jekyde/static/style.css" />
+<link rel="stylesheet" href="/jekyde/static/syntax.css" />
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['\\[','\\]'], ['$$','$$']],
+            processEnvironments: false},
+  'HTML-CSS': { imageFont: null }
+});
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div id="aside">
+<h4>Installing</h4>
+<ul>
+    <li><a href="/jekyde/">Introduction</a></li>
+    <li><a href="/jekyde/guide.html">Quick Guide</a></li>
+    <li><a href="/jekyde/structure.html">Directory Structure</a></li>
+    <li><a href="/jekyde/configuration.html">Configuration</a></li>
+    <li><a href="/jekyde/permalink.html">Permalink</a></li>
+</ul>
+<h4>Writing</h4>
+<ul>
+    <li><a href="/jekyde/markdown.html">Markdown Syntax</a></li>
+    <li><a href="/jekyde/highlight.html">Code Highlighting</a></li>
+    <li><a href="/jekyde/latex.html">LaTeX Formulas</a></li>
+</ul>
+<h4>Customizing</h4>
+<ul>
+    <li><a href="/jekyde/variable.html">Template Variables</a></li>
+    <li><a href="/jekyde/pagination.html">Pagination</a></li>
+    <li><a href="/jekyde/plugin.html">Make Plugins</a></li>
+</ul>
+</div>
+<div id="main">
+    <div class="article">
+        <div class="ptitle">Make Plugins</div>
+        <div class="pmain">
+        <p>You may extend Jekyde through the following three types of plugins.</p>
+<ol>
+<li>Content plugins for extending Markdown syntax</li>
+<li>Template plugins for creating new Swig tags</li>
+<li>Website plugins for generating more webpages</li>
+</ol>
+<h2>Content Plugins</h2>
+<p>The following code is the builtin gist plugin:</p>
+<pre><code class="lang-javascript">jekyde.extend.content(<span class="keyword">function</span>(site, text){
+    <span class="keyword">return</span> text.replace(
+        <span class="regexp">/\n\^\^ *gist +(\w+)\n/g</span>,
+        <span class="string">'&lt;script src="https://gist.github.com/$1.js"&gt;&lt;/script&gt;'</span>
+    );
+});</code></pre>
+<p>With this gist plugin, you can insert a gist in your markdown file with a single line like this:</p>
+<pre><code>^^gist 12345678</code></pre>
+<h2>Template Plugins</h2>
+<p>The following code is the builtin ctime plugin:</p>
+<pre><code class="lang-javascript">jekyde.extend.template(<span class="string">'ctime'</span>, <span class="keyword">function</span>(args, content){
+    <span class="keyword">return</span> (<span class="keyword">new</span> Date()).toISOString();
+}, <span class="literal">false</span>);</code></pre>
+<p>With this plugin, you can insert current time into your template file with this code:</p>
+<pre><code>{{ ctime }}</code></pre>
+<h2>Website Plugins</h2>
+<p>The following code is part of the builtin atom plugin:</p>
+<pre><code class="lang-javascript">jekyde.extend.website(<span class="keyword">function</span>(site){
+    <span class="keyword">var</span> atom = [
+    <span class="string">'&lt;?xml version="1.0" encoding="UTF-8"?&gt;'</span>,
+    <span class="string">'&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;'</span>,
+    <span class="string">'    &lt;title&gt;&lt;![CDATA['</span> + site.title + <span class="string">']]&gt;&lt;/title&gt;'</span>,
+    <span class="string">'    &lt;link href="'</span> + site.host + site.root + <span class="string">'atom.xml" ref="self"/&gt;'</span>,
+    <span class="string">'    &lt;link href="'</span> + site.host + site.root + <span class="string">'"/&gt;'</span>,
+    <span class="string">'    &lt;id&gt;'</span> + site.host + site.root + <span class="string">'&lt;/id&gt;'</span>,
+    <span class="string">'    &lt;updated&gt;'</span> + <span class="keyword">new</span> Date().toISOString() + <span class="string">'&lt;/updated&gt;'</span>,
+    content,
+    <span class="string">'&lt;/feed&gt;'</span>
+    ].join(<span class="string">'\n'</span>);
+    <span class="keyword">return</span> [[<span class="string">'atom.xml'</span>, atom]];
+});</code></pre>
+<p>This plugin generates atom feed file <code>atom.xml</code> inside root folder.</p>
+<h2>Your Plugins</h2>
+<p>You may put your plugins into <code>template/plugin</code> folder.</p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
