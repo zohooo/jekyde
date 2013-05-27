@@ -1,5 +1,5 @@
 ---
-title: LaTeX
+title: LaTeX Formulas
 ---
 
 Jekyde has well support for LaTeX formulas via MathJax library.
