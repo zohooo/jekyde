@@ -92,6 +92,7 @@ body {
     background-color: whitesmoke;
     border-top: 1px solid gainsboro;
     padding: 3px 24px;
+    clear: both;
 }
 
 .pmain {
@@ -120,6 +121,12 @@ body {
 
 .pmain h6 {
     font-size: 15px;
+}
+
+.pmore {
+    margin: 0 24px 10px 24px;
+    float: right;
+    border-bottom: 1px dashed #c1c1c1;
 }
 
 a {
@@ -156,6 +163,7 @@ a:hover {
 
 .pagination {
     margin: 10px 2px 40px 2px;
+    overflow: hidden;
 }
 
 .pagination .newer {

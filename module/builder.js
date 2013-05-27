@@ -107,7 +107,18 @@ function readFiles(back) {
 function renderFiles(back) {
     function render(type, back){
         async.each(site[type], function(item, back){
-            item.content = markdown(site, item.body);
+            var content = item.body;
+            item.content = markdown(site, content);
+            if (type == 'posts') {
+                var excerpt;
+                var idx = content.search(/\n<!-- *more *-->\n/);
+                if (idx != -1) {
+                    excerpt = content.slice(0, idx);
+                } else {
+                    excerpt = content.slice(0, content.indexOf('\n\n'));
+                }
+                item.excerpt = markdown(site, excerpt);
+            }
             back();
         }, back);
     }

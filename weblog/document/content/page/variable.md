@@ -35,6 +35,7 @@ The variable is available only in `post` and `page` layouts.
 | Variable | Description |
 | -------- | ----------- |
 | `article.content` | the rendered content of the post/page |
+| `article.excerpt` | the rendered excerpt of the post |
 | `article.title` | the title of the post/page |
 | `article.url` | the url of the post/page without the domain |
 | `article.date` | the date assigned to the post/page |

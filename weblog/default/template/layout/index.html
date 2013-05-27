@@ -14,9 +14,8 @@
   {% for article in articles %}
     <div class="article">
         <div class="ptitle"><a href="{{article.url}}">{{article.title}}</a></div>
-        <div class="pmain">
-          {{article.content}}
-        </div>
+        <div class="pmain">{{article.excerpt}}</div>
+        <div class="pmore"><a href="{{article.url}}">Read More</a></div>
         <div class="pdate">{% if article.date %}{{article.date | date('Y-m-d H:i')}}{% endif %}</div>
     </div>
   {% endfor %}
