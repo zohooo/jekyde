@@ -2,12 +2,13 @@
 var jsyaml = require('js-yaml');
 
 exports.parse = function(text) {
-    var re = /^---(\n|\r\n|\r)([\w\W]+?)\1---\1([\w\W]*)/, result = re.exec(text);
+    text = text.replace(/\r\n|\r/g, '\n');
+    var re = /^---\n([\w\W]+?)\n---\n([\w\W]*)/, result = re.exec(text);
     var page = {};
     if (result) {
-        page = jsyaml.load(result[2]);
-        page.head = result[2];
-        page.body = result[3];
+        page = jsyaml.load(result[1]);
+        page.head = result[1];
+        page.body = result[2];
     } else {
         page.head = '';
         page.body = text;
