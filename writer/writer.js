@@ -7,7 +7,9 @@ var code = document.getElementById('codearea');
 var show = document.getElementById('showarea');
 var writer = {
     type: (location.search == '?page') ? 'page' : 'post',
-    data: null,
+    list: null,
+    start: 0,
+    limit: 15,
     index: null,
     name: null,
     text: ''
@@ -42,24 +44,9 @@ function initBrowser() {
     var url = '../r/' + writer.type + 's';
     $('#nav-' + writer.type).addClass('current');
     $.get(url, function(items){
-        writer.data = items;
-        var content = '<table>';
-        $.each(items, function(i, v){
-            if (writer.type == 'post') {
-                var a = v.metadate;
-                var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4] + ':' + a[5];
-            } else {
-                var name = v.filename + '.md';
-            }
-            content += '<tr data-i="' + i + '">'
-                      + '<td><span class="item-name" title="Click to modify">' + name + '</span></td>'
-                      + '<td><span class="item-title">' + v.title + '</span></td>'
-                      + '<td><span class="item-edit">Edit</span></td>'
-                      + '<td><span class="item-delete">Delete</span></td>'
-                      + '</tr>';
-        });
-        content += '</table>';
-        $('#infomation').html(content);
+        writer.list = items;
+        writer.start = 0;
+        showFiles();
         $('#file-list').fadeIn();
         $('#button-new').show();
     });
@@ -70,7 +57,7 @@ function bindHandler() {
         var $target = $(e.target);
         if ($target.is('span')) {
             writer.index = $target.parent().parent().attr('data-i');
-            var article = writer.data[writer.index];
+            var article = writer.list[writer.index];
             writer.name = article.filename;
             writer.text = '---\n' + article.head + '\n---\n' + article.body;
             if ($target.hasClass('item-edit')) {
@@ -79,6 +66,12 @@ function bindHandler() {
                 fileRename($target.text());
             } else if ($target.hasClass('item-delete')) {
                 fileDelete();
+            } else if ($target.hasClass('newer')) {
+                writer.start -= writer.limit;
+                showFiles();
+            } else if ($target.hasClass('older')) {
+                writer.start += writer.limit;
+                showFiles();
             }
         }
     });
@@ -122,6 +115,32 @@ function bindHandler() {
             }
         });
     });
+}
+
+function showFiles() {
+    var start = writer.start, limit = writer.limit;
+    var items = writer.list.slice(start, start + limit);
+    var content = '<table>';
+    $.each(items, function(i, v){
+        if (writer.type == 'post') {
+            var a = v.metadate;
+            var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4] + ':' + a[5];
+        } else {
+            var name = v.filename + '.md';
+        }
+        var arrow = '';
+        if (i == 0 && start > 0) arrow = '<span class="newer">&uarr;</span>';
+        if (i == limit - 1 && start + limit < writer.list.length) arrow = '<span class="older">&darr;</span>';
+        content += '<tr data-i="' + (start + i) + '">'
+                  + '<td><span class="item-name" title="Click to modify">' + name + '</span></td>'
+                  + '<td><span class="item-title">' + v.title + '</span></td>'
+                  + '<td><span class="item-edit">Edit</span></td>'
+                  + '<td><span class="item-delete">Delete</span></td>'
+                  + '<td class="cell-special">' + arrow + '</td>'
+                  + '</tr>';
+    });
+    content += '</table>';
+    $('#information').html(content);
 }
 
 function fileRename(oldname) {
@@ -175,9 +194,9 @@ function fileDelete() {
 }
 
 function findFile(name) {
-    var data = writer.data;
-    for (var i = 0; i < data.length; i++) {
-        if (data[i].filename == name) return true;
+    var list = writer.list;
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].filename == name) return true;
     }
     return false;
 }

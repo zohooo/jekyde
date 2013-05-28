@@ -81,20 +81,42 @@ html, body {
     overflow: hidden;
 }
 
-#content table {
-    width: 94%;
-    margin: 10px;
+#file-list {
+    height: 100%;
+    width: 100%;
+}
+
+#information {
+    width: 98%;
+    margin: 1%;
+}
+
+#information table {
+    width: 100%;
+    margin: 0;
     border-collapse: collapse;
 }
 
-#content td {
+#information td {
     padding: 5px 10px;
     border: 1px dashed #888;
 }
 
-#file-list {
-    height: 100%;
-    width: 100%;
+#information td.cell-special {
+    width: 24px;
+    border: 0;
+}
+
+#information .newer, #information .older {
+    padding: 2px 3px;
+    border: 1px solid #BBB;
+    border-radius: 2px;
+    background: buttonface;
+}
+
+#information .newer:hover, #information .older:hover {
+    cursor: pointer;
+    background: white;
 }
 
 #file-edit {
