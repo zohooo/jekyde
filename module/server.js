@@ -15,6 +15,14 @@ function start(site, webdir) {
     var app = express();
     var base = site.root;
 
+    if (site.password) {
+        var data = loadHash();
+        if (data.salt && data.hash) {
+            app.set('salt', data.salt);
+            app.set('hash', data.hash);
+        }
+    }
+
     app.use(express.bodyParser());
     app.use(express.cookieParser());
 
@@ -33,24 +41,27 @@ function start(site, webdir) {
                 res.clearCookie('token', {path: '/r'});
             }
         }
-        if (app.get('auth')) {
+        if (app.get('hash')) {
             res.send('required');
         } else {
             res.send('empty');
         }
     });
     app.post(base + 'r/auth/in', function(req, res){
-        var auth = app.get('auth');
+        var salt = app.get('salt');
+        var hash = app.get('hash');
         var pass = req.body.pass;
         var code, token;
-        if (auth) {
-            if (auth === pass) {
+        if (salt && hash) {
+            if (checkHash(salt, hash, pass)) {
                 code = 200;
             } else {
                 code = 401;
             }
         } else {
-            app.set('auth', pass);
+            var data = makeHash(pass);
+            app.set('salt', data.salt);
+            app.set('hash', data.hash);
             code = 200;
         }
         if (code == 200) {
@@ -104,6 +115,40 @@ function start(site, webdir) {
     console.log('Please open your browser and visit http://localhost:' + port + base + 'w\n'
               + 'Press Esc to stop server, or press Enter to regenerate website\n');
     readStdin();
+}
+
+function loadHash() {
+    var output = {};
+    if (fs.existsSync('./package.json')) {
+        var input = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+        if (input.salt && input.hash) {
+            output.salt = input.salt;
+            output.hash = input.hash;
+        }
+    }
+    return output;
+}
+
+function makeHash(password) {
+    if (fs.existsSync('./package.json')) {
+        var output = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+    } else {
+        var output = {};
+    }
+    var salt = crypto.randomBytes(64).toString('base64');
+    var hash = shaHash(password + salt);
+    output.salt = salt; output.hash = hash;
+    fs.writeFileSync('./package.json', JSON.stringify(output, null, 4), 'utf8');
+    return {salt: salt, hash: hash};
+}
+
+function checkHash(salt, hash, password) {
+    var validHash = shaHash(password + salt);
+    return hash === validHash;
+}
+
+function shaHash(string) {
+    return crypto.createHash('sha512').update(string).digest('hex');
 }
 
 function readStdin() {
