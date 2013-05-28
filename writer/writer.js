@@ -16,10 +16,9 @@ var writer = {
 };
 
 $(function() {
+    $('#nav-' + writer.type).addClass('current');
     doResize();
-    initBrowser();
-    bindHandler();
-    loadMathJax();
+    signIn();
 });
 
 $(window).resize(function() {
@@ -38,11 +37,31 @@ function doResize() {
     $('#showwrap').width(wd);
 }
 
+function signIn() {
+    $.get('../r/auth', function(auth){
+        var info, pass;
+        switch (auth) {
+            case 'none':
+            case 'connected':
+                return initBrowser();
+            case 'empty':
+                info = 'Please setup your password:';
+                break;
+            case 'required':
+                info = 'Please enter your password:';
+                break;
+        }
+        while (!pass) {
+            pass = window.prompt(info, '');
+        }
+        $.post('../r/auth/in', {pass: pass})
+         .done(initBrowser)
+         .fail(function(){alert('Wrong Password!')});
+    });
+}
+
 function initBrowser() {
-    $('#file-edit').hide();
-    $('#button-save').hide();
     var url = '../r/' + writer.type + 's';
-    $('#nav-' + writer.type).addClass('current');
     $.get(url, function(items){
         writer.list = items;
         writer.start = 0;
@@ -50,6 +69,8 @@ function initBrowser() {
         $('#file-list').fadeIn();
         $('#button-new').show();
     });
+    bindHandler();
+    loadMathJax();
 }
 
 function bindHandler() {
@@ -118,6 +139,8 @@ function bindHandler() {
 }
 
 function showFiles() {
+    $('#file-edit').hide();
+    $('#button-save').hide();
     var start = writer.start, limit = writer.limit;
     var items = writer.list.slice(start, start + limit);
     var content = '<table>';

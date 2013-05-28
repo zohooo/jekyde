@@ -6,6 +6,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var crypto = require('crypto');
 var express = require('express');
 
 var builder = require('./builder.js');
@@ -15,13 +16,60 @@ function start(site, webdir) {
     var base = site.root;
 
     app.use(express.bodyParser());
+    app.use(express.cookieParser());
 
     app.use(base, express.static(webdir));
-
     app.get(new RegExp('^' + base + '[wW]$'), function(req, res){
         res.redirect(base + 'w/');
     });
     app.use(base + 'w', express.static(path.normalize(__dirname + '/../writer'), {redirect: true}));
+
+    app.get(base + 'r/auth', function(req, res){
+        if (!site.password) return res.send('none');
+        if (req.cookies && req.cookies.token) {
+            if (req.cookies.token == app.get('token')) {
+                return res.send('connected');
+            } else {
+                res.clearCookie('token', {path: '/r'});
+            }
+        }
+        if (app.get('auth')) {
+            res.send('required');
+        } else {
+            res.send('empty');
+        }
+    });
+    app.post(base + 'r/auth/in', function(req, res){
+        var auth = app.get('auth');
+        var pass = req.body.pass;
+        var code, token;
+        if (auth) {
+            if (auth === pass) {
+                code = 200;
+            } else {
+                code = 401;
+            }
+        } else {
+            app.set('auth', pass);
+            code = 200;
+        }
+        if (code == 200) {
+            token = crypto.randomBytes(64).toString('hex');
+            app.set('token', token);
+            res.cookie('token', token, {path: '/r'});
+        }
+        res.send(code);
+    });
+    app.post(base + 'r/auth/out', function(req, res){
+        res.clearCookie('token', {path: '/r'});
+    });
+    app.all(base + 'r/*', function(req, res, next){
+        if (!site.password || (req.cookies && req.cookies.token == app.get('token'))) {
+            next();
+        } else {
+            res.send(401);
+        }
+    });
 
     app.get(base + 'r/posts', function(req, res){
         res.set('Content-Type', 'application/json; charset=utf-8');
