@@ -1,28 +1,32 @@
 {
-  "name": "jekyde",
-  "version": "0.2.4",
-  "description": "A static blog builder, server and writer.",
-  "license": "MIT",
-  "author": {
-    "name": "zohooo",
-    "email": "zohooo@yeah.net"
-  },
-  "main": "index.js",
-  "bin": "./binary/jekyde",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/zohooo/jekyde.git"
-  },
-  "homepage": "https://github.com/zohooo/jekyde",
-  "preferGlobal": true,
-  "dependencies": {
-    "async": "*",
-    "fs-extra": "*",
-    "js-yaml": "*",
-    "highlight.js": "*",
-    "marked": "*",
-    "swig": "*",
-    "express": ">=3.0"
-  },
-  "keywords": ["static", "blog", "builder", "server", "writer", "latex"]
+    "name": "jekyde",
+    "version": "0.2.4",
+    "description": "A static blog builder, server and writer.",
+    "license": "MIT",
+    "author": {
+        "name": "zohooo",
+        "email": "zohooo@yeah.net"
+    },
+    "main": "index.js",
+    "bin": "./binary/jekyde",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/zohooo/jekyde.git"
+    },
+    "homepage": "https://github.com/zohooo/jekyde",
+    "preferGlobal": true,
+    "engines": {
+        "node": ">= 0.8.0",
+        "npm": ">= 1.1.0"
+    },
+    "dependencies": {
+        "async": "*",
+        "fs-extra": "*",
+        "js-yaml": "*",
+        "highlight.js": "*",
+        "marked": "*",
+        "swig": "*",
+        "express": ">=3.0"
+    },
+    "keywords": ["static", "blog", "builder", "server", "writer", "latex"]
 }

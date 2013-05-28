@@ -157,6 +157,25 @@ function copyFiles(back) {
     ], back);
 }
 
+function jsonPackage() {
+    var input, output;
+    input = JSON.parse(fs.readFileSync(path.normalize(__dirname + '/../package.json'), 'utf8'));
+    if (fs.existsSync('./package.json')) {
+        output = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+    } else {
+        output = {};
+    }
+    output.name = 'jekyde';
+    output.version = input.version;
+    output['private'] = true;
+    output.main = 'node_modules/jekyde/binary/jekyde';
+    output.engines = input.engines;
+    output.dependencies = {
+        jekyde: '*'
+    }
+    fs.writeFileSync('./package.json', JSON.stringify(output, null, 4), 'utf8');
+}
+
 function runServer() {
     server.start(site, wdir);
 }
@@ -203,6 +222,7 @@ exports.start = function() {
         if (err) throw err;
         var t2 = new Date();
         console.log('\nYour website has been successfully generated in ' + (t2 - t1) / 1000 + ' seconds');
+        jsonPackage();
         runServer();
     });
 }
