@@ -110,8 +110,12 @@ function start(site, webdir) {
         res.json(result);
     });
 
-    var port = site.port;
-    app.listen(port, 'localhost');
+    var port = process.env.PORT || process.env.VCAP_APP_PORT || site.port;
+    if (site.password) {
+        app.listen(port);
+    } else {
+        app.listen(port, 'localhost');
+    }
     console.log('Please open your browser and visit http://localhost:' + port + base + 'w');
     readStdin();
 }

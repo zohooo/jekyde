@@ -170,6 +170,9 @@ function jsonPackage() {
     output.version = input.version;
     output['private'] = true;
     output.main = 'node_modules/jekyde/jekyde';
+    output.scripts = {
+        start: 'node node_modules/jekyde/jekyde'
+    };
     output.engines = input.engines;
     output.dependencies = {
         jekyde: input.version
