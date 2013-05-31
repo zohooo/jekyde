@@ -172,7 +172,7 @@ function jsonPackage() {
     output.main = 'node_modules/jekyde/jekyde';
     output.engines = input.engines;
     output.dependencies = {
-        jekyde: '*'
+        jekyde: input.version
     }
     fs.writeFileSync('./package.json', JSON.stringify(output, null, 4), 'utf8');
 }
