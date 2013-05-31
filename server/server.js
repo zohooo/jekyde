@@ -112,8 +112,7 @@ function start(site, webdir) {
 
     var port = site.port;
     app.listen(port, 'localhost');
-    console.log('Please open your browser and visit http://localhost:' + port + base + 'w\n'
-              + 'Press Esc to stop server, or press Enter to regenerate website\n');
+    console.log('Please open your browser and visit http://localhost:' + port + base + 'w');
     readStdin();
 }
 
@@ -153,6 +152,7 @@ function shaHash(string) {
 
 function readStdin() {
     var stdin = process.stdin;
+    if (!stdin.setRawMode) return;
 
     stdin.setRawMode(true);
     stdin.resume();
@@ -172,6 +172,7 @@ function readStdin() {
                 process.stdout.write(key);
         }
     });
+    console.log('Press Esc to stop server, or press Enter to regenerate website\n');
 }
 
 function rename(req, res){
