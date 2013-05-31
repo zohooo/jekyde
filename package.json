@@ -8,7 +8,7 @@
         "email": "zohooo@yeah.net"
     },
     "main": "index.js",
-    "bin": "./binary/jekyde",
+    "bin": "jekyde",
     "repository": {
         "type": "git",
         "url": "git://github.com/zohooo/jekyde.git"

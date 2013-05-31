@@ -1,5 +1,5 @@
 /**
- * Jekyde - static blog generator, server and writer
+ * Jekyde - static blog builder, server and writer
  * Copyright (c) 2013 zohooo (MIT Licensed)
  * https://github.com/zohooo/jekyde
  */
@@ -8,10 +8,11 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 var fsextra = require('fs-extra');
-var yaml = require('./converter/yaml');
-var markdown = require('./converter/markdown');
+
+var yaml = require('./converter/yaml.js');
+var markdown = require('./converter/markdown.js');
 var updater = require('./utility/updater.js');
-var server = require('./server.js');
+var server = require('../server/server.js');
 
 var cdir = 'content', tdir = 'template', wdir = 'website';
 var site = updater.site;
@@ -20,7 +21,7 @@ function initialize(back) {
     async.each([cdir, tdir], function(dir, callback){
         if (fs.existsSync(dir)) return callback();
         console.log('Initializing default ' + dir + ' folder...');
-        fsextra.copy((path.normalize(__dirname + '/../weblog/default/' + dir)), dir, callback);
+        fsextra.copy((path.normalize(__dirname + '/../example/default/' + dir)), dir, callback);
     }, back);
 }
 
@@ -168,7 +169,7 @@ function jsonPackage() {
     output.name = 'jekyde';
     output.version = input.version;
     output['private'] = true;
-    output.main = 'node_modules/jekyde/binary/jekyde';
+    output.main = 'node_modules/jekyde/jekyde';
     output.engines = input.engines;
     output.dependencies = {
         jekyde: '*'

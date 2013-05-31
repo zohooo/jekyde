@@ -1,5 +1,5 @@
 /**
- * Jekyde - static blog generator, server and writer
+ * Jekyde - static blog builder, server and writer
  * Copyright (c) 2013 zohooo (MIT Licensed)
  * https://github.com/zohooo/jekyde
  */
@@ -9,7 +9,7 @@ var path = require('path');
 var crypto = require('crypto');
 var express = require('express');
 
-var builder = require('./builder.js');
+var builder = require('../builder/builder.js');
 
 function start(site, webdir) {
     var app = express();
