@@ -10,7 +10,7 @@ category_dir:       category
 tag_dir:            tag
 post_link:          post/:year/:month/:day/:name.html
 page_link:          page/:name
-paginate:           3
+paginate:           10
 
 ## Engine
 latex:              true
@@ -18,3 +18,4 @@ subscribe:          true
 
 ## Server
 port:               4040
+password:           false
