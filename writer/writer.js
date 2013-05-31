@@ -43,7 +43,7 @@ function signIn() {
         switch (auth) {
             case 'none':
             case 'connected':
-                return initBrowser();
+                return initWriter();
             case 'empty':
                 info = 'Please setup your password:';
                 break;
@@ -55,9 +55,15 @@ function signIn() {
             pass = window.prompt(info, '');
         }
         $.post('../r/auth/in', {pass: pass})
-         .done(initBrowser)
+         .done(initWriter)
          .fail(function(){alert('Wrong Password!')});
     });
+}
+
+function initWriter() {
+    initBrowser();
+    bindHandler();
+    loadMathJax();
 }
 
 function initBrowser() {
@@ -69,8 +75,6 @@ function initBrowser() {
         $('#file-list').fadeIn();
         $('#button-new').show();
     });
-    bindHandler();
-    loadMathJax();
 }
 
 function bindHandler() {
