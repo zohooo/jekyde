@@ -8,50 +8,65 @@ module.exports = function(obj, basename) {
         obj.metadate = a;
     }
 
-    // default date format
-    var r = [
-        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([01]\d|2[0-3])-([0-5]\d)-([0-5]\d)$/,
-        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([01]\d|2[0-3])-([0-5]\d)$/,
-        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])$/
-    ];
-    for (var i = 0; i < r.length; i++) {
-        var a = r[i].exec(basename);
-        if (a) {
-            a = a.slice(1);
-            setDate(a);
-            return;
+    function setTitle(name) {
+        if (!obj.name) obj.name = name.toLowerCase();
+        if (!obj.title) obj.title = name.replace('-', ' ');
+    }
+
+    function reviseDate() {
+        var date = obj.date;  // date in yaml header
+        if (!date) return;
+
+        // string date format
+        re = /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):([0-5]\d)$/;
+        if (typeof date == 'string') {
+            ar = re.exec(date);
+            if (ar) {
+                ar = ar.slice(1);
+                setDate(ar);
+                return;
+            }
+        }
+
+        // utc date format
+        if (date instanceof Date) {
+            obj.date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+            obj.metadate = dateArray(obj.date);
         }
     }
 
-    // jekyll date format
-    var re = /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([\w\W]+)$/;
-    var ar = re.exec(basename);
-    if (ar) {
-        if (!obj.title) obj.title = ar[4].replace('-', ' ');
-        ar = ar.slice(1, 4);
-        setDate(ar);
-        return;
-    }
+    function parseDate() {
+        // default date format
+        var r = [
+            /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([01]\d|2[0-3])-([0-5]\d)-([0-5]\d)$/,
+            /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([01]\d|2[0-3])-([0-5]\d)$/,
+            /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])$/
+        ];
+        for (var i = 0; i < r.length; i++) {
+            var a = r[i].exec(basename);
+            if (a) {
+                a = a.slice(1);
+                if (!obj.date) setDate(a);
+                return;
+            }
+        }
 
-    var date = obj.date;  // date in yaml header
-    if (!obj.title) obj.title = basename;
-
-    // string date format
-    re = /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):([0-5]\d)$/;
-    if (typeof date == 'string') {
-        ar = re.exec(date);
+        // jekyll date format
+        var re = /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([\w\W]+)$/;
+        var ar = re.exec(basename);
         if (ar) {
-            ar = ar.slice(1);
-            setDate(ar);
+            setTitle(ar[4]);
+            ar = ar.slice(1, 4);
+            if (!obj.date) setDate(ar);
             return;
         }
+
+        // no date in basename
+        setTitle(basename);
     }
 
-    // utc date format
-    if (date instanceof Date) {
-        obj.date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-        obj.metadate = dateArray(obj.date);
-    }
+    reviseDate();
+    parseDate();
 }
 
 function dateArray(d){
