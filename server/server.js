@@ -38,7 +38,7 @@ function start(site, webdir) {
             if (req.cookies.token == app.get('token')) {
                 return res.send('connected');
             } else {
-                res.clearCookie('token', {path: '/r'});
+                res.clearCookie('token', {path: base + 'r'});
             }
         }
         if (app.get('hash')) {
@@ -67,12 +67,12 @@ function start(site, webdir) {
         if (code == 200) {
             token = crypto.randomBytes(64).toString('hex');
             app.set('token', token);
-            res.cookie('token', token, {path: '/r'});
+            res.cookie('token', token, {path: base + 'r'});
         }
         res.send(code);
     });
     app.post(base + 'r/auth/out', function(req, res){
-        res.clearCookie('token', {path: '/r'});
+        res.clearCookie('token', {path: base + 'r'});
     });
     app.all(base + 'r/*', function(req, res, next){
         if (!site.password || (req.cookies && req.cookies.token == app.get('token'))) {
