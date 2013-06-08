@@ -33,6 +33,7 @@ function start(site, webdir) {
     app.use(base + 'w', express.static(path.normalize(__dirname + '/../writer'), {redirect: true}));
 
     app.get(base + 'r/auth', function(req, res){
+        res.set('Expires', '-1');
         if (!site.password) return res.send('none');
         if (req.cookies && req.cookies.token) {
             if (req.cookies.token == app.get('token')) {
