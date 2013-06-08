@@ -78,6 +78,9 @@ function initBrowser() {
 }
 
 function bindHandler() {
+    if (history.pushState) {
+        window.onpopstate = initBrowser;
+    }
     $('#file-list').click(function(e){
         var $target = $(e.target);
         if ($target.is('span')) {
@@ -86,6 +89,9 @@ function bindHandler() {
             writer.name = article.filename;
             writer.text = '---\n' + article.head + '\n---\n' + article.body;
             if ($target.hasClass('item-edit')) {
+                if (history.pushState) {
+                    history.pushState({}, '', location.href + '#edit');
+                }
                 initEditor();
             } else if ($target.hasClass('item-name')) {
                 fileRename($target.attr('title'));
