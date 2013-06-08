@@ -102,6 +102,10 @@ html, body {
     background: #f5f5f5;
 }
 
+#information tr:hover, #information tr.even:hover {
+    background: #ebf3fd;
+}
+
 #information td {
     padding: 5px 10px;
     border-top: 1px solid #e6e6e6;
