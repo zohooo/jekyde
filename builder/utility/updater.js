@@ -49,6 +49,9 @@ exports.pushData = function(type, basename, text, check) {
 exports.moveData = function(type, basename, newname) {
     var list = site[type + 's'];
     var obj = list[findData(list, basename)];
+    obj.date = obj.metadate = obj.title = obj.name = null;
+    var h = yaml.load(obj.head);
+    for (var x in h) obj[x] = h[x];
     parseName(obj, type, newname);
     setPermalink(obj, type);
 }
