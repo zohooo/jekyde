@@ -159,6 +159,7 @@ function showFiles() {
     });
     content += '</table>';
     $('#information').html(content);
+    $('#information tr:even').addClass('even');
 }
 
 function fileRename(oldname) {
