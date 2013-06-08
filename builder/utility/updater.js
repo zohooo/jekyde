@@ -38,11 +38,6 @@ exports.pushData = function(type, basename, text, check) {
     var list = site[type + 's'];
     var obj = yaml.parse(text);
     parseName(obj, type, basename);
-    if (type == 'post' && (!obj.date || !(obj.date instanceof Date))) {
-        console.log('[Error] No date in file "' + basename + '.md" ');
-        return;
-    }
-    if (!obj.title) obj.title = 'Empty Title';
     setPermalink(obj, type);
     if (check) {
         list[findData(list, basename)] = obj;
@@ -70,20 +65,14 @@ exports.sortData = function() {
 }
 
 function parseName(obj, type, basename) {
-    if (type == "post") {
-        datetitle(obj, basename);
-    } else {
-        var link = type + '/' + basename + '.html';
-        obj.link = type + '/' + basename + '.html';
-        obj.name = basename;
-    }
+    datetitle(obj, type, basename);
     obj.filename = basename;
 }
 
 function setPermalink(obj, type) {
     var link = (type == 'post') ? site.post_link : site.page_link;
     var title = obj.title.toLowerCase().replace(/\s/g, '-');
-    var name = obj.name ? obj.name.toLowerCase().replace(/\s/g, '-') : title;
+    var name = obj.name.toLowerCase().replace(/\s/g, '-');
     if (type == 'post') {
         var date = obj.metadate;
         link = link.replace(':year', date[0])

@@ -176,7 +176,7 @@ iframe {
     border: 0;
 }
 
-.item-edit, .item-delete {
+.item-name, .item-edit, .item-delete {
     color: #002C99;
 }
 

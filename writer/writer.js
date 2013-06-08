@@ -88,7 +88,7 @@ function bindHandler() {
             if ($target.hasClass('item-edit')) {
                 initEditor();
             } else if ($target.hasClass('item-name')) {
-                fileRename($target.text());
+                fileRename($target.attr('title'));
             } else if ($target.hasClass('item-delete')) {
                 fileDelete();
             } else if ($target.hasClass('newer')) {
@@ -101,25 +101,18 @@ function bindHandler() {
         }
     });
     $('#button-new').click(function(e){
-        function dateString(d){
-            function pad(n){return n < 10 ? '0' + n : n}
-            return [d.getFullYear(),
-                pad(d.getMonth() + 1),
-                pad(d.getDate()),
-                pad(d.getHours()),
-                pad(d.getMinutes()),
-                pad(d.getSeconds())].join('-');
-        }
-        if (writer.type == 'post') {
+        function dateString(){
             var d = new Date();
-            writer.name = dateString(d);
-        } else {
-            var name = window.prompt('Please enter new page name:', 'noname.md');
-            if (name) {
-                writer.name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
-            } else return;
+            function pad(n){return n < 10 ? '0' + n : n}
+            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' '
+                 + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
         }
-        writer.text = '---\ntitle: Some Title\n---\n\nWrite here';
+        var rand = randomString(4);
+        name = window.prompt('Please enter new page name:', 'name-' + rand + '.md');
+        if (name) {
+            writer.name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
+        } else return;
+        writer.text = '---\ntitle: Some Title ' + rand + '\ndate: ' + dateString() + '\n---\n\nWrite here';
         initEditor();
     });
     $('#button-save').click(function(e){
@@ -149,18 +142,16 @@ function showFiles() {
     var items = writer.list.slice(start, start + limit);
     var content = '<table>';
     $.each(items, function(i, v){
-        if (writer.type == 'post') {
-            var a = v.metadate;
-            var name = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4] + ':' + a[5];
-        } else {
-            var name = v.filename + '.md';
-        }
+        var a = v.metadate;
+        var date = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+        var name = v.filename + '.md';
         var arrow = '';
         if (i == 0 && start > 0) arrow = '<span class="newer">&uarr;</span>';
         if (i == limit - 1 && start + limit < writer.list.length) arrow = '<span class="older">&darr;</span>';
         content += '<tr data-i="' + (start + i) + '">'
-                  + '<td><span class="item-name" title="Click to modify">' + name + '</span></td>'
+                  + '<td><span class="item-date">' + date + '</span></td>'
                   + '<td><span class="item-title">' + v.title + '</span></td>'
+                  + '<td><span class="item-name" title="' + name + '">Rename</span></td>'
                   + '<td><span class="item-edit">Edit</span></td>'
                   + '<td><span class="item-delete">Delete</span></td>'
                   + '<td class="cell-special">' + arrow + '</td>'
@@ -171,22 +162,13 @@ function showFiles() {
 }
 
 function fileRename(oldname) {
-    var r = (writer.type == 'post') ? 'date' : 'name';
-    var name = window.prompt('Please enter new ' + r + ' for the ' + writer.type, oldname);
+    var name = window.prompt('Please enter new filename for the ' + writer.type, oldname);
 
     if (!name) return;
     name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
     if (name == writer.name) return;
-    if (writer.type == 'post') {
-        if (verifyDate(name)) {
-            name = name.replace(/[ :]/g, '-');
-        } else {
-            alert('Invalid Date Format!');
-            return;
-        }
-    }
     if (findFile(name)) {
-        alert('The same ' + r + ' already exists!');
+        alert('The same filename already exists!');
         return;
     }
 
@@ -228,16 +210,11 @@ function findFile(name) {
     return false;
 }
 
-function verifyDate(name) {
-    var r = [
-        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/,
-        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):([0-5]\d)$/,
-        /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])$/
-    ];
-    for (var i = 0; i < r.length; i++) {
-        if (r[i].test(name)) return true;
-    }
-    return false;
+function randomString(size) {
+    var text = "";
+    var possible = "0123456789";
+    for (var i=0; i < size; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
 }
 
 function loadMathJax() {

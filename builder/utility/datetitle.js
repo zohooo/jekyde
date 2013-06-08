@@ -1,5 +1,5 @@
 
-module.exports = function(obj, basename) {
+module.exports = function(obj, type, basename) {
     function setDate(a) {
         if (!a[3]) a[3] = '00';
         if (!a[4]) a[4] = '00';
@@ -36,6 +36,7 @@ module.exports = function(obj, basename) {
     }
 
     function parseDate() {
+        if (obj.date) return;
         // default date format
         var r = [
             /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([01]\d|2[0-3])-([0-5]\d)-([0-5]\d)$/,
@@ -46,11 +47,13 @@ module.exports = function(obj, basename) {
             var a = r[i].exec(basename);
             if (a) {
                 a = a.slice(1);
-                if (!obj.date) setDate(a);
+                setDate(a);
                 return;
             }
         }
+    }
 
+    function parseDateTitle() {
         // jekyll date format
         var re = /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([\w\W]+)$/;
         var ar = re.exec(basename);
@@ -60,13 +63,22 @@ module.exports = function(obj, basename) {
             if (!obj.date) setDate(ar);
             return;
         }
-
-        // no date in basename
-        setTitle(basename);
     }
 
     reviseDate();
-    parseDate();
+    if (type == 'post') {
+        parseDate();
+        parseDateTitle();
+    }
+    setTitle(basename);
+
+    if (!obj.date || !(obj.date instanceof Date)) {
+        obj.date = new Date();
+        obj.metadate = dateArray(obj.date);
+        if (type == 'post') {
+            console.log('[Warning] No date in post file "' + basename + '.md" ');
+        }
+    }
 }
 
 function dateArray(d){
