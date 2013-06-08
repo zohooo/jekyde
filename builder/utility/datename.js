@@ -8,9 +8,8 @@ module.exports = function(obj, type, basename) {
         obj.metadate = a;
     }
 
-    function setTitle(name) {
+    function setName(name) {
         if (!obj.name) obj.name = name.toLowerCase();
-        if (!obj.title) obj.title = name.replace('-', ' ');
     }
 
     function reviseDate() {
@@ -53,24 +52,34 @@ module.exports = function(obj, type, basename) {
         }
     }
 
-    function parseDateTitle() {
+    function parseDateName() {
         // jekyll date format
         var re = /^(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12]\d|3[01])-([\w\W]+)$/;
         var ar = re.exec(basename);
         if (ar) {
-            setTitle(ar[4]);
+            setName(ar[4]);
             ar = ar.slice(1, 4);
             if (!obj.date) setDate(ar);
-            return;
+        } else {
+            setName(basename);
         }
     }
 
     reviseDate();
     if (type == 'post') {
         parseDate();
-        parseDateTitle();
+        parseDateName();
+    } else {
+        setName(basename);
     }
-    setTitle(basename);
+
+    if (!obj.name && !obj.title) {obj.name = obj.title.replace(' ', '-');
+        obj.name = obj.title = basename;
+    } else if (!obj.name) {
+        obj.name = obj.title.replace(' ', '-');
+    } else if (!obj.title) {
+        obj.title = obj.name.replace('-', ' ');
+    }
 
     if (!obj.date || !(obj.date instanceof Date)) {
         obj.date = new Date();

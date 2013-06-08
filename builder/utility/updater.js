@@ -1,5 +1,5 @@
 
-var datetitle = require('./datetitle');
+var datename = require('./datename');
 var yaml = require('../converter/yaml');
 
 var site = exports.site = {
@@ -68,7 +68,7 @@ exports.sortData = function() {
 }
 
 function parseName(obj, type, basename) {
-    datetitle(obj, type, basename);
+    datename(obj, type, basename);
     obj.filename = basename;
 }
 
