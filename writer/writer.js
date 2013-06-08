@@ -108,10 +108,14 @@ function bindHandler() {
                  + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
         }
         var rand = randomString(4);
-        name = window.prompt('Please enter new page name:', 'name-' + rand + '.md');
-        if (name) {
-            writer.name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
-        } else return;
+        var name = window.prompt('Please enter new page name:', 'name-' + rand + '.md');
+        if (!name) return;
+        name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
+        if (findFile(name)) {
+            alert('The same filename already exists!');
+            return;
+        }
+        writer.name = name;
         writer.text = '---\ntitle: Some Title ' + rand + '\ndate: ' + dateString() + '\n---\n\nWrite here';
         initEditor();
     });
