@@ -68,7 +68,7 @@ function start(site, webdir) {
         if (code == 200) {
             token = crypto.randomBytes(64).toString('hex');
             app.set('token', token);
-            res.cookie('token', token, {path: base + 'r'});
+            res.cookie('token', token, {path: base + 'r', expires: new Date(Date.now() + 24*3600000)});
         }
         res.send(code);
     });
