@@ -10,6 +10,7 @@ var crypto = require('crypto');
 var express = require('express');
 
 var builder = require('../builder/builder.js');
+var querier = require('../builder/utility/querier.js');
 
 function start(site, webdir) {
     var app = express();
@@ -86,9 +87,7 @@ function start(site, webdir) {
     app.get(base + 'r/posts', function(req, res){
         res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
-        res.send(JSON.stringify(site.posts, function(key, value){
-            if (key !== 'previous' && key !== 'next') return value;
-        }));
+        res.send(querier.getAllPosts());
     });
     app.get(base + 'r/post/:filename', function(req, res){
         res.send('fetched');
@@ -98,8 +97,9 @@ function start(site, webdir) {
     app.del(base + 'r/post/:filename', remove);
 
     app.get(base + 'r/pages', function(req, res){
+        res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
-        res.send(site.pages);
+        res.send(querier.getAllPages());
     });
     app.post(base + 'r/page/:filename', rename);
     app.put(base + 'r/page/:filename', modify);
