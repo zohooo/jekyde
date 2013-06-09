@@ -89,8 +89,10 @@ function start(site, webdir) {
         res.set('Expires', '-1');
         res.send(querier.getAllPosts());
     });
-    app.get(base + 'r/post/:filename', function(req, res){
-        res.send('fetched');
+    app.get(base + 'r/post/:index', function(req, res){
+        res.set('Content-Type', 'application/json; charset=utf-8');
+        res.set('Expires', '-1');
+        res.send(querier.getPost(req.params.index));
     });
     app.post(base + 'r/post/:filename', rename);
     app.put(base + 'r/post/:filename', modify);
@@ -100,6 +102,11 @@ function start(site, webdir) {
         res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
         res.send(querier.getAllPages());
+    });
+    app.get(base + 'r/page/:index', function(req, res){
+        res.set('Content-Type', 'application/json; charset=utf-8');
+        res.set('Expires', '-1');
+        res.send(querier.getPage(req.params.index));
     });
     app.post(base + 'r/page/:filename', rename);
     app.put(base + 'r/page/:filename', modify);

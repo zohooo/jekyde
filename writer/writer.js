@@ -85,14 +85,12 @@ function bindHandler() {
         var $target = $(e.target);
         if ($target.is('span')) {
             writer.index = $target.parent().parent().attr('data-i');
-            var article = writer.list[writer.index];
-            writer.name = article.filename;
-            writer.text = '---\n' + article.head + '\n---\n' + article.body;
+            writer.name = writer.list[writer.index].filename;
             if ($target.hasClass('item-edit')) {
                 if (history.pushState) {
                     history.pushState({}, '', location.href + '#edit');
                 }
-                initEditor();
+                fileEdit(writer.index);
             } else if ($target.hasClass('item-name')) {
                 fileRename($target.attr('title'));
             } else if ($target.hasClass('item-delete')) {
@@ -170,6 +168,14 @@ function showFiles() {
     content += '</table>';
     $('#information').html(content);
     $('#information tr:even').addClass('even');
+}
+
+function fileEdit(index) {
+    var url = '../r/' + writer.type + '/' + index;
+    $.get(url, function(article){
+        writer.text = '---\n' + article.head + '\n---\n' + article.body;
+        initEditor();
+    });
 }
 
 function fileRename(oldname) {
