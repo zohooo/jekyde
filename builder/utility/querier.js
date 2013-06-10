@@ -3,21 +3,12 @@ var updater = require('./updater.js');
 
 var site = updater.site;
 
-exports.getAllPosts = function() {
-    return JSON.stringify(site.posts, replacer);
+exports.getAll = function(type) {
+    return JSON.stringify(site[type], replacer);
 }
 
-exports.getAllPages = function() {
-    return JSON.stringify(site.pages, replacer);
-}
-
-exports.getPost = function(index) {
-    var article = site.posts[index];
-    return JSON.stringify({head: article.head, body: article.body});
-}
-
-exports.getPage = function(index) {
-    var article = site.pages[index];
+exports.getOne = function(type, index) {
+    var article = site[type][index];
     return JSON.stringify({head: article.head, body: article.body});
 }
 

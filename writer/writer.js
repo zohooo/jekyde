@@ -92,7 +92,7 @@ function bindHandler() {
                 }
                 fileEdit(writer.index);
             } else if ($target.hasClass('item-name')) {
-                fileRename($target.attr('title'));
+                fileRename();
             } else if ($target.hasClass('item-delete')) {
                 fileDelete();
             } else if ($target.hasClass('newer')) {
@@ -119,6 +119,7 @@ function bindHandler() {
             alert('The same filename already exists!');
             return;
         }
+        writer.index = -1;
         writer.name = name;
         writer.text = '---\ntitle: Some Title ' + rand + '\ndate: ' + dateString() + '\n---\n\nWrite here';
         initEditor();
@@ -126,19 +127,14 @@ function bindHandler() {
     $('#button-save').click(function(e){
         var url = '../r/' + writer.type + '/' + writer.name;
         var data = {
-            type: writer.type,
-            filename: writer.name,
+            index: writer.index,
             source: code.value
         };
         $.ajax({
             type: 'PUT',
             url: url,
             data: data,
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                initBrowser();
-            }
+            success: initBrowser
         });
     });
 }
@@ -178,8 +174,8 @@ function fileEdit(index) {
     });
 }
 
-function fileRename(oldname) {
-    var name = window.prompt('Please enter new filename for the ' + writer.type, oldname);
+function fileRename() {
+    var name = window.prompt('Please enter new filename for the ' + writer.type, writer.name + '.md');
 
     if (!name) return;
     name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
@@ -191,30 +187,23 @@ function fileRename(oldname) {
 
     var url = '../r/' + writer.type + '/' + writer.name;
     var data = {
-        type: writer.type,
+        index: writer.index,
         newname: name
     };
-    $.post(url, data, function(data) {
-            console.log(data);
-            initBrowser();
-    });
+    $.post(url, data, initBrowser);
 }
 
 function fileDelete() {
     if (confirm('Do you really want to delete this article?')) {
         var url = '../r/' + writer.type + '/' + writer.name;
         var data = {
-            type: writer.type
+            index: writer.index
         };
         $.ajax({
             type: 'DELETE',
             url: url,
             data: data,
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                initBrowser();
-            }
+            success: initBrowser
         });
     }
 }

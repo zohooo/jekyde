@@ -84,33 +84,34 @@ function start(site, webdir) {
         }
     });
 
-    app.get(base + 'r/posts', function(req, res){
+    app.get(new RegExp('^' + base + 'r/(posts|pages)$'), function(req, res){
+        var type = req.params[0];
         res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
-        res.send(querier.getAllPosts());
+        res.send(querier.getAll(type));
     });
-    app.get(base + 'r/post/:index', function(req, res){
+    app.get(new RegExp('^' + base + 'r/(post|page)/(\\d+)$'), function(req, res){
+        var type = req.params[0], index = req.params[1];
         res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
-        res.send(querier.getPost(req.params.index));
+        res.send(querier.getOne(type + 's', body.index));
     });
-    app.post(base + 'r/post/:filename', rename);
-    app.put(base + 'r/post/:filename', modify);
-    app.del(base + 'r/post/:filename', remove);
-
-    app.get(base + 'r/pages', function(req, res){
-        res.set('Content-Type', 'application/json; charset=utf-8');
-        res.set('Expires', '-1');
-        res.send(querier.getAllPages());
+    app.all(new RegExp('^' + base + 'r/(post|page)/([\\w\\W]+)$'), function(req, res){
+        var type = req.params[0], name = req.params[1], body = req.body;
+        switch (req.method) {
+            case 'POST':
+                res.send(rename(type, name, body));
+                break;
+            case 'PUT':
+                res.send(modify(type, name, body));
+                break;
+            case 'DELETE':
+                res.send(remove(type, name, body));
+                break;
+            default:
+                res.send(400);
+        }
     });
-    app.get(base + 'r/page/:index', function(req, res){
-        res.set('Content-Type', 'application/json; charset=utf-8');
-        res.set('Expires', '-1');
-        res.send(querier.getPage(req.params.index));
-    });
-    app.post(base + 'r/page/:filename', rename);
-    app.put(base + 'r/page/:filename', modify);
-    app.del(base + 'r/page/:filename', remove);
 
     app.get(base + 'r/config/:key', function(req, res){
         var key = req.params.key;
@@ -187,58 +188,55 @@ function readStdin() {
     console.log('Press Esc to stop server, or press Enter to regenerate website\n');
 }
 
-function rename(req, res){
-    var data = req.body;
-    var dir = 'content/' + data.type + '/';
-    var oldname = req.params.filename;
-    fs.rename( dir + oldname + '.md', dir + data.newname + '.md', function(err) {
-        if (err) throw err;
-        res.send({
-            name: data.newname,
-            message: 'renamed'
-        });
+function rename(type, name, data) {
+    var dir = 'content/' + type + '/';
+    var newname = data.newname;
+    try {
+        fs.renameSync(dir + name + '.md', dir + newname + '.md');
         builder.update({
             mode: 'rename',
-            type: data.type,
-            name: oldname,
-            newname: data.newname
+            type: type,
+            name: name,
+            newname: newname
         });
-    });
+        return 200;
+    } catch (err) {
+        console.log(err);
+        return 400;
+    }
 }
 
-function modify(req, res){
-    var name = req.params.filename;
-    var data = req.body;
-    fs.writeFile('content/' + data.type + '/' + name + '.md', data.source, function (err) {
-        if (err) throw err;
-        res.send({
-            name: name,
-            message: 'created or modified'
-        });
+function modify(type, name, data) {
+    // created or modified
+    var source = data.source;
+    try {
+        fs.writeFileSync('content/' + type + '/' + name + '.md', source);
         builder.update({
             mode: 'modify',
-            type: data.type,
+            type: type,
             name: name,
-            text: data.source
+            text: source
         });
-    });
+        return 200;
+    } catch (err) {
+        console.log(err);
+        return 400;
+    }
 }
 
-function remove(req, res){
-    var name = req.params.filename;
-    var data = req.body;
-    fs.unlink('content/' + data.type + '/' + name + '.md', function(err) {
-        if (err) throw err;
-        res.send({
-            name: name,
-            message: 'removed'
-        });
+function remove(type, name, data){
+    try {
+        fs.unlinkSync('content/' + type + '/' + name + '.md');
         builder.update({
             mode: 'remove',
-            type: data.type,
-            name: name
+            type: type,
+            name: name,
         });
-    });
+        return 200;
+    } catch (err) {
+        console.log(err);
+        return 400;
+    }
 }
 
 module.exports = {
