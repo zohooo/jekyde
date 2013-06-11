@@ -36,6 +36,7 @@ MathJax.Hub.Config({
     <li><a href="/jekyde/variable.html">Template Variables</a></li>
     <li><a href="/jekyde/pagination.html">Pagination</a></li>
     <li><a href="/jekyde/plugin.html">Make Plugins</a></li>
+    <li><a href="/jekyde/deployment.html">Deploy Your Blog</a></li>
 </ul>
 </div>
 <div id="main">
@@ -54,23 +55,23 @@ MathJax.Hub.Config({
 <tbody>
 <tr>
 <td><code>year</code></td>
-<td>year from the post&#39;s filename</td>
+<td>year from the post&#39;s front matter or filename</td>
 </tr>
 <tr>
 <td><code>month</code></td>
-<td>month from the post&#39;s filename</td>
+<td>month from the post&#39;s front matter or filename</td>
 </tr>
 <tr>
 <td><code>day</code></td>
-<td>day from the post&#39;s filename</td>
+<td>day from the post&#39;s front matter or filename</td>
 </tr>
 <tr>
 <td><code>title</code></td>
-<td>title from the post&#39;s front matter</td>
+<td>the title of the post from its front matter</td>
 </tr>
 <tr>
 <td><code>name</code></td>
-<td>name from the post&#39;s front matter</td>
+<td>the name of the post from its file name</td>
 </tr>
 </tbody>
 </table>
@@ -85,11 +86,11 @@ MathJax.Hub.Config({
 <tbody>
 <tr>
 <td><code>title</code></td>
-<td>title from the page&#39;s front matter</td>
+<td>the title of the page from its front matter</td>
 </tr>
 <tr>
 <td><code>name</code></td>
-<td>name from the page&#39;s filename</td>
+<td>the name of the page from its file name</td>
 </tr>
 </tbody>
 </table>
@@ -112,6 +113,7 @@ MathJax.Hub.Config({
 </tr>
 </tbody>
 </table>
+<p>For example, when the file name of some post is <code>some-name.md</code>, the <code>name</code> value of it is <code>some-name</code>; when the file name of another post is <code>2013-06-11-another-name.md</code>, the <code>name</code> value of it is <code>another-name</code>. It is better to use these <code>name</code> values in permalinks if there are Non-ASCII characters in the title of posts or pages.</p>
 
         </div>
     </div>

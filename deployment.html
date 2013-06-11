@@ -41,29 +41,24 @@ MathJax.Hub.Config({
 </div>
 <div id="main">
     <div class="article">
-        <div class="ptitle">Configuration</div>
+        <div class="ptitle">Deploy Your Blog</div>
         <div class="pmain">
-        <p>You may change configurations by editing <code>config.yml</code> file in your template folder. The following file shows the default settings:</p>
-<pre><code>## Website
-title:              Simple Blog
-subtitle:           A static blog
-host:               http://localhost
-root:               /
-
-## Output
-archive_dir:        archive
-category_dir:       category
-tag_dir:            tag
-post_link:          post/:year/:month/:day/:name.html
-page_link:          page/:name
-paginate:           10
-
-## Engine
-latex:              false
-subscribe:          true
-
-## Server
-port:               4040</code></pre>
+        <h3>Deploy to Your GitHub Pages</h3>
+<p>Just add all files in <code>website</code> folder to your github pages repository, and push it.</p>
+<h3>Deploy to Your Node.JS Server</h3>
+<pre><code>cd /path/to/blog/folder
+npm install
+nohup node . &amp;</code></pre>
+<p>When you use Nginx as reverse proxy to Node.JS, and your blog url is <code>http://www.example.com/blog/</code>, you need to add the following to your <code>nginx.conf</code> file.</p>
+<pre><code>http {
+    server {
+        listen       80;
+        server_name  www.example.com;            
+        location ^~ /blog/ {
+            proxy_pass   http://127.0.0.1:4040;
+        }
+}</code></pre>
+<p>Now you could update your blog in desktop or mobile browsers.</p>
 
         </div>
     </div>

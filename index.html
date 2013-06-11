@@ -36,13 +36,24 @@ MathJax.Hub.Config({
     <li><a href="/jekyde/variable.html">Template Variables</a></li>
     <li><a href="/jekyde/pagination.html">Pagination</a></li>
     <li><a href="/jekyde/plugin.html">Make Plugins</a></li>
+    <li><a href="/jekyde/deployment.html">Deploy Your Blog</a></li>
 </ul>
 </div>
 <div id="main">
     <div class="article">
         <div class="ptitle">Introduction</div>
         <div class="pmain">
-        <p>Jekyde is a static blog builder, server and writer in Node.JS.</p>
+        <p>Jekyde is a static blog builder, server and writer in Node.JS. Using Jekyde, You could write your blog in Markdown and LaTeX easily.</p>
+<p>The main differences between Jekyde and other similar tools are the following three features:</p>
+<ol>
+<li><p>Take care of conflicts between Markdown and LaTeX: You only need to write LaTeX formulas as <code>$...$</code> and <code>$$...$$</code>. No need to put them inside backquotes, and no worry about <code>\{...\}</code> and <code>a_1b_1</code> broken by markdown.</p>
+</li>
+<li><p>Include a live blog writer inside browser: You could write you markdown + LaTeX articles in browser, and get the live preview of results by marked and MathJax. When you save articles, Your blog website will be regenerated at once.</p>
+</li>
+<li><p>You may write your blog posts in local computer, and push Jekyde-built website to GitHub pages. Also you may deploy Jekyde to your Node.JS server, and write your blog posts in browser, just as using WordPress.</p>
+</li>
+</ol>
+<p>Jekyde is written in Node.JS. You could install it using npm. The template data and file formats are more of less compatible with Jekyll using in GitHub pages.</p>
 
         </div>
     </div>
