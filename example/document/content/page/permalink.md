@@ -8,18 +8,18 @@ You can specify the permalinks for your posts and pages in `config.yml` file in 
 
 | Variable | Description |
 | -------- | ----------- |
-| `year`   | year from the post's filename |
-| `month`  | month from the post's filename |
-| `day`    | day from the post's filename |
-| `title`  | title from the post's front matter |
-| `name`   | name from the post's front matter |
+| `year`   | year from the post's front matter or filename |
+| `month`  | month from the post's front matter or filename |
+| `day`    | day from the post's front matter or filename |
+| `title`  | the title of the post from its front matter |
+| `name`   | the name of the post from its file name |
 
 ### Template Variables for Pages
 
 | Variable | Description |
 | -------- | ----------- |
-| `title`  | title from the page's front matter |
-| `name`   | name from the page's filename |
+| `title`  | the title of the page from its front matter |
+| `name`   | the name of the page from its file name |
 
 ### Default Permalink Values
 
@@ -27,3 +27,5 @@ You can specify the permalinks for your posts and pages in `config.yml` file in 
 | --------- | --------- |
 | post_link | `post/:year/:month/:day/:name.html` |
 | page_link | `page/:name` |
+
+For example, when the file name of some post is `some-name.md`, the `name` value of it is `some-name`; when the file name of another post is `2013-06-11-another-name.md`, the `name` value of it is `another-name`. It is better to use these `name` values in permalinks if there are Non-ASCII characters in the title of posts or pages.

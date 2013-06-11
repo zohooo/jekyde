@@ -7,8 +7,8 @@ A basic Jekyde site usually looks something like this:
 <pre>
 |-- content
    |-- post
-      |-- 2013-04-30-16-24.md
-      |-- 2013-05-10-17-59.md
+      |-- some-long-name.md
+      |-- 2013-05-10-another-name.md
    |-- page
       |-- about.md
       |-- guide.md
@@ -51,10 +51,8 @@ This folder contains all your content files.
 
 Your post files written in markdown language. The filename format of these files may be one of the followings:
 
-1. `year-month-day-hour-minute-second.md`
-2. `year-month-day-hour-minute.md`
-3. `year-month-day.md`
-4. `year-month-day-The-Post-Title.md`
+1. `year-month-day-some-filename.md`
+2. `another-long-filename.md`
 
 #### content -> page
 

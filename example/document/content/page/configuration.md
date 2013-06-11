@@ -16,7 +16,7 @@ You may change configurations by editing `config.yml` file in your template fold
     tag_dir:            tag
     post_link:          post/:year/:month/:day/:name.html
     page_link:          page/:name
-    paginate:           4
+    paginate:           10
 
     ## Engine
     latex:              false
