@@ -94,7 +94,7 @@ function start(site, webdir) {
         var type = req.params[0], index = req.params[1];
         res.set('Content-Type', 'application/json; charset=utf-8');
         res.set('Expires', '-1');
-        res.send(querier.getOne(type + 's', body.index));
+        res.send(querier.getOne(type + 's', index));
     });
     app.all(new RegExp('^' + base + 'r/(post|page)/([\\w\\W]+)$'), function(req, res){
         var type = req.params[0], name = req.params[1], body = req.body;
