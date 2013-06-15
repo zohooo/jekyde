@@ -219,3 +219,12 @@ table th, table td {
     width: 100%;
     margin: 0;
 }
+
+@media all and (max-width: 861px) {
+  body {
+    width: 96%;
+    padding: 2%;
+    border: 0 none;
+    margin: 0;
+  }
+}
