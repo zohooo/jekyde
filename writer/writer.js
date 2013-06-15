@@ -6,6 +6,7 @@ if (!window.console) window.console = {log : function() {}};
 var code = document.getElementById('codearea');
 var show = document.getElementById('showarea');
 var writer = {
+    screen: 'large',
     type: (location.search == '?page') ? 'page' : 'post',
     list: null,
     start: 0,
@@ -26,6 +27,7 @@ $(window).resize(function() {
 });
 
 function doResize() {
+    writer.screen = ($(window).width() > 540) ? 'large' : 'small';
     var ht = $(window).height() - $('#header').height();
     var wd = $(window).width() / 2;
     $('#file-edit').height(ht);
@@ -84,23 +86,32 @@ function bindHandler() {
     $('#file-list').click(function(e){
         var $target = $(e.target);
         if ($target.is('span')) {
-            writer.index = $target.parent().parent().attr('data-i');
-            writer.name = writer.list[writer.index].filename;
-            if ($target.hasClass('item-edit')) {
-                if (history.pushState) {
-                    history.pushState({}, '', location.href + '#edit');
-                }
-                fileEdit(writer.index);
-            } else if ($target.hasClass('item-name')) {
-                fileRename();
-            } else if ($target.hasClass('item-delete')) {
-                fileDelete();
-            } else if ($target.hasClass('newer')) {
-                writer.start -= writer.limit;
-                showFiles();
-            } else if ($target.hasClass('older')) {
-                writer.start += writer.limit;
-                showFiles();
+            var c = $target.attr('class');
+            if (c == 'item-edit' || c == 'item-name' || c == 'item-delete') {
+                writer.index = $target.parent().parent().attr('data-i');
+                writer.name = writer.list[writer.index].filename;
+            }
+            switch (c) {
+                case 'item-edit':
+                    if (history.pushState) {
+                        history.pushState({}, '', location.href + '#edit');
+                    }
+                    fileEdit(writer.index);
+                    break;
+                case 'item-name':
+                    fileRename();
+                    break;
+                case 'item-delete':
+                    fileDelete();
+                    break;
+                case 'newer':
+                    writer.start -= writer.limit;
+                    showFiles();
+                    break;
+                case 'older':
+                    writer.start += writer.limit;
+                    showFiles();
+                    break;
             }
         }
     });
@@ -140,28 +151,55 @@ function bindHandler() {
 }
 
 function showFiles() {
+    function largeContent() {
+        var content = '<table id="box" class="large">';
+        $.each(items, function(i, v){
+            var a = v.metadate;
+            var date = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+            var name = v.filename + '.md';
+            var arrow = '';
+            if (i == 0 && start > 0) arrow = '<span class="newer">&uarr;</span>';
+            if (i == limit - 1 && start + limit < writer.list.length) arrow = '<span class="older">&darr;</span>';
+            content += '<tr data-i="' + (start + i) + '">'
+                      + '<td><span class="item-date">' + date + '</span></td>'
+                      + '<td><span class="item-title">' + v.title + '</span></td>'
+                      + '<td><span class="item-name" title="' + name + '">Rename</span></td>'
+                      + '<td><span class="item-edit">Edit</span></td>'
+                      + '<td><span class="item-delete">Delete</span></td>'
+                      + '<td class="cell-special">' + arrow + '</td>'
+                      + '</tr>';
+        });
+        content += '</table>';
+        return content;
+    }
+
+    function smallContent() {
+        var content = '<div id="box" class="small">';
+        $.each(items, function(i, v){
+            var a = v.metadate;
+            var date = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
+            var name = v.filename + '.md';
+            content += '<div class="row" data-i="' + (start + i) + '">'
+                     + '<div class="date"><span class="item-date">' + date + '</span></div>'
+                     + '<div class="title"><span class="item-title">' + v.title + '</span></div>'
+                     + '<div class="task"><span class="item-name" title="' + name + '">Rename</span>'
+                          + '<span class="item-edit">Edit</span>'
+                          + '<span class="item-delete">Delete</span></div>'
+                     + '</div>';
+        });
+        content += '</div>';
+        var arrow = '';
+        if (start > 0) arrow += '<span class="newer">&laquo; Newer</span>';
+        if (start + limit < writer.list.length) arrow += '<span class="older">Older &raquo;</span>';
+        content +=  '<div class="nav">' +  arrow + '</div>';
+        return content;
+    }
+
     $('#file-edit').hide();
     $('#button-save').hide();
     var start = writer.start, limit = writer.limit;
     var items = writer.list.slice(start, start + limit);
-    var content = '<table>';
-    $.each(items, function(i, v){
-        var a = v.metadate;
-        var date = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
-        var name = v.filename + '.md';
-        var arrow = '';
-        if (i == 0 && start > 0) arrow = '<span class="newer">&uarr;</span>';
-        if (i == limit - 1 && start + limit < writer.list.length) arrow = '<span class="older">&darr;</span>';
-        content += '<tr data-i="' + (start + i) + '">'
-                  + '<td><span class="item-date">' + date + '</span></td>'
-                  + '<td><span class="item-title">' + v.title + '</span></td>'
-                  + '<td><span class="item-name" title="' + name + '">Rename</span></td>'
-                  + '<td><span class="item-edit">Edit</span></td>'
-                  + '<td><span class="item-delete">Delete</span></td>'
-                  + '<td class="cell-special">' + arrow + '</td>'
-                  + '</tr>';
-    });
-    content += '</table>';
+    var content = (writer.screen == 'large') ? largeContent() : smallContent();
     $('#information').html(content);
     $('#information tr:even').addClass('even');
 }

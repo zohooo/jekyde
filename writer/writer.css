@@ -5,6 +5,7 @@ html, body {
     margin: 0;
     position: relative;
     overflow: hidden;
+    font-size: 16px;
 }
 
 #header {
@@ -84,6 +85,7 @@ html, body {
 #file-list {
     height: 100%;
     width: 100%;
+    overflow: auto;
 }
 
 #information {
@@ -129,6 +131,43 @@ html, body {
 #information .newer:hover, #information .older:hover {
     cursor: pointer;
     background: white;
+}
+
+#information .small {
+    margin-bottom: 4px;
+}
+
+#information .small .row {
+    padding: 6px 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+#information .small .row .date {
+    font-size: 14px;
+    color: #ccc;
+}
+
+#information .small .row .title {
+    margin: 4px 0;
+}
+
+#information .small .row .task span {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+#information .nav {
+    width: 100%;
+}
+
+#information .nav .newer {
+    padding: 3px 6px;
+    float: left;
+}
+
+#information .nav .older {
+    padding: 3px 6px;
+    float: right;
 }
 
 #file-edit {
