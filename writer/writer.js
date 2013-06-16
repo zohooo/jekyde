@@ -64,9 +64,9 @@ function signIn() {
 }
 
 function initContent() {
+    loadMathJax();
     initWriter();
     bindHandler();
-    loadMathJax();
 }
 
 function initWriter() {
