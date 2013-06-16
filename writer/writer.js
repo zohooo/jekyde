@@ -199,9 +199,16 @@ function timerview() {
 }
 
 function preview() {
+    function typeMath() {
+        if (window.MathJax) {
+            MathJax.Hub.Typeset(show);
+        } else {
+            setTimeout(arguments.callee, 100);
+        }
+    }
     if (writer.latex) {
         show.innerHTML = marked(escapeTex(getBody(code.value)));
-        if (window.MathJax) MathJax.Hub.Typeset(show);
+        typeMath();
     } else {
         show.innerHTML = marked(getBody(code.value));
     }
