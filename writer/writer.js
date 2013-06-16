@@ -111,6 +111,7 @@ function bindHandler() {
             resizeEditor('edit');
         } else {
             resizeEditor('show');
+            preview();
         }
     });
     $('#showmove').click(function(){
@@ -199,6 +200,7 @@ function timerview() {
 }
 
 function preview() {
+    if (writer.mode == 'code') return;
     function typeMath() {
         if (window.MathJax) {
             MathJax.Hub.Typeset(show);
