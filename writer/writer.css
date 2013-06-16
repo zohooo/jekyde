@@ -101,3 +101,9 @@
     padding: 6px 13px;
     text-align: left;
 }
+
+@media all and (max-width: 540px) {
+  #codemove, #showmove {
+    display: inline;
+  }
+}
