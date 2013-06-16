@@ -7,6 +7,7 @@ var code = document.getElementById('codearea');
 var show = document.getElementById('showarea');
 var writer = {
     screen: 'large',
+    mode: 'edit',
     type: (location.search == '?page') ? 'page' : 'post',
     list: null,
     start: 0,
@@ -28,15 +29,14 @@ $(window).resize(function() {
 
 function doResize() {
     writer.screen = ($(window).width() > 540) ? 'large' : 'small';
+    writer.mode = (writer.screen == 'large') ? 'edit' : 'code';
     var ht = $(window).height() - $('#header').height();
-    var wd = $(window).width() / 2;
     $('#file-edit').height(ht);
     $('#codewrap').height(ht);
     $('#codearea').height(ht);
     $('#showwrap').height(ht);
     $('#showarea').height(ht);
-    $('#codewrap').width(wd);
-    $('#showwrap').width(wd);
+    resizeEditor(writer.mode);
 }
 
 function signIn() {
@@ -147,6 +147,20 @@ function bindHandler() {
             data: data,
             success: initBrowser
         });
+    });
+    $('#codemove').click(function(){
+        if (writer.screen == 'large' && writer.mode == 'code') {
+            resizeEditor('edit');
+        } else {
+            resizeEditor('show');
+        }
+    });
+    $('#showmove').click(function(){
+        if (writer.screen == 'large' && writer.mode == 'show') {
+            resizeEditor('edit');
+        } else {
+            resizeEditor('code');
+        }
     });
 }
 
@@ -290,7 +304,35 @@ function loadMathJax() {
     });
 }
 
+function resizeEditor(mode) {
+    var c = document.getElementById('codewrap');
+    var s = document.getElementById('showwrap');
+    switch (mode) {
+        case 'edit':
+            c.style.display = 'block';
+            c.style.left = 0 + 'px';
+            c.style.width = '50%';
+            s.style.display = 'block';
+            s.style.left = '50%';
+            break;
+        case 'code':
+            c.style.display = 'block';
+            c.style.left = 0 + 'px';
+            c.style.width = '100%';
+            s.style.display = 'none';
+            break;
+        case 'show':
+            c.style.display = 'none';
+            s.style.display = 'block';
+            s.style.left = 0 + 'px';
+            s.style.width = '100%';
+            break;
+    }
+    writer.mode = mode;
+}
+
 function initEditor() {
+    resizeEditor(writer.mode);
     $('#file-list').hide();
     $('#button-new').hide();
     code.value = writer.text;
