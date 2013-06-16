@@ -6,19 +6,20 @@ if (!window.console) window.console = {log : function() {}};
 var code = document.getElementById('codearea');
 var show = document.getElementById('showarea');
 var writer = {
+    type: 'post',
     screen: 'large',
     mode: 'edit',
-    type: (location.search == '?page') ? 'page' : 'post',
-    list: null,
-    start: 0,
-    limit: 15,
     index: null,
     name: null,
     text: ''
 };
 
 $(function() {
+    writer.type = (location.search == '?page') ? 'page' : 'post';
     $('#nav-' + writer.type).addClass('current');
+    var option = location.hash.split('|');
+    writer.name = option[0].slice(1);
+    if (option[1]) writer.index = option[1];
     doResize();
     signIn();
 });
@@ -45,7 +46,7 @@ function signIn() {
         switch (auth) {
             case 'none':
             case 'connected':
-                return initWriter();
+                return initContent();
             case 'empty':
                 info = 'Please setup your password:';
                 break;
@@ -57,84 +58,38 @@ function signIn() {
             pass = window.prompt(info, '');
         }
         $.post('../r/auth/in', {pass: pass})
-         .done(initWriter)
+         .done(initContent)
          .fail(function(){alert('Wrong Password!')});
     });
 }
 
-function initWriter() {
-    initBrowser();
+function initContent() {
+    initWriter();
     bindHandler();
     loadMathJax();
 }
 
-function initBrowser() {
-    var url = '../r/' + writer.type + 's';
-    $.get(url, function(items){
-        writer.list = items;
-        writer.start = 0;
-        showFiles();
-        $('#file-list').fadeIn();
-        $('#button-new').show();
-    });
+function initWriter() {
+    function dateString(){
+        var d = new Date();
+        function pad(n){return n < 10 ? '0' + n : n}
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' '
+             + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    }
+    if (writer.index) { // edit article
+        var url = '../r/' + writer.type + '/' + writer.index;
+        $.get(url, function(article){
+            writer.text = '---\n' + article.head + '\n---\n' + article.body;
+            initEditor();
+        });
+    } else { // new article
+        var rand = randomString(4);
+        writer.text = '---\ntitle: Some Title ' + rand + '\ndate: ' + dateString() + '\n---\n\nWrite here';
+        initEditor();
+    }
 }
 
 function bindHandler() {
-    if (history.pushState) {
-        window.onpopstate = initBrowser;
-    }
-    $('#file-list').click(function(e){
-        var $target = $(e.target);
-        if ($target.is('span')) {
-            var c = $target.attr('class');
-            if (c == 'item-edit' || c == 'item-name' || c == 'item-delete') {
-                writer.index = $target.parent().parent().attr('data-i');
-                writer.name = writer.list[writer.index].filename;
-            }
-            switch (c) {
-                case 'item-edit':
-                    if (history.pushState) {
-                        history.pushState({}, '', location.href + '#edit');
-                    }
-                    fileEdit(writer.index);
-                    break;
-                case 'item-name':
-                    fileRename();
-                    break;
-                case 'item-delete':
-                    fileDelete();
-                    break;
-                case 'newer':
-                    writer.start -= writer.limit;
-                    showFiles();
-                    break;
-                case 'older':
-                    writer.start += writer.limit;
-                    showFiles();
-                    break;
-            }
-        }
-    });
-    $('#button-new').click(function(e){
-        function dateString(){
-            var d = new Date();
-            function pad(n){return n < 10 ? '0' + n : n}
-            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' '
-                 + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
-        }
-        var rand = randomString(4);
-        var name = window.prompt('Please enter new page name:', 'name-' + rand + '.md');
-        if (!name) return;
-        name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
-        if (findFile(name)) {
-            alert('The same filename already exists!');
-            return;
-        }
-        writer.index = -1;
-        writer.name = name;
-        writer.text = '---\ntitle: Some Title ' + rand + '\ndate: ' + dateString() + '\n---\n\nWrite here';
-        initEditor();
-    });
     $('#button-save').click(function(e){
         var url = '../r/' + writer.type + '/' + writer.name;
         var data = {
@@ -145,8 +100,11 @@ function bindHandler() {
             type: 'PUT',
             url: url,
             data: data,
-            success: initBrowser
+            success: success
         });
+        function success() {
+            location.href = 'browser.html?' + writer.type;
+        }
     });
     $('#codemove').click(function(){
         if (writer.screen == 'large' && writer.mode == 'code') {
@@ -162,110 +120,6 @@ function bindHandler() {
             resizeEditor('code');
         }
     });
-}
-
-function showFiles() {
-    function largeContent() {
-        var content = '<table id="box" class="large">';
-        $.each(items, function(i, v){
-            var a = v.metadate;
-            var date = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
-            var name = v.filename + '.md';
-            var arrow = '';
-            if (i == 0 && start > 0) arrow = '<span class="newer">&uarr;</span>';
-            if (i == limit - 1 && start + limit < writer.list.length) arrow = '<span class="older">&darr;</span>';
-            content += '<tr data-i="' + (start + i) + '">'
-                      + '<td><span class="item-date">' + date + '</span></td>'
-                      + '<td><span class="item-title">' + v.title + '</span></td>'
-                      + '<td><span class="item-name" title="' + name + '">Rename</span></td>'
-                      + '<td><span class="item-edit">Edit</span></td>'
-                      + '<td><span class="item-delete">Delete</span></td>'
-                      + '<td class="cell-special">' + arrow + '</td>'
-                      + '</tr>';
-        });
-        content += '</table>';
-        return content;
-    }
-
-    function smallContent() {
-        var content = '<div id="box" class="small">';
-        $.each(items, function(i, v){
-            var a = v.metadate;
-            var date = a[0] + '-' + a[1] + '-' + a[2] + ' ' + a[3] + ':' + a[4];
-            var name = v.filename + '.md';
-            content += '<div class="row" data-i="' + (start + i) + '">'
-                     + '<div class="date"><span class="item-date">' + date + '</span></div>'
-                     + '<div class="title"><span class="item-title">' + v.title + '</span></div>'
-                     + '<div class="task"><span class="item-name" title="' + name + '">Rename</span>'
-                          + '<span class="item-edit">Edit</span>'
-                          + '<span class="item-delete">Delete</span></div>'
-                     + '</div>';
-        });
-        content += '</div>';
-        var arrow = '';
-        if (start > 0) arrow += '<span class="newer">&laquo; Newer</span>';
-        if (start + limit < writer.list.length) arrow += '<span class="older">Older &raquo;</span>';
-        content +=  '<div class="nav">' +  arrow + '</div>';
-        return content;
-    }
-
-    $('#file-edit').hide();
-    $('#button-save').hide();
-    var start = writer.start, limit = writer.limit;
-    var items = writer.list.slice(start, start + limit);
-    var content = (writer.screen == 'large') ? largeContent() : smallContent();
-    $('#information').html(content);
-    $('#information tr:even').addClass('even');
-}
-
-function fileEdit(index) {
-    var url = '../r/' + writer.type + '/' + index;
-    $.get(url, function(article){
-        writer.text = '---\n' + article.head + '\n---\n' + article.body;
-        initEditor();
-    });
-}
-
-function fileRename() {
-    var name = window.prompt('Please enter new filename for the ' + writer.type, writer.name + '.md');
-
-    if (!name) return;
-    name = (name.slice(-3) == '.md') ? name.slice(0,-3) : name;
-    if (name == writer.name) return;
-    if (findFile(name)) {
-        alert('The same filename already exists!');
-        return;
-    }
-
-    var url = '../r/' + writer.type + '/' + writer.name;
-    var data = {
-        index: writer.index,
-        newname: name
-    };
-    $.post(url, data, initBrowser);
-}
-
-function fileDelete() {
-    if (confirm('Do you really want to delete this article?')) {
-        var url = '../r/' + writer.type + '/' + writer.name;
-        var data = {
-            index: writer.index
-        };
-        $.ajax({
-            type: 'DELETE',
-            url: url,
-            data: data,
-            success: initBrowser
-        });
-    }
-}
-
-function findFile(name) {
-    var list = writer.list;
-    for (var i = 0; i < list.length; i++) {
-        if (list[i].filename == name) return true;
-    }
-    return false;
 }
 
 function randomString(size) {
@@ -333,8 +187,6 @@ function resizeEditor(mode) {
 
 function initEditor() {
     resizeEditor(writer.mode);
-    $('#file-list').hide();
-    $('#button-new').hide();
     code.value = writer.text;
     preview();
     $('#file-edit').fadeIn();

@@ -1,0 +1,100 @@
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    font-size: 16px;
+}
+
+#header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: #2c2c2c;
+    color: white;
+    font-size: 16px;
+    font-family: arial, sans-serif;
+    overflow: hidden;
+}
+
+#navigator {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#navigator a, #navigator a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+#navigator ul {
+    display: inline-block;
+    margin: 0;
+    padding: 5px;
+}
+
+#navigator ul li {
+    list-style: none;
+    float: left;
+    margin: 0 20px;
+}
+
+.current {
+    border-bottom: 1px solid white;
+}
+
+#operation {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+#operation span{
+    margin: 4px;
+    padding: 1px 3px;
+    border: 1px solid gray;
+    border-radius: 2px;
+    background: buttonface;
+    color: black;
+    font-size: 14px;
+    font-family: arial, sans-serif;
+    display: none;
+}
+
+#operation span:hover {
+    cursor: pointer;
+    background: white;
+}
+
+#content {
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+}
+
+@media all and (max-width: 540px) {
+  #navigator ul li {
+    margin: 0 5px;
+  }
+
+  #operation {
+    right: 5px;
+  }
+}
