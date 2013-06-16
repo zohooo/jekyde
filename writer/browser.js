@@ -61,16 +61,29 @@ function initBrowser() {
     var url = '../r/' + browser.type + 's';
     $.get(url, function(items){
         browser.list = items;
-        browser.start = 0;
+        browser.start = browser.start || 0;
         showFiles();
+        if (history.replaceState) {
+            history.replaceState({start: browser.start}, '', location.href);
+        }
         $('#file-list').fadeIn();
         $('#button-new').show();
     });
 }
 
 function bindHandler() {
+    function hashState(start) {
+      var href = location.href, hash = location.hash;
+      href = href.slice(0, - hash.length) + '#' + start;
+      if (history.pushState) {
+          history.pushState({start: start}, '', href);
+      }
+    }
     if (history.pushState) {
-        window.onpopstate = initBrowser;
+        window.onpopstate = function(event) {
+            browser.start = (event.state) ? event.state.start : 0;
+            initBrowser();
+        }
     }
     $('#file-list').click(function(e){
         var $target = $(e.target);
@@ -82,9 +95,6 @@ function bindHandler() {
             }
             switch (c) {
                 case 'item-edit':
-                    if (history.pushState) {
-                        history.pushState({}, '', location.href + '#edit');
-                    }
                     fileEdit(browser.index);
                     break;
                 case 'item-name':
@@ -95,10 +105,12 @@ function bindHandler() {
                     break;
                 case 'newer':
                     browser.start -= browser.limit;
+                    hashState(browser.start);
                     showFiles();
                     break;
                 case 'older':
                     browser.start += browser.limit;
+                    hashState(browser.start);
                     showFiles();
                     break;
             }
