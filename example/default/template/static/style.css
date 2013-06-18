@@ -21,7 +21,13 @@ body {
 #header h1 {
     font-size: 2em;
     line-height: 2em;
+    margin-bottom: 8px;
     font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+#header h4 {
+    color: white;
+    margin-top: 0;
 }
 
 #header a, #header a:visited {
@@ -202,6 +208,11 @@ code {
     border: 1px solid #eaeaea;
     border-radius: 2px;
     */
+}
+
+pre code {
+    margin: 0;
+    padding: 0;
 }
 
 table {

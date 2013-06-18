@@ -91,6 +91,11 @@
     margin: 0 2px;
 }
 
+#showarea pre code {
+    margin: 0;
+    padding: 0;
+}
+
 #showarea table {
     border-collapse: collapse;
     margin: 10px 0;
