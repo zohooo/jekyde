@@ -169,6 +169,7 @@ function resizeEditor(mode) {
             c.style.width = '50%';
             s.style.display = 'block';
             s.style.left = '50%';
+            s.style.width = '';
             break;
         case 'code':
             c.style.display = 'block';
