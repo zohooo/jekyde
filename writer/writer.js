@@ -141,8 +141,8 @@ function loadMathJax() {
             'MathJax.Hub.Config({\n' +
             '  skipStartupTypeset: true,\n' +
             '  showProcessingMessages: false,\n' +
-            '  tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]],\n' +
-            '            displayMath: [["$$","$$"], ["\\[","\\]"]],\n' +
+            '  tex2jax: {inlineMath: [["$","$"], ["\\\\(","\\\\)"]],\n' +
+            '            displayMath: [["$$","$$"], ["\\\\[","\\\\]"]],\n' +
             '            processEnvironments: false},\n' +
             '  "HTML-CSS": { imageFont: null }\n' +
             '});'
