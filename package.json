@@ -26,7 +26,7 @@
         "highlight.js": "*",
         "marked": "*",
         "swig": "0.14.x",
-        "express": ">=3.0"
+        "express": "3.x"
     },
     "keywords": ["static", "blog", "builder", "server", "writer", "latex"]
 }
